@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Application Form</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar {
+        padding: 15px 30px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .nav-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        top: 30px;
+    }
+
+    .profile-icon {
+        height: 32px;
+        display: block;
+        margin-bottom: 3px;
+    }
+
+    .logout-text {
+        font-weight: bold;
+        text-decoration: none;
+        margin: 0;
+    }
+
+    .menu-links {
+        margin-top: 10px;
+    }
+
+    .menu-links a,
+    .nav-right a {
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 20px;
+        color: black;
+    }
+
+    .page-title {
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .submit-btn-container {
+        text-align: right;
+        padding: 0 60px 20px;
+        margin-top: -40px;
+    }
+
+    .submit-btn {
+        padding: 10px 30px;
+        font-size: 18px;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .form-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        padding: 30px 40px;
+    }
+
+    .form-section {
+        background: #e9e9e9;
+        width: 40%;
+        padding: 25px;
+        border-radius: 20px;
+    }
+
+    .form-section h2 {
+        margin-top: 0;
+        font-size: 22px;
+    }
+
+    label {
+        display: block;
+        margin: 12px 0 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+        width: 90%;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+
+    textarea {
+        height: 80px;
+        resize: none;
+    }
+
+    .radio-row {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin: 5px 0 10px;
+    }
+
+    .checkboxes {
+        margin-top: 10px;
+    }
+
+    .checkboxes label {
+        font-weight: normal;
+        display: block;
+        margin-bottom: 5px;
+    }
+</style>
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="nav-top">
+        <div class="nav-left">
+            <a href="DashboardA.html">
+            <img src="pawsA.png" alt="PAWS Adopter" style="height:48px;"></a>
+        </div>
+
+        <div class="nav-right">
+            <div class="profile-container">
+                <a href="Profile.html">
+                    <img src="ProfileIcon.png" class="profile-icon">
+                </a>
+                <a href="#" class="logout-text">LOG OUT</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-links">
+        <a href="Home.html">HOME</a>
+        <a href="AboutUs.html">ABOUT</a>
+        <a href="DashboardA.html">DASHBOARD</a>
+        <a href="Rehome.html">REHOME PET</a>
+    </div>
+</div>
+
+<div class="page-title">Application Form</div>
+
+<div class="submit-btn-container">
+    <button class="submit-btn">Submit</button>
+</div>
+
+<div class="form-wrapper">
+
+    <div class="form-section">
+        <h2>Personal Details</h2>
+
+        <label>Full Name:</label>
+        <input type="text">
+
+        <label>Phone Number:</label>
+        <input type="text">
+
+        <label>Gender:</label>
+        <input type="text">
+
+        <label>IC / Passport:</label>
+        <input type="text">
+
+        <label>Address:</label>
+        <textarea></textarea>
+
+        <label>Occupation:</label>
+        <input type="text">
+
+        <label>Income:</label>
+        <input type="text" placeholder="RM">
+    </div>
+
+    <div class="form-section">
+        <h2>Eligibility Review</h2>
+
+        <label>Have you owned a pet before?</label>
+        <div class="radio-row">
+            <input type="radio" name="owned"> Yes
+            <input type="radio" name="owned"> No
+        </div>
+
+        <label>Who will be responsible for feeding, grooming, vet visits?</label>
+        <input type="text">
+
+        <label>Will the pet be kept indoors/outdoors?</label>
+        <select>
+            <option>Indoor</option>
+            <option>Outdoor</option>
+            <option>Both</option>
+        </select>
+
+        <label>Are you prepared for medical expenses?</label>
+        <div class="radio-row">
+            <input type="radio" name="medical"> Yes
+            <input type="radio" name="medical"> No
+        </div>
+
+        <label>Why do you want to adopt this pet?</label>
+        <input type="text">
+
+        <div class="checkboxes">
+            <label><input type="checkbox"> I confirm that all information provided is true and accurate.</label>
+            <label><input type="checkbox"> I understand and accept full responsibility for the pet.</label>
+            <label><input type="checkbox"> I am financially able to provide care and medical attention.</label>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
