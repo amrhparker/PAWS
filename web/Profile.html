@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Adopter Profile</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar {
+        padding: 15px 30px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .nav-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        top: 30px;
+    }
+
+    .profile-icon {
+        height: 32px;
+        display: block;
+        margin-bottom: 3px;
+    }
+
+    .logout-text {
+        font-weight: bold;
+        text-decoration: none;
+        margin: 0;
+    }
+
+    .menu-links {
+        margin-top: 10px;
+    }
+
+    .menu-links a,
+    .nav-right a {
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        padding: 40px 20px;
+    }
+
+    .profile-left {
+        width: 260px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        text-align: center;
+        border-radius: 10px;
+    }
+
+    .profile-left img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+    }
+
+    .profile-info {
+        width: 550px;
+        padding: 25px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+
+    .profile-info p {
+        margin: 10px 0;
+    }
+
+    .edit-btn {
+        display: block;
+        width: 120px;
+        margin: 30px auto 0;
+        padding: 10px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    @media (max-width: 700px) {
+        .container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-info,
+        .profile-left {
+            width: 90%;
+        }
+
+        .menu-links a {
+            display: inline-block;
+            margin: 6px 10px 6px 0;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+    <div class="navbar">
+
+        <div class="nav-top">
+            <div class="nav-left">
+                <a href="DashboardA.html">
+                <img src="pawsA.png" alt="PAWS Adopter" style="height:48px;"></a>
+            </div>
+
+            <div class="nav-right">
+                <div class="profile-container">
+                    <a href="Profile.html">
+                        <img src="ProfileIcon.png" class="profile-icon">
+                    </a>
+                    <a href="#" class="logout-text">LOG OUT</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-links">
+            <a href="Home.html">HOME</a>
+            <a href="AboutUs.html">ABOUT</a>
+            <a href="DashboardA.html">DASHBOARD</a>
+            <a href="Rehome.html">REHOME PET</a>
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <div class="profile-left">
+            <img src="ProfileIcon.png" alt="Profile Icon">
+            <h3>GRACIE ABRAMS</h3>
+        </div>
+
+        <div class="profile-info">
+            <p><strong>Email:</strong> gracieabrams@gmail.com</p>
+            <p><strong>Username:</strong> gracieeabrams</p>
+            <p><strong>Phone Number:</strong> 01149723118</p>
+            <p><strong>Address:</strong> 36, Jalan 5/6, Palm Heights,<br>33366, Putrajaya</p>
+            <p><strong>IC Number:</strong> 001124608743</p>
+            <p><strong>Password:</strong> ********</p>
+
+            <a href="EditAdopterProfile.html"><button class="edit-btn">Edit</button></a>
+        </div>
+
+    </div>
+
+</body>
+</html>

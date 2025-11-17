@@ -1,5 +1,5 @@
 <html>
-    <title>Dashboard</title>
+    <title>Staff Dashboard</title>
     <head>
         <style>
             body{
@@ -8,6 +8,18 @@
                 margin:0;
                 padding:0;
             }
+            .nav-top {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .nav-left {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+
             #paws{
                 text-align:left;
                 font-size:40px;
@@ -88,12 +100,19 @@
             a:active {
                 color: #666666;
             }
+            .paws-logo {
+                height: 48px;
+            }
         </style>
     </head>
     <body>
         <table class="header-row">
             <tr>
-                <th id="paws" class="header-cell" colspan="6"><a href='StaffDashboard.html'>PAWS's Staff</a></th>
+                <th id="paws" class="header-cell" colspan="6">
+                    <a href='Home.html'>
+                        <img src="pawsS.png" alt="PAWS Staff" class="paws-logo">
+                    </a>
+                </th>
             </tr>
             <tr class="menu">
                 <th class="header-cell"><a href="ManagePets.html">Pets</a></th>

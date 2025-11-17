@@ -8,6 +8,20 @@
                 margin:0;
                 padding:0;
             }
+            .nav-top {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .nav-left {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+            .paws-logo {
+                height: 48px;
+            }
             #paws{
                 text-align:left;
                 font-size:40px;
@@ -96,14 +110,18 @@
     <body>
         <table class="header-row">
             <tr>
-                <th id="paws" class="header-cell" colspan="6"><a href='StaffDashboard.html'>PAWS's Staff</a></th>
+                <th id="paws" class="header-cell" colspan="6">
+                    <a href='StaffDashboard.html'>
+                        <img src="pawsS.png" alt="PAWS Staff" class="paws-logo">
+                    </a>
+                </th>
             </tr>
-            <tr>
+            <tr class="menu">
                 <th class="header-cell"><a href="ManagePets.html">Pets</a></th>
                 <th class="header-cell"><a href="ManageRecords.html">Records</a></th>
                 <th class="header-cell"><a href="ManageReports.html">Reports</a></th>
                 <th class="header-cell"><a href="ActivityLog.html">Logs</a></th>
-                <th class="header-cell"><a href="ManageApplications.html">Applications</a></th>    
+                <th class="header-cell"><a href="ManageApplications.html">Applications</a></th>                
                 <th class="header-cell logout">Log Out</th>
             </tr>
         </table>

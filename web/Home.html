@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PAWS Home</title>
+
+    <style>
+        body{
+            background-color:#FAF9F6;
+            margin:0;
+            padding:0;
+            font-family:banschrift, sans-serif;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+        .header-row{
+            background-color:#cccccc;
+            border:none;
+        }
+        .header-cell{
+            padding:20px 40px;
+            border:none;
+            white-space: nowrap;
+        }
+        .header-cell:hover{
+            color:#848484;
+        }
+        .paws-logo {
+             height: 48px;
+        }
+        .menu{
+            background-color:#cccccc;
+        }
+
+        #paws{
+            text-align:left;
+            font-size:40px;
+            background-color:#FAF9F6;
+        }
+
+        a{
+            text-decoration:none;
+            color:black;
+        }
+
+        a:hover{
+            color:#848484;
+        }
+
+        .content-container{
+            width:100%;
+            text-align:center;
+            margin-top:60px;
+        }
+
+
+        .home-main-image{
+            width: 650px;    /* adjust size as needed */
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+		
+		.button-row{
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .home-btn{
+            padding: 15px 28px;
+            background-color: #f5a0c8;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+
+        .home-btn:hover{
+            background-color: #e48ab3;
+        }
+    </style>
+</head>
+
+<body>
+<table class="header-row">
+    <tr>
+        <th id="paws" class="header-cell" colspan="6">
+            <a href='Home.html'>
+                <img src="PAWS.png" alt="PAWS" class="paws-logo">
+            </a>
+        </th>
+    </tr>
+    <tr class="menu">
+        <th class="header-cell" style="width:60%"></th>
+        <th class="header-cell"><a href="Home.html">Home</a></th>
+        <th class="header-cell"><a href="AboutUs.html">About</a></th>
+        <th class="header-cell"><a href="AdopterSignin.html">Sign In</a></th>
+        <th class="header-cell"><a href="LoginStaff.html">For Staff</a></th>
+    </tr>
+</table>
+
+<div class="content-container">
+
+    <img src="pawsHome.png" class="home-main-image" alt="PAWS Home">
+	
+	<div class="button-row">
+        <a href="AdopterSignin.html"><button class="home-btn">Join Our Adopter Community!</button></a>
+        <a href="Rehome.html"><button class="home-btn">Meet Our Pets</button></a>
+		<a href="LogInStaff.html"><button class="home-btn">Access Staff Page</button></a>
+    </div>
+
+</div>
+
+</body>
+</html>

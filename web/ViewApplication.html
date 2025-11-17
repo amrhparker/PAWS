@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Application Details</title>
+    <style>
+        body{
+            background-color:#FAF9F6;
+            font-family:banschrift, sans-serif;
+            margin:0;
+            padding:0;
+        }
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+        .header-row{
+            background-color:#cccccc;
+            border:none;
+        }
+        .header-cell{
+            padding:20px 40px;
+            border:none;
+            white-space:nowrap;
+            text-align:center;
+        }
+        .header-row{
+            background-color:#cccccc;
+            border:none;
+        }
+        .header-cell{
+            padding:20px 40px;
+            border:none;
+            white-space: nowrap;
+        }
+        .header-cell:hover{
+            color:#848484;
+        }
+        .paws-logo {
+             height: 48px;
+        }
+        #paws{
+            text-align:left;
+            font-size:40px;
+            background-color:#FAF9F6;
+        }
+        a{
+            color:black;
+            text-decoration:none;
+        }
+        a:hover{
+            color:#848484;
+        }
+        .logout{
+            text-align:right;
+        }
+
+        .page-container{
+            width:95%;
+            margin:auto;
+            margin-top:25px;
+        }
+
+        #heading-title{
+            font-size:32px;
+            font-weight:bold;
+            margin-bottom:20px;
+            text-align:left;
+        }
+
+        .basic-info{
+            font-size:20px;
+            margin-bottom:25px;
+        }
+        .flex-row{
+            display:flex;
+            gap:30px;
+            width:100%;
+            margin-bottom:30px;
+        }
+
+        .section-box{
+            flex:1;
+            padding:20px;
+            border:1px solid black;
+            border-radius:15px;
+            background-color:#e6e6e6;
+            box-sizing:border-box;
+        }
+
+        .section-title{
+            font-size:24px;
+            font-weight:bold;
+            margin-bottom:12px;
+        }
+
+        .info-line{
+            font-size:18px;
+            margin-bottom:8px;
+        }
+        .label{
+            font-weight:bold;
+        }
+
+        #eligibility{
+            width:100%;
+            padding:20px;
+            border:1px solid black;
+            border-radius:15px;
+            background-color:#e6e6e6;
+            box-sizing:border-box;
+            margin-bottom:40px;
+        }
+
+        .action-buttons{
+            width:100%;
+            display:flex;
+            justify-content:flex-end; /* align buttons right */
+            gap:20px;
+            margin-bottom:50px;
+            padding-right:5px;
+        }
+
+        .btn{
+            padding:10px 25px;
+            margin:5px 0;
+            font-size:16px;
+            border:1px solid black;
+            border-radius:8px;
+            background:white;
+            cursor:pointer;
+        }
+        .btn:hover{
+            background:#d9d9d9;
+        }
+    </style>
+</head>
+
+<body>
+
+<table class="header-row">
+     <tr>
+         <th id="paws" class="header-cell" colspan="6">
+             <a href='StaffDashboard.html'>
+             <img src="pawsS.png" alt="PAWS Staff" class="paws-logo">
+             </a>
+         </th>
+     </tr>
+     <tr class="menu">
+         <th class="header-cell"><a href="ManagePets.html">Pets</a></th>
+         <th class="header-cell"><a href="ManageRecords.html">Records</a></th>
+         <th class="header-cell"><a href="ManageReports.html">Reports</a></th>
+         <th class="header-cell"><a href="ActivityLog.html">Logs</a></th>
+         <th class="header-cell"><a href="ManageApplications.html">Applications</a></th>                
+         <th class="header-cell logout">Log Out</th>
+    </tr>
+</table>
+
+<div class="page-container">
+
+
+    <div id="heading-title">Application Details</div>
+
+
+    <div class="basic-info">
+        <p><b>Application ID:</b> APP001</p>
+        <p><b>Date Submitted:</b> 10 Nov 2025</p>
+        <p><b>Current Status:</b> Pending</p>
+    </div>
+
+
+    <div class="flex-row">
+
+        <div class="section-box">
+            <div class="section-title">Adopter Information</div>
+
+            <div class="info-line"><span class="label">Adopter ID:</span> ADP001</div>
+            <div class="info-line"><span class="label">Name:</span> Sofea Shra</div>
+            <div class="info-line"><span class="label">IC Number:</span> 000611-10-2168</div>
+            <div class="info-line"><span class="label">Email:</span> sofeashraa@gmail.com</div>
+            <div class="info-line"><span class="label">Phone:</span> 012-3456789</div>
+            <div class="info-line"><span class="label">Address:</span> Sepang, Selangor</div>
+        </div>
+
+        <div class="section-box">
+            <div class="section-title">Pet Information</div>
+
+            <div class="info-line"><span class="label">Pet ID:</span> PET001</div>
+            <div class="info-line"><span class="label">Pet Name:</span> Milo</div>
+            <div class="info-line"><span class="label">Species:</span> Dog</div>
+            <div class="info-line"><span class="label">Breed:</span> Golden Retriever</div>
+            <div class="info-line"><span class="label">Age:</span> 2 Years</div>
+            <div class="info-line"><span class="label">Health Status:</span> Healthy</div>
+        </div>
+
+    </div>
+
+    <div id="eligibility">
+        <div class="section-title">Eligibility Review</div>
+
+        <div class="info-line"><span class="label">Owned a pet before?</span> Yes</div>
+        <div class="info-line"><span class="label">Responsible for feeding/grooming?</span> Applicant</div>
+        <div class="info-line"><span class="label">Pet Environment:</span> Indoor</div>
+        <div class="info-line"><span class="label">Prepared for medical expenses?</span> Yes</div>
+        <div class="info-line"><span class="label">Reason to adopt:</span> Wants companionship</div>
+
+        <br>
+        <div class="info-line"><span class="label">Declarations:</span></div>
+        <ul>
+            <li>I confirm information provided is true.</li>
+            <li>I accept full responsibility for the pet.</li>
+            <li>I can provide care and medical attention.</li>
+        </ul>
+    </div>
+
+
+    <div class="action-buttons">
+        <a href="#" class="btn">Approve</a>
+        <a href="#" class="btn">Reject</a>
+        <a href="ManageApplications.html" class="btn">Back</a>
+    </div>
+
+</div>
+
+</body>
+</html>
