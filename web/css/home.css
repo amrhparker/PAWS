@@ -1,0 +1,63 @@
+
+.hero{
+    text-align: center;
+    padding: 120px 20px 60px 20px;
+}
+
+.hero img{
+    width: 700px;
+    max-width: 90%;
+}
+
+.button-row{
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.why-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 35px;
+    margin-top: 40px;
+}
+
+.why-card img{
+    height: 80px;
+    margin-bottom: 15px;
+}
+
+.pet-grid{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.pet-card{
+    width: 260px;
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.pet-card:hover{
+    transform: scale(1.05);
+}
+
+.pet-card img{
+    width: 100%;
+    border-radius: 15px;
+    height: 180px;
+    object-fit: cover;
+}
+
+.pet-card h4{
+    margin-top: 10px;
+}
+

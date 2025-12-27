@@ -74,24 +74,34 @@
         margin: 0;
     }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
     <div class="navbar">
-        <div class="nav-top">
-            <a href="DashboardA.html"><img src="pawsA.png" style="height:48px;"></a>
-            <div class="profile-container">
-                <a href="Profile.html"><img src="ProfileIcon.png" style="height:32px;"></a>
-                <a href="#" class="logout-text">LOG OUT</a>
-            </div>
+
+    <div class="navbar-left">
+        <a href="Home.html">
+            <img src="pawsA.png" alt="PAWS Logo">
+        </a>
+
+        <div class="navbar-links">
+            <a href="Home.html">Home</a>
+            <a href="AboutUs.html">About</a>
+            <a href="DashboardA.html">Dashboard</a>
+            <a href="Rehome.html">Rehome Pet</a>
         </div>
-        <div class="menu-links">
-            <a href="Home.html">HOME</a>
-            <a href="AboutUs.html">ABOUT</a>
-            <a href="DashboardA.html">DASHBOARD</a>
-            <a href="Rehome.html">REHOME PET</a>
-        </div>
+    </div>
+
+    <div class="navbar-profile">
+        <a href="Profile.html">
+            <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
+        </a>
+        <a href="Logout.html" class="logout">LOG OUT</a>
+    </div>
+
     </div>
 
 
@@ -141,6 +151,10 @@
             <button class="back-btn" >Back</button></a>
         </div>
     </div>
-
+    
+    <div class="footer">
+        © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+    </div>
+    
 </body>
 </html>

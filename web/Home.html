@@ -5,179 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAWS Home Page</title>
 
-    <style>
-        body{
-            margin:0;
-            padding:0;
-            font-family: 'Poppins', sans-serif;
-            background: url('fur-bg.jpg') center/cover no-repeat fixed;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
 
-    /* ---------------- NAVBAR ---------------- */
-        .navbar{
-            width: 92%;
-            margin: 15px auto; 
-            background: #58cf96; /* your exact green */
-            padding: 10px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            border-radius: 50px;  /* rounded like your design */
-            box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
-
-            position: sticky;
-            top: 15px;
-            z-index: 100;
-         }
-
-        .navbar-left img{
-            height: 55px;
-         }
-
-        /* Navbar links */
-        .navbar-right a{
-            margin: 0 15px;
-            text-decoration: none;
-            font-weight: 500;
-            color: white; /* matches picture */
-            padding: 8px 14px;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-            font-size: 17px;
-        }
-
-        /* Hover effect */
-        .navbar-right a:hover{
-            background: #cb6ce6;
-            transform: translateY(-3px);
-        }
-
-        /* ---------------- HERO SECTION ---------------- */
-        .hero{
-            text-align:center;
-            padding: 120px 20px 60px 20px;
-        }
-
-        .hero img{
-            width: 700px;
-            max-width: 90%;
-        }
-
-        .button-row{
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-
-        .home-btn{
-            padding: 16px 32px;
-            background: #FF7EDB;
-            border: none;
-            border-radius: 30px;
-            font-size: 18px;
-            cursor: pointer;
-            font-weight: 600;
-            color: white;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
-            transition: all 0.3s;
-        }
-
-        .home-btn:hover{
-            background:#e046ad;
-            transform: translateY(-5px);
-        }
-
-        /* ---------------- FEATURE SECTIONS ---------------- */
-
-        .section {
-            text-align: center;
-            padding: 80px 60px;
-        }
-
-        .section h2{
-            font-size: 36px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .section p{
-            font-size: 18px;
-            color: #444;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Why Adopt */
-        .why-grid{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 35px;
-            margin-top: 40px;
-        }
-
-        .why-card{
-            background:white;
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: 0.3s;
-        }
-
-        .why-card:hover{
-            transform: translateY(-10px);
-        }
-
-        .why-card img{
-            height: 80px;
-            margin-bottom: 15px;
-        }
-
-        /* Featured Pets */
-        .pet-grid{
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin-top: 40px;
-        }
-
-        .pet-card{
-            width: 260px;
-            background:white;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            transition: 0.3s;
-        }
-
-        .pet-card:hover{
-            transform: scale(1.05);
-        }
-
-        .pet-card img{
-            width: 100%;
-            border-radius: 15px;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .pet-card h4{
-            margin-top: 10px;
-        }
-
-        /* Footer */
-        .footer{
-            text-align:center;
-            background:#644d4d;
-            color:white;
-            padding: 25px 10px;
-            margin-top: 60px;
-        }
-
-    </style>
 </head>
 
 <body>
@@ -220,7 +51,7 @@
     </div>
 
     <!-- WHY ADOPT SECTION -->
-    <div class="section" style="background:white;">
+    <div class="section light">
         <h2>Why Adopt From Us?</h2>
 
         <div class="why-grid">
@@ -271,7 +102,6 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
     <div class="footer">
         © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
     </div>
