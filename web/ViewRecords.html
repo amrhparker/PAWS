@@ -1,32 +1,9 @@
 <html>
-    <title>Manage Pets</title>
     <head>
+        <title>Manage Pets</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
         <style>
-            body{
-                background-color:#FAF9F6;
-                font-family:banschrift, sans-serif;
-                margin:0;
-                padding:0;
-            }
-            .nav-top {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            .nav-left {
-                display: flex;
-                align-items: center;
-                gap: 20px;
-            }
-            .paws-logo {
-                height: 48px;
-            }
-            #paws{
-                text-align:left;
-                font-size:40px;
-                background-color:FAF9F6;
-            }
             #heading{
                 font-size:30px;
                 padding-left:60px;
@@ -92,13 +69,6 @@
             a:hover{
                     color: #848484;
             }
-            a:link {
-                color: black;      
-                text-decoration: none;
-            }
-            a:visited {
-                color: black;      
-            }
             a:hover {
                 color: #848484;    
             }
@@ -108,23 +78,26 @@
         </style>
     </head>
     <body>
-        <table class="header-row">
-            <tr>
-                <th id="paws" class="header-cell" colspan="6">
-                    <a href='StaffDashboard.html'>
-                        <img src="pawsS.png" alt="PAWS Staff" class="paws-logo">
-                    </a>
-                </th>
-            </tr>
-            <tr class="menu">
-                <th class="header-cell"><a href="ManagePets.html">Pets</a></th>
-                <th class="header-cell"><a href="ManageRecords.html">Records</a></th>
-                <th class="header-cell"><a href="ManageReports.html">Reports</a></th>
-                <th class="header-cell"><a href="ActivityLog.html">Logs</a></th>
-                <th class="header-cell"><a href="ManageApplications.html">Applications</a></th>                
-                <th class="header-cell logout">Log Out</th>
-            </tr>
-        </table>
+<div class="navbar">
+    <div class="navbar-left">
+        <a href="Home.html">
+            <img src="pawsS.png" alt="PAWS Staff">
+        </a>
+    
+
+    <div class="navbar-links">
+        <a href="StaffDashboard.html">Dashboard</a>
+        <a href="ManagePets.html">Pets</a>
+        <a href="ManageRecords.html">Records</a>
+        <a href="ManageReports.html">Reports</a>
+        <a href="ManageApplications.html">Applications</a>
+        <a href="ActivityLog.html">Logs</a>
+    </div>
+    <div class="navbar-right">
+        <a href="Logout.html" class="logout">Log Out</a>
+    </div>
+</div>
+</div>
         <table id="heading">
             <tr>
                 <th style="text-align:left; padding-left: 10px;">Adoption</th>

@@ -4,8 +4,6 @@ html, body{
 
 body{
     font-family: 'Poppins', sans-serif;
-    display: flex;
-    flex-direction: column;
 }
 
 *{
@@ -20,14 +18,12 @@ body{
     margin: 15px auto;
     background: #58cf96;
     padding: 10px 40px;
-
+    color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     border-radius: 50px;
     box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
-
     position: sticky;
     top: 15px;
     z-index: 100;
@@ -44,7 +40,7 @@ body{
 }
 
 .navbar-right a{
-    margin: 0 15px;
+    text-align: right;
     text-decoration: none;
     font-weight: 500;
     color: white;
@@ -94,6 +90,7 @@ body{
 }
 
 .logout{
+    align-items: right;
     font-size: 13px;
     text-decoration: none;
     color: white;
@@ -167,5 +164,186 @@ body{
 .why-card:hover{
     transform: translateY(-10px);
 }
+
+.manage-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    width: 65%;
+    margin: 45px auto 40px;
+}
+
+.manage-card {
+    background-color: #b4c0f6;
+    border-radius: 20px;
+    padding: 30px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.manage-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.manage-card a {
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.manage-card h3 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.sub {
+    font-size: 16px;
+    color: #222;
+}
+
+/* ===== FORM WRAPPER ===== */
+.form-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* ===== FORM CARD ===== */
+.form-card {
+    background-color: #b4c0f6;   
+    width: 500px;
+    padding: 35px 40px;
+    border-radius: 25px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+/* Title */
+.form-card h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+/* ===== FORM ELEMENTS ===== */
+.form-card form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-card label {
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.form-card input[type="text"] {
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+}
+
+/* Radio buttons */
+.radio-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 5px;
+}
+
+/* Submit button */
+.form-card button {
+    margin-top: 25px;
+    padding: 14px;
+    background: #ff66c4;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: white;
+    transition: 0.3s;
+}
+
+.form-card button:hover {
+    background: #3fbf82;
+    transform: translateY(-3px);
+}
+
+/* ===== PET INFO STACK ===== */
+.info-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* space between cards */
+    width: 90%;
+    margin: 0 auto 50px auto;
+}
+
+/* ===== INFO CARD ===== */
+.info-card {
+    background-color: #b4c0f6; /* staff color */
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%; /* full width of stack container */
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+}
+
+.info-card h3 {
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.info-card p {
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: #222;
+}
+
+.card-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 12px;
+}
+
+/* Button inside card */
+.bttn {
+    padding: 15px 15px;
+    background: #ff66c4;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+}
+
+.bttn:hover{
+    background:#e046ad;
+    transform: translateY(-5px);
+}
+
+/* ===== PAGE HEADER ===== */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 20px auto 30px;
+}
+
+.page-header h2 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+
+
+
+
 
 

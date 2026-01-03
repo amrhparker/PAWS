@@ -1,114 +1,13 @@
-<html>
-    <title>Staff Dashboard</title>
+<html>   
     <head>
-        <style>
-            body{
-                background-color:#FAF9F6;
-                font-family:banschrift, sans-serif;
-                margin:0;
-                padding:0;
-            }
-            .nav-top {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            .nav-left {
-                display: flex;
-                align-items: center;
-                gap: 20px;
-            }
-
-            #paws{
-                text-align:left;
-                font-size:40px;
-                background-color:FAF9F6;
-            }
-            #manage{
-                width:100%;
-                margin-left:10px;
-                margin-right:10px;
-                border-radius:25px;
-                border-spacing:15px;
-                border-collapse:separate;
-                padding:20px;
-            }
-            #manage th{
-                padding:20px;
-                font-size:30px;
-                border:0px; 
-                background-color: #a4a4a4;
-                border-radius:20px;
-                vertical-align:top;
-                text-align:left;
-            }
-            .sub{
-                font-size:16px;
-                margin-top:10px;
-                padding-bottom:20px;
-                font-weight:normal;
-            }
-            table{
-                font-family:banschrift, sans-serif;
-                width:100%;
-                border-collapse:collapse;
-            }
-            #desc{
-                text-align:center;
-                padding-bottom:50px;
-            }
-            .header-row{
-                border:none;
-            }
-            .header-cell{
-                padding:20px 40px;
-                border:none;
-                white-space: nowrap;
-                
-            }
-            .header-cell:hover{
-                color:#848484;
-            }
-            .menu{
-                background-color:#cccccc;
-            }
-            .logout {
-                text-align:right;
-                width:100%;
-            }
-            .logout:hover {
-                color:darkred;
-            }
-            a{
-                text-align: center;
-                text-decoration: none;
-            }
-            a:hover{
-                    color: #848484;
-            }
-            a:link {
-                color: black;      
-                text-decoration: none;
-            }
-            a:visited {
-                color: black;      
-            }
-            a:hover {
-                color: #848484;    
-            }
-            a:active {
-                color: #666666;
-            }
-            .paws-logo {
-                height: 48px;
-            }
-        </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+        <title>Staff Dashboard</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
     </head>
+    
     <body>
- <div class="navbar">
+        
+    <div class="navbar">
         <div class="navbar-left">
             <a href="Home.html">
                 <img src="pawsS.png" alt="PAWS Staff">
@@ -116,38 +15,50 @@
         </div>
      
         <div class="navbar-links">
+            <a href="StaffDashboard.html">Dashboard</a>
             <a href="ManagePets.html">Pets</a>
-            <a href="ManageRecords.html">records</a>
+            <a href="ManageRecords.html">Records</a>
             <a href="ManageReports.html">Reports</a>
             <a href="ManageApplications.html">Applications</a>
             <a href="ActivityLog.html">Logs</a>
+            <a href="Logout.html" class="logout">LOG OUT</a>
         </div>
-     
-         <div class="navbar-profile">
-        <a href="Logout.html" class="logout">LOG OUT</a>
+    </div>
+        <div class="page-header">
+            <h2>Staff Dashboard</h2>
         </div>
- </div>
-        <table id="manage" >
-            <tr>
-                <th>
-                    <a href="ManagePets.html">Manage Pets</a>
-                    <div class="sub">Add, see, edit, or remove pets in our system</div>
-                </th>
-                <th>
-                    <a href="ManageRecords.html">Manage Records</a>
-                    <div class="sub">View records, trend and graph of adoptions</div>
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    <a href="ManageReports.html">Manage Reports</a>
-                    <div class="sub">View reports throughout the year</div>                                
-                </th>
-                <th>
-                    <a href="ManageApplications.html">Manage Applications</a>
-                    <div class="sub">View adoption applications submitted by customers</div>
-                </th>
-            </tr>
-        </table>
+        <div class="manage-grid">
+
+    <div class="manage-card">
+        <a href="ManagePets.html">
+            <h3>Manage Pets</h3>
+            <p class="sub">Add, see, edit, or remove pets in our system</p>
+        </a>
+    </div>
+
+    <div class="manage-card">
+        <a href="ManageRecords.html">
+            <h3>Manage Records</h3>
+            <p class="sub">View records, trend and graph of adoptions</p>
+        </a>
+    </div>
+
+    <div class="manage-card">
+        <a href="ManageReports.html">
+            <h3>Manage Reports</h3>
+            <p class="sub">View reports throughout the year</p>
+        </a>
+    </div>
+
+    <div class="manage-card">
+        <a href="ManageApplications.html">
+            <h3>Manage Applications</h3>
+            <p class="sub">View adoption applications submitted by customers</p>
+        </a>
+    </div>
+
+</div>
+
+
     </body>
 </html>
