@@ -142,8 +142,8 @@
             <div class="navbar-right">
                 <a href="Home.html">Home</a>
                 <a href="AboutUs.html">About</a>        
-                <a href="AdopterSignin.html">Sign In</a>
-                <a href="AdopterLogin.html">Log In</a>
+                <a href="AdopterSignin.jsp">Sign In</a>
+                <a href="AdopterLogin.jsp">Log In</a>
             </div>
         </div>
         <div class="content-wrapper">
