@@ -4,20 +4,19 @@
  * and open the template in the editor.
  */
 package model;
+
 /**
  *
  * @author amira
  */
-public class Adopter {
+public class Staff {
     private int id;
     private String fName;
     private String lName;
-    private String IC;
-    private int phoneNum;
     private String email;
-    private String address;
+    private int phoneNum;
     private String username;
-    private String password;
+    private String pho;
     
     public int getId(){
         return id;
@@ -28,50 +27,38 @@ public class Adopter {
     public String getlName(){
         return lName;
     }
-    public String getIC(){
-        return IC;
+    public String getEmail(){
+        return email;
     }
     public int getPhoneNum(){
         return phoneNum;
     }
-    public String getEmail(){
-        return email;
-    }
-    public String getAddress(){
-        return address;
-    }
     public String getUsername(){
         return username;
     }
-    public String getPassword(){
-        return password;
+    public String getPho(){
+        return pho;
     }
     
     public void setId(int id){
         this.id = id;
-    }    
+    }   
     public void setfName(String fName){
         this.fName = fName;
     }
     public void setlName(String lName){
         this.lName = lName;
     }
-    public void setIC(String IC){
-        this.IC  = IC;
+    public void setEmail(String email){
+        this.email = email;
     }
     public void setPhoneNum(int phoneNum){
         this.phoneNum = phoneNum;
     }
-    public void setEmail(String email){
-        this.email = email;
-    }
-    public void setAddress(String address){
-        this.address = address;
-    }
     public void setUsername(String username){
         this.username = username;
     }
-    public void setPassword(String password){
-        this.password = password;
+    public void setPho(String pho){
+        this.pho  = pho;
     }
 }
