@@ -1,34 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <servlet>
-        <servlet-name>test</servlet-name>
-        <servlet-class>test</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>test</servlet-name>
-        <url-pattern>/test</url-pattern>
-    </servlet-mapping>
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <!-- Welcome page -->
     <welcome-file-list>
         <welcome-file>StaffDashboard.html</welcome-file>
     </welcome-file-list>
-    <resource-ref>
-        <res-ref-name>jdbc/pawsDatasource</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
-        <res-auth>Container</res-auth>
-        <res-sharing-scope>Shareable</res-sharing-scope>
-    </resource-ref>
-    <data-source>
-        <name>java:app/jdbc/pawsDatasource</name>
-        <class-name>org.apache.derby.jdbc.ClientDataSource</class-name>
-        <server-name>localhost</server-name>
-        <port-number>1527</port-number>
-        <database-name>PAWSdb</database-name>
-        <user></user>
-        <password></password>
-    </data-source>
+
+    <!-- Session config -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
 </web-app>

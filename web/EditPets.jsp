@@ -37,7 +37,7 @@
     <div class="form-card">
         <h2>Edit Pet Details</h2>
 
-        <form action="PetServlet" method="post">
+        <form action="${pageContext.request.contextPath}/PetServlet" method="post">
             <!-- Hidden fields to indicate action and which pet -->
             <input type="hidden" name="action" value="edit">
             <input type="hidden" name="petId" value="${pet.petId}">

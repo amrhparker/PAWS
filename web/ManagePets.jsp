@@ -11,7 +11,6 @@
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.jsp">
@@ -30,13 +29,11 @@
     </div>
 </div>
 
-<!-- ================= PAGE HEADER ================= -->
 <div class="page-header">
     <h2>Pets Management</h2>
     <a href="AddPets.jsp" class="bttn">Add Pets</a>
 </div>
 
-<!-- ================= PET INFO CARDS (ROW BY ROW) ================= -->
 <div class="info-stack">
 
     <c:if test="${empty petList}">
