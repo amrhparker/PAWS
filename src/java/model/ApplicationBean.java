@@ -88,7 +88,7 @@ public class ApplicationBean implements Serializable{
         this.staffId = staffId;
     }
 
-    public Adopter getAdopter() {
+    public AdopterBean getAdopter() {
         return adopter;
     }
 
@@ -110,7 +110,7 @@ public class ApplicationBean implements Serializable{
         }
     }
 
-    public Staff getStaff() {
+    public StaffBean getStaff() {
         return staff;
     }
 
