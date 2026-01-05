@@ -191,7 +191,7 @@
             <a href="Home.html">Home</a>
             <a href="AboutUs.html">About</a>
             <a href="DashboardA.jsp">Dashboard</a>
-            <a href="Rehome.html">Rehome Pet</a>
+            <a href="Rehome.jsp">Rehome Pet</a>
         </div>
     </div>
 
