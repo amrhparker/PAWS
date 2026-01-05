@@ -14,7 +14,6 @@ public class DBConnection {
 
     static {
         try {
-            // Load Derby Client Driver (important for some setups)
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             System.out.println("✅ Derby driver loaded");
         } catch (ClassNotFoundException e) {
