@@ -187,7 +187,7 @@ public class AdopterController extends HttpServlet {
         // Add admin authentication check here
         
         String idParam = request.getParameter("id");
-        if (idParam == null || idParam.trim().isEmpty()) {
+        if (idParam == null ) {
             response.sendRedirect("AdopterController?action=list");
             return;
         }
@@ -478,18 +478,16 @@ public class AdopterController extends HttpServlet {
         String confirmPassword = request.getParameter("confirmPassword");
 
         //validate
-        if (currentPassword == null || currentPassword.trim().isEmpty() ||
-            newPassword == null || newPassword.trim().isEmpty() ||
-            confirmPassword == null || confirmPassword.trim().isEmpty()) {
+        if (currentPassword == null || newPassword == null || confirmPassword == null) {
 
             request.setAttribute("errorMessage", "All password fields are required");
-            request.getRequestDispatcher("ChangePasswordA.jsp").forward(request, response);
+            request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
             return;
         }
 
         if (!newPassword.equals(confirmPassword)) {
             request.setAttribute("errorMessage", "New passwords do not match");
-            request.getRequestDispatcher("ChangePasswordA.jsp").forward(request, response);
+            request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
             return;
         }
 
@@ -500,7 +498,7 @@ public class AdopterController extends HttpServlet {
 
             if (adopter == null) {
                 request.setAttribute("errorMessage", "Current password is incorrect");
-                request.getRequestDispatcher("ChangePasswordA.jsp").forward(request, response);
+                request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
                 return;
             }
 
@@ -513,11 +511,11 @@ public class AdopterController extends HttpServlet {
                 request.getRequestDispatcher("Profile.jsp").forward(request, response);
             } else {
                 request.setAttribute("errorMessage", "Failed to change password");
-                request.getRequestDispatcher("ChangePasswordA.jsp").forward(request, response);
+                request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
             }
         } catch (IOException | ServletException e) {
             request.setAttribute("errorMessage", "Error changing password");
-            request.getRequestDispatcher("ChangePasswordA.jsp").forward(request, response);
+            request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
         }
     }
 }
