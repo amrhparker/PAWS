@@ -22,4 +22,13 @@
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
+    <data-source>
+        <name>java:app/jdbc/pawsDatasource</name>
+        <class-name>org.apache.derby.jdbc.ClientDataSource</class-name>
+        <server-name>localhost</server-name>
+        <port-number>1527</port-number>
+        <database-name>PAWSdb</database-name>
+        <user></user>
+        <password></password>
+    </data-source>
 </web-app>

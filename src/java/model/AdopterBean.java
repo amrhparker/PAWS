@@ -10,8 +10,8 @@ package model;
  */
 public class AdopterBean {
     private int adoptId;
-    private String adoptFname;
-    private String adoptLname;
+    private String adoptFName;
+    private String adoptLName;
     private String adoptIC;
     private int adoptPhoneNum;
     private String adoptEmail;
@@ -22,11 +22,11 @@ public class AdopterBean {
     public int getAdoptId(){
         return adoptId;
     }
-    public String getAdoptFname(){
-        return adoptFname;
+    public String getAdoptFName(){
+        return adoptFName;
     }
-    public String getAdoptLname(){
-        return adoptLname;
+    public String getAdoptLName(){
+        return adoptLName;
     }
     public String getAdoptIC(){
         return adoptIC;
@@ -50,11 +50,11 @@ public class AdopterBean {
     public void setAdoptId(int id){
         this.adoptId = id;
     }    
-    public void setAdoptFname(String fName){
-        this.adoptFname = fName;
+    public void setAdoptFName(String fName){
+        this.adoptFName = fName;
     }
-    public void setAdoptLname(String lName){
-        this.adoptLname = lName;
+    public void setAdoptLName(String lName){
+        this.adoptLName = lName;
     }
     public void setAdoptIC(String IC){
         this.adoptIC  = IC;

@@ -148,13 +148,14 @@
         </div>
         <div class="content-wrapper">
             <div id="heading">Adopter Log In</div>
-            <form method="post" action="AdopterLoginServlet">
+            <form method="post" action="AdopterController">
+                <input type="hidden" name="action" value="login">
                 <div class="form-box">
                     <label>Username</label>
-                    <input type="text">
+                    <input type="text" name="username" required>
 
                     <label>Password</label>
-                    <input type="password">
+                    <input type="password" name="password" required>
 
                     <div class="right-link">
                         <a href="#">Forgot Password?</a>

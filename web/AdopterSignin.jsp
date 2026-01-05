@@ -173,51 +173,51 @@
         <div id="heading">Adopter Sign In</div>
 
         <div class="form-box">
-            <form method="post" action="AdopterProfileServlet">
+            <form method="post" action="AdopterController">
+                <input type="hidden" name="action" value="signin">
                 <div class="form-grid">
                     <!-- Row 1 -->
                     <div class="field">
                         <label>First Name</label>
-                        <input type="text">
+                        <input type="text" name="fname" required>
                     </div>
                     <div class="field">
                         <label>Last Name</label>
-                        <input type="text">
+                        <input type="text" name="lname" required>
                     </div>
 
                     <!-- Row 2 -->
                     <div class="field">
                         <label>IC Number</label>
-                        <input type="text">
+                        <input type="text" name="icNumber" required>
                     </div>
                     <div class="field">
                         <label>Phone Number</label>
-                        <input type="text">
+                        <input type="number" name="phone" required min="1000000000" max="9999999999" pattern="[0-9]{10}">
                     </div>
 
                     <!-- Row 3 -->
                     <div class="field">
                         <label>Email</label>
-                        <input type="email">
+                        <input type="email" name="email" required>
                     </div>
                     <div class="field">
                         <label>Address</label>
-                        <input type="text">
+                        <input type="text" name="address" required>
                     </div>
 
                     <!-- Row 4 -->
                     <div class="field">
                         <label>Username</label>
-                        <input type="text">
+                        <input type="text" name="username" required>
                     </div>
                     <div class="field">
                         <label>Password</label>
-                        <input type="password">
+                        <input type="password" name="password" required>
                     </div>
                 </div>
                 <input type="submit" class="btn" value="SIGN IN">
-            </form>
-                
+            </form>    
         </div>
         <div class="footer">
             © 2025 PAWS Pet Adoption Welfare System -- All Rights Reserved
