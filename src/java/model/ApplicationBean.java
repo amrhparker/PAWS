@@ -7,12 +7,10 @@ public class ApplicationBean implements Serializable{
     // ===== Primary Key =====
     private int appId;
 
-    // ===== Foreign Keys (IDs) =====
     private int adoptId;
     private int petId;
     private int staffId;
 
-    // ===== Foreign Key Objects for MVC / OOP use =====
     private AdopterBean adopter;
     private PetBean pet;
     private StaffBean staff;
