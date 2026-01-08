@@ -4,6 +4,7 @@ package controller;
 //import dao.ApplicationDAO;
 //import dao.AdoptionRecordDAO;
 import dao.AdopterDao;
+import dao.ApplicationDao;
 import model.AdopterBean;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -100,9 +101,9 @@ public class AdopterController extends HttpServlet {
         int adopterId = (int) session.getAttribute("adopterId");
         try{
             
-            Connection conn = getConnectionFromPool();
-            ApplicationDao appDao = new ApplicationDao(conn);
-            RecordsDao recordsDao = new RecordsDao(conn);
+            Connection conn = getConnectionFromPool(); //TUKAR
+            ApplicationDao appDao = new ApplicationDao();
+            RecordsDao recordsDao = new RecordsDao();
             
             //fetch data for dashboard
             List<Application> apps = appDao.getApplicationsByAdopter(adopterId);
