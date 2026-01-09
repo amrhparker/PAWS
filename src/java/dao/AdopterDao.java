@@ -18,19 +18,9 @@ import javax.sql.DataSource;
 import model.AdopterBean;
 
 public class AdopterDao {
-    @Resource(lookup = "jdbc/pawsDatasource")
-    private DataSource dataSource;
-    
-    // OR using InitialContext
-    public Connection getConnection() throws SQLException, NamingException {
-        try {
-            InitialContext ctx = new InitialContext();
-            DataSource ds = (DataSource) ctx.lookup("jdbc/pawsDatasource");
-            return ds.getConnection();
-        } catch (NamingException e) {
-            throw new SQLException("Database connection not found", e);
-        }
-    }
+    private final String URL = "jdbc:derby://localhost:1527/PAWSdb";
+    private final String USER = "app";
+    private final String PASS = "app";
    
     //sql queries
     //insert
@@ -58,7 +48,7 @@ public class AdopterDao {
         PreparedStatement ps = null;
         
         try{
-            conn = getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASS);
             ps = conn.prepareStatement(insertAdopterSql);
             ps.setString(1, adopter.getAdoptFName());
             ps.setString(2, adopter.getAdoptLName());
@@ -71,7 +61,7 @@ public class AdopterDao {
             
             int rowsAffected = ps.executeUpdate();
             success = rowsAffected > 0;
-        }catch(SQLException | NamingException e) {
+        }catch(SQLException e) {
             handleException(e);
         }finally {
             closeResources(null, ps, conn);
@@ -84,7 +74,7 @@ public class AdopterDao {
         Connection conn = null;
         PreparedStatement ps = null;
         try{
-            conn = getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASS);
             ps = conn.prepareStatement(updateAdopterSql);
             ps.setString(1, adopter.getAdoptFName());
             ps.setString(2, adopter.getAdoptLName());
@@ -98,7 +88,7 @@ public class AdopterDao {
             
             int rowsAffected = ps.executeUpdate();
             success = rowsAffected > 0;
-        }catch(SQLException | NamingException e) {
+        }catch(SQLException e) {
             handleException(e);
         }finally {
             closeResources(null, ps, conn);
@@ -111,13 +101,13 @@ public class AdopterDao {
         Connection conn = null;
         PreparedStatement ps = null;
         try{
-            conn = getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASS);
             ps = conn.prepareStatement(deleteAdopterSql);
             ps.setInt(1, adoptId);
             
             int rowsAffected = ps.executeUpdate();
             success = rowsAffected > 0;
-        }catch(SQLException | NamingException e) {
+        }catch(SQLException e) {
             handleException(e);
         }finally {
             closeResources(null, ps, conn);
@@ -133,7 +123,7 @@ public class AdopterDao {
         ResultSet rs = null;
         
         try {
-            conn = getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASS);
             ps = conn.prepareStatement(selectAdopterAllSql);
             rs = ps.executeQuery();
             
@@ -142,7 +132,7 @@ public class AdopterDao {
                 adopters.add(adopter);
             }
             
-        }catch (SQLException | NamingException e) {
+        }catch (SQLException e) {
             handleException(e);
         }finally {
             closeResources(rs, ps, conn);
@@ -157,7 +147,7 @@ public class AdopterDao {
         ResultSet rs = null;
         
         try{
-            conn = getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASS);
             ps = conn.prepareStatement(selectAdopterByIdSql);
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -165,7 +155,7 @@ public class AdopterDao {
             if(rs.next()){
                 adopter = mapResultSetToAdopter(rs);
             }
-        }catch(SQLException | NamingException e) {
+        }catch(SQLException e) {
             handleException(e);
         }finally {
             closeResources(null, ps, conn);
@@ -180,7 +170,7 @@ public class AdopterDao {
         ResultSet rs = null;
         
         try{
-            conn = getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASS);
             ps = conn.prepareStatement(selectAdopterByUnSql);
             ps.setString(1, un);
             rs = ps.executeQuery();
@@ -188,7 +178,7 @@ public class AdopterDao {
             if(rs.next()){
                 adopter = mapResultSetToAdopter(rs);
             }
-        }catch(SQLException | NamingException e) {
+        }catch(SQLException e) {
             handleException(e);
         }finally {
             closeResources(null, ps, conn);
@@ -235,7 +225,7 @@ public class AdopterDao {
         ResultSet rs = null;
         
         try{
-            conn = getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASS);
             ps = conn.prepareStatement(validateAdopterSql);
             ps.setString(1, un);
             ps.setString(2, pw);
@@ -244,7 +234,7 @@ public class AdopterDao {
             if(rs.next()){
                 adopter = mapResultSetToAdopter(rs);
             }
-        }catch (SQLException | NamingException e) {
+        }catch (SQLException e) {
             handleException(e);
         }finally {
             closeResources(rs, ps, conn);
@@ -260,7 +250,7 @@ public class AdopterDao {
         ResultSet rs = null;
         
         try {
-            conn = getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASS);
             pstmt = conn.prepareStatement("SELECT COUNT(*) FROM Adopter WHERE adoptUsername = ?");
             pstmt.setString(1, username);
             rs = pstmt.executeQuery();
@@ -269,7 +259,7 @@ public class AdopterDao {
                 exists = rs.getInt(1) > 0;
             }
             
-        } catch (SQLException | NamingException e) {
+        } catch (SQLException e) {
             handleException(e);
         } finally {
             closeResources(rs, pstmt, conn);

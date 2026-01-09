@@ -42,22 +42,22 @@ public class StaffBean {
     public void setStaffId(int id){
         this.staffId = id;
     }   
-    public void setfName(String fName){
+    public void setStaffFname(String fName){
         this.staffFname = fName;
     }
-    public void setlName(String lName){
+    public void setStaffLname(String lName){
         this.staffLname = lName;
     }
-    public void setEmail(String email){
+    public void setStaffEmail(String email){
         this.staffEmail = email;
     }
-    public void setPhoneNum(int phoneNum){
+    public void setStaffPhoneNum(int phoneNum){
         this.staffPhoneNum = phoneNum;
     }
-    public void setUsername(String username){
+    public void setStaffUsername(String username){
         this.staffUsername = username;
     }
-    public void setPho(String pho){
+    public void setStaffPho(String pho){
         this.staffPho  = pho;
     }
 }
