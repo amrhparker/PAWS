@@ -108,7 +108,7 @@ public class ApplicationDao {
         }
         return app;
     }
-
+    
     /* ================= UPDATE STATUS ================= */
     public void updateStatus(int appId, String status, String eligibility) throws SQLException {
         String sql = "UPDATE APPLICATION SET APP_STATUS=?, APP_ELIGIBILITY=? WHERE APP_ID=?";

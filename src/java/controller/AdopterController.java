@@ -96,7 +96,7 @@ public class AdopterController extends HttpServlet {
             ApplicationDao appDao = new ApplicationDao();
             RecordDao recordsDao = new RecordDao();
             
-            List<ApplicationBean> apps = appDao.getAllApplications();
+            List<ApplicationBean> apps = appDao.getApplicationsByAdopter(adopterId);
             List<RecordBean> records = recordsDao.getAllRecords();
             
             request.setAttribute("applications", apps);

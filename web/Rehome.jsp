@@ -107,13 +107,13 @@ if (session == null || session.getAttribute("adopter") == null) {
         <div class="main-content">
             <div class="navbar">
                 <div class="navbar-left">
-                    <a href="Home.jsp">
+                    <a href="Home.html">
                         <img src="PAWS.png" alt="PAWS Logo">
                     </a>
                 </div>
 
                 <div class="navbar-right">
-                    <a href="Home.jsp">Home</a>
+                    <a href="Home.html">Home</a>
                     <a href="AboutUs.jsp">About</a>
                     <a href="DashboardA.jsp">Dashboard</a>
                     <a href="Rehome.jsp">Rehome Pet</a>
@@ -149,7 +149,7 @@ if (session == null || session.getAttribute("adopter") == null) {
                         <strong>Name:</strong> <%= pet.getPetName()%><br>
                         <strong>Age:</strong> <%= pet.getPetAge()%> years old<br>
                         <strong>Breed:</strong> <%= pet.getPetBreed() != null ? pet.getPetBreed() : "Unknown"%><br>
-                        <a href="PetDetails.jsp?petId=<%= pet.getPetId()%>" class="more-details">More Details</a>
+                        <a href="PetServlet?action=viewDetails&petId=<%= pet.getPetId()%>" class="more-details">More Details</a>
                     </div>
                     <form action="ApplicationController" method="get">
                         <input type="hidden" name="action" value="form">

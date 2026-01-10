@@ -30,6 +30,10 @@ public class PetController extends HttpServlet {
         }
 
         switch (action) {
+            case "viewDetails":
+                viewPetDetails(request, response);
+                break;
+
             case "edit":
                 showEditForm(request, response);
                 break;
@@ -64,6 +68,18 @@ public class PetController extends HttpServlet {
                 break;
         }
     }
+    
+    /* ================= VIEW PET DETAILS ================= */
+    private void viewPetDetails(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        int petId = Integer.parseInt(request.getParameter("petId"));
+        PetBean pet = petDao.getPetById(petId);
+
+        request.setAttribute("pet", pet);
+        request.getRequestDispatcher("PetDetails.jsp").forward(request, response);
+    }
+
 
     /* ================= LIST ================= */
     private void listPets(HttpServletRequest request, HttpServletResponse response)
