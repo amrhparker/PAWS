@@ -99,4 +99,55 @@ public class ReportDao {
     }
 }
 
+    //filter
+    public List<ReportBean> filterReports(Integer recordId, Date reportDate) {
+
+    List<ReportBean> list = new ArrayList<>();
+
+    StringBuilder sql = new StringBuilder(
+        "SELECT * FROM REPORT WHERE 1=1"
+    );
+
+    if (recordId != null) {
+        sql.append(" AND RECORD_ID = ?");
+    }
+
+    if (reportDate != null) {
+        sql.append(" AND REPORT_DATE = ?");
+    }
+
+    sql.append(" ORDER BY REPORT_DATE DESC");
+
+    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+         PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+        int index = 1;
+
+        if (recordId != null) {
+            ps.setInt(index++, recordId);
+        }
+
+        if (reportDate != null) {
+            ps.setDate(index++, reportDate);
+        }
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            ReportBean r = new ReportBean();
+            r.setReportId(rs.getInt("REPORT_ID"));
+            r.setRecordId(rs.getInt("RECORD_ID"));
+            r.setStaffId(rs.getInt("STAFF_ID"));
+            r.setReportType(rs.getString("REPORT_TYPE"));
+            r.setReportDate(rs.getDate("REPORT_DATE"));
+            list.add(r);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return list; // ⬅ boleh kosong, itu OK
+}
+
 }

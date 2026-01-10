@@ -8,10 +8,10 @@
 <%
     /*
      FLOW:
-     1. User buka JSP
+     1. User buka ManageReports.jsp
      2. Kalau "reports" belum ada → redirect Controller
-     3. Controller fetch data & forward balik
-     4. JSP display list
+     3. Controller fetch data → forward balik JSP
+     4. JSP display data
     */
     if (request.getAttribute("reports") == null) {
         response.sendRedirect("ReportController?action=list");
@@ -34,82 +34,107 @@
             margin:0;
         }
 
-        .page-title{
+        .content{
             width:90%;
-            margin:35px auto 20px;
-            font-size:28px;
+            margin:40px auto;
+        }
+
+        h2{
+            margin-bottom:18px;
             font-weight:600;
         }
 
-        .container{
-            width:90%;
-            margin:auto;
+        /* FILTER */
+        .filter-bar{
+            margin-bottom:20px;
         }
 
-        .card{
-            background:white;
-            border-radius:18px;
-            padding:25px;
-            box-shadow:0 8px 22px rgba(0,0,0,0.08);
+        .filter-bar form{
+            display:flex;
+            gap:10px;
+            align-items:center;
         }
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-        }
-
-        th{
-            text-align:left;
-            padding:14px;
-            font-size:15px;
-            background:#f2f3f7;
-        }
-
-        td{
-            padding:14px;
-            border-top:1px solid #eee;
+        .filter-bar input{
+            padding:8px 12px;
+            border-radius:8px;
+            border:1px solid #ddd;
             font-size:14px;
         }
 
-        .btn{
-            padding:8px 16px;
+        .filter-bar button{
+            padding:8px 18px;
+            border:none;
             border-radius:8px;
-            text-decoration:none;
-            font-size:13px;
-            font-weight:500;
-            margin-right:6px;
-            display:inline-block;
-        }
-
-        .btn-view{
             background:#4a90e2;
             color:white;
+            font-size:14px;
+            cursor:pointer;
         }
 
-        .btn-view:hover{
+        .filter-bar button:hover{
             background:#357bd8;
         }
 
-        .btn-delete{
-            background:#e74c3c;
+        /* CARD */
+        .report-card{
+            background:white;
+            border-radius:14px;
+            padding:18px 22px;
+            margin-bottom:14px;
+            box-shadow:0 6px 16px rgba(0,0,0,0.08);
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .report-info{
+            display:flex;
+            gap:25px;
+            font-size:15px;
+        }
+
+        .label{
+            font-weight:500;
+            color:#444;
+        }
+
+        .actions a{
+            text-decoration:none;
+            padding:8px 16px;
+            border-radius:8px;
+            font-size:14px;
+            font-weight:500;
+            margin-left:8px;
+        }
+
+        .view-btn{
+            background:#0d6efd;
             color:white;
         }
 
-        .btn-delete:hover{
-            background:#c0392b;
+        .delete-btn{
+            background:#dc3545;
+            color:white;
         }
 
+        .view-btn:hover{ background:#0b5ed7; }
+        .delete-btn:hover{ background:#bb2d3b; }
+
         .empty{
-            text-align:center;
-            color:#888;
+            background:white;
             padding:30px;
+            border-radius:14px;
+            text-align:center;
+            color:gray;
+            box-shadow:0 6px 16px rgba(0,0,0,0.06);
         }
     </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
+<!-- ===== NAVBAR (KEKAL ORIGINAL) ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.html">
@@ -117,66 +142,75 @@
         </a>
 
         <div class="navbar-links">
-            <a href="StaffDashboard.html">Dashboard</a>
-            <a href="ManagePets.html">Pets</a>
-            <a href="RecordController?action=list">Records</a>
+            <a href="StaffDashboard.jsp">Dashboard</a>
+            <a href="ManagePets.jsp">Pets</a>
+            <a href="ManageRecords.jsp">Records</a>
             <a href="ManageReports.jsp" class="active">Reports</a>
-            <a href="ApplicationController?action=list">Applications</a>
-            <a href="ActivityLog.html">Logs</a>
+            <a href="ManageApplications.jsp">Applications</a>
+            <a href="ActivityLog.jsp">Logs</a>
         </div>
     </div>
 
     <div class="navbar-right">
-        <a href="Logout.html" class="logout">Log Out</a>
+        <a href="LogoutServlet" class="logout">Log Out</a>
     </div>
 </div>
 
-<!-- TITLE -->
-<div class="page-title">Adoption Reports</div>
+<!-- ===== CONTENT ===== -->
+<div class="content">
 
-<!-- REPORT LIST -->
-<div class="container">
-    <div class="card">
+    <h2>Adoption Reports</h2>
 
-        <table>
-            <tr>
-                <th>Report ID</th>
-                <th>Record ID</th>
-                <th>Report Date</th>
-                <th>Action</th>
-            </tr>
+    <!-- FILTER -->
+    <div class="filter-bar">
+        <form action="ReportController" method="get">
+            <input type="hidden" name="action" value="list">
 
-            <c:forEach var="r" items="${reports}">
-                <tr>
-                    <td>Report ${r.reportId}</td>
-                    <td>${r.recordId}</td>
-                    <td>${r.reportDate}</td>
-                    <td>
-                        <a class="btn btn-view"
-                           href="ViewReports.jsp?reportId=${r.reportId}">
-                            View
-                        </a>
+            <input type="text" name="recordId" placeholder="Record ID">
+            <input type="date" name="reportDate">
 
-                        <a class="btn btn-delete"
-                           href="ReportController?action=delete&reportId=${r.reportId}"
-                           onclick="return confirm('Are you sure you want to delete this report?');">
-                            Delete
-                        </a>
-                    </td>
-                </tr>
-            </c:forEach>
-
-            <c:if test="${empty reports}">
-                <tr>
-                    <td colspan="4" class="empty">
-                        No reports available
-                    </td>
-                </tr>
-            </c:if>
-
-        </table>
-
+            <button type="submit">Filter</button>
+        </form>
     </div>
+
+    <!-- REPORT LIST -->
+    <c:forEach var="r" items="${reports}">
+        <div class="report-card">
+
+            <div class="report-info">
+                <div>
+                    <span class="label">Report:</span> ${r.reportId}
+                </div>
+                <div>
+                    <span class="label">Record:</span> ${r.recordId}
+                </div>
+                <div>
+                    <span class="label">Date:</span> ${r.reportDate}
+                </div>
+            </div>
+
+            <div class="actions">
+                <a class="view-btn"
+                   href="ViewReports.jsp?reportId=${r.reportId}">
+                   View
+                </a>
+
+                <a class="delete-btn"
+                   href="ReportController?action=delete&reportId=${r.reportId}"
+                   onclick="return confirm('Delete this report?');">
+                   Delete
+                </a>
+            </div>
+
+        </div>
+    </c:forEach>
+
+    <c:if test="${empty reports}">
+        <div class="empty">
+            No adoption reports found
+        </div>
+    </c:if>
+
 </div>
 
 </body>

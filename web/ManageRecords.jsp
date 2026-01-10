@@ -5,6 +5,22 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%
+    /*
+     FLOW (LECTURER STYLE):
+     1. User run JSP
+     2. Kalau "records" belum ada → JSP redirect controller
+     3. Controller ambil data
+     4. Controller forward balik ke JSP
+     5. JSP display data
+    */
+
+    if (request.getAttribute("records") == null) {
+        response.sendRedirect("RecordController?action=list");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +36,6 @@
             margin:0;
         }
 
-        /* CONTENT */
         .content{
             width:90%;
             margin:40px auto;
@@ -31,7 +46,6 @@
             font-weight:600;
         }
 
-        /* RECORD CARD */
         .record-card{
             background:white;
             border-radius:14px;
@@ -48,7 +62,6 @@
             font-weight:500;
         }
 
-        /* BUTTONS */
         .actions a{
             text-decoration:none;
             padding:9px 16px;
@@ -72,7 +85,6 @@
         .view-btn:hover{ background:#0b5ed7; }
         .delete-btn:hover{ background:#bb2d3b; }
 
-        /* EMPTY */
         .empty{
             background:white;
             padding:30px;
@@ -86,7 +98,7 @@
 
 <body>
 
-<!-- ===== PAWS ORIGINAL NAVBAR (KEKAL) ===== -->
+<!-- ===== NAVBAR ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.html">
@@ -96,7 +108,7 @@
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
-            <a href="ManageRecords.jsp">Records</a>
+            <a href="ManageRecords.jsp" class="active">Records</a>
             <a href="ManageReports.jsp">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
             <a href="ActivityLog.jsp">Logs</a>
@@ -104,7 +116,7 @@
     </div>
 
     <div class="navbar-right">
-        <a href="Logout.html" class="logout">Log Out</a>
+        <a href="LogoutServlet" class="logout">Log Out</a>
     </div>
 </div>
 
