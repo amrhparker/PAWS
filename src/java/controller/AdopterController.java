@@ -63,22 +63,15 @@ public class AdopterController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        
+
         if (action == null) {
             response.sendRedirect("AdopterLogin.jsp");
             return;
-        }   
-        //crud methods
+        }
+
         switch (action) {
-            case "login":
-                login(request, response);
-                break;
-            case "signin":
-                signin(request, response);
-                break;
             case "updateProfile":
                 updateProfile(request, response);
                 break;
@@ -90,6 +83,8 @@ public class AdopterController extends HttpServlet {
                 break;
         }
     }
+
+// Remove the entire signin() method from AdopterController
       
     //admin authentication
     private boolean isStaffLoggedIn(HttpServletRequest request) {
@@ -193,174 +188,7 @@ public class AdopterController extends HttpServlet {
         }
         response.sendRedirect("Home.html");
     }
-            
-    //login
-    private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String un = request.getParameter("username");
-        String pw = request.getParameter("password");
         
-        if(un == null || pw == null){
-            request.setAttribute("errorMessage", "Username and password are required");
-            request.getRequestDispatcher("AdopterLogin.jsp").forward(request, response);
-            return;
-        }
-        
-        try{
-            AdopterBean adopter = adopterDao.validateAdopter(un, pw);
-            
-            if (adopter != null) {
-                //create session
-                HttpSession session = request.getSession();
-                session.setAttribute("adopterId", adopter.getAdoptId());
-                session.setAttribute("username", adopter.getAdoptUsername());
-                session.setAttribute("fullName", adopter.getAdoptFName() + " " + adopter.getAdoptLName());
-                session.setAttribute("adopter", adopter);
-                
-                //set session timeout (30 minutes)
-                session.setMaxInactiveInterval(30 * 60);
-                
-                //go to dashboard
-                response.sendRedirect("AdopterController?action=dashboard");
-            } else {
-                request.setAttribute("errorMessage", "Invalid username or password");
-                request.getRequestDispatcher("AdopterLogin.jsp").forward(request, response);
-            }
-        } catch (IOException | ServletException e) {
-            request.setAttribute("errorMessage", "Login failed. Please try again.");
-            request.getRequestDispatcher("AdopterLogin.jsp").forward(request, response);
-
-        }
-    }
-    
-    //ergister
-    private void signin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //get parameters
-        try{
-            String fname = request.getParameter("fname");
-            String lname = request.getParameter("lname");
-            String ic = request.getParameter("ic");
-            String phoneStr = request.getParameter("phone");
-            String email = request.getParameter("email");
-            String address = request.getParameter("address");
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-
-            //validate
-            if (fname == null || lname == null || ic == null || phoneStr == null || email == null || address == null || username == null || password == null) {
-
-                request.setAttribute("errorMessage", "All fields are required");
-                request.setAttribute("fname", fname);
-                request.setAttribute("lname", lname);
-                request.setAttribute("ic", ic);
-                request.setAttribute("phone", phoneStr);
-                request.setAttribute("email", email);
-                request.setAttribute("address", address);
-                request.setAttribute("username", username);
-                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-                return;
-            }
-
-            //validate phone number
-            try {
-                //parse phone number to int
-                int phone = Integer.parseInt(phoneStr);
-
-                //validate phoneNum length
-                if (phoneStr.length() != 10) {
-                    request.setAttribute("errorMessage", "Phone number must be 10 digits");
-                    //set each attribute individually
-                    request.setAttribute("fname", fname);
-                    request.setAttribute("lname", lname);
-                    request.setAttribute("ic", ic);
-                    request.setAttribute("phone", ""); //clear phone text field
-                    request.setAttribute("email", email);
-                    request.setAttribute("address", address);
-                    request.setAttribute("username", username);
-                    request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-                    return;
-                }
-                //ensuring phone number entered is not all zeros
-                if (phone <= 0) {
-                    request.setAttribute("errorMessage", "Invalid phone number");
-                    //set each attribute individually
-                    request.setAttribute("fname", fname);
-                    request.setAttribute("lname", lname);
-                    request.setAttribute("ic", ic);
-                    request.setAttribute("phone", ""); //clear phone text field
-                    request.setAttribute("email", email);
-                    request.setAttribute("address", address);
-                    request.setAttribute("username", username);
-                    request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-                    return;
-                }
-
-            }catch(NumberFormatException e) {
-                request.setAttribute("errorMessage", "Invalid phone number format. Please enter digits only.");
-                //set each attribute individually
-                request.setAttribute("fname", fname);
-                request.setAttribute("lname", lname);
-                request.setAttribute("ic", ic);
-                request.setAttribute("phone", ""); // Clear phone field
-                request.setAttribute("email", email);
-                request.setAttribute("address", address);
-                request.setAttribute("username", username);
-                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-                return;
-            }
-
-            //prevent duplicate username
-            if (adopterDao.checkUsernameExists(username)) {
-                request.setAttribute("errorMessage", "Username already exists. Please choose another.");
-                request.setAttribute("fname", fname);
-                request.setAttribute("lname", lname);
-                request.setAttribute("ic", ic);
-                request.setAttribute("phone", phoneStr);
-                request.setAttribute("email", email);
-                request.setAttribute("address", address);
-                request.setAttribute("username", username);
-                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-                return;
-            }
-
-            //create adopter object
-            AdopterBean temp = new AdopterBean();
-            temp.setAdoptFName(fname);
-            temp.setAdoptLName(lname);
-            temp.setAdoptIC(ic);
-            temp.setAdoptPhoneNum(Integer.parseInt(phoneStr));
-            temp.setAdoptEmail(email);
-            temp.setAdoptAddress(address);
-            temp.setAdoptUsername(username);
-            temp.setAdoptPassword(password);
-
-            boolean success = adopterDao.insertAdopter(temp);
-            if(success){
-                response.sendRedirect("AdopterLogin.jsp?success=Registration successful! Please login.");
-            }else{
-                request.setAttribute("errorMessage", "Registration failed. Please try again.");
-                request.setAttribute("fname", fname);
-                request.setAttribute("lname", lname);
-                request.setAttribute("ic", ic);
-                request.setAttribute("phone", phoneStr);
-                request.setAttribute("email", email);
-                request.setAttribute("address", address);
-                request.setAttribute("username", username);
-                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-            }
-        }catch(IOException | NumberFormatException | ServletException e) {
-            request.setAttribute("errorMessage", "Registration error: " + e.getMessage());
-            //preserve form data in case of unexpected error.
-            request.setAttribute("fname", request.getParameter("fname"));
-            request.setAttribute("lname", request.getParameter("lname"));
-            request.setAttribute("ic", request.getParameter("ic"));
-            request.setAttribute("phone", request.getParameter("phone"));
-            request.setAttribute("email", request.getParameter("email"));
-            request.setAttribute("address", request.getParameter("address"));
-            request.setAttribute("username", request.getParameter("username"));
-            request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-        }
-    }
-    
     //update profile
     private void updateProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);

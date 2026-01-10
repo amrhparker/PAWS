@@ -21,14 +21,14 @@ public class StaffDao {
     //sql queries
     //insert
     private static final String insertStaffSql
-            = "INSERT INTO Staff (staffFname, staffLname, staffEmail, staffPhoneNum, staffUsername, staffPho) "
+            = "INSERT INTO Staff (staffFname, staffLname, staffEmail, staffPhoneNum, staffUsername, staffPassword) "
             + "VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String updateStaffSql
-            = "UPDATE Staff SET staffFname = ?, staffLname = ?, staffEmail = ?, staffPhoneNum = ?, staffUsername = ?, staffPho = ? WHERE staffId = ?";
+            = "UPDATE Staff SET staffFname = ?, staffLname = ?, staffEmail = ?, staffPhoneNum = ?, staffUsername = ?, staffPassword = ? WHERE staffId = ?";
 
     private static final String authenticateStaffSQL
-            = "SELECT * FROM Staff WHERE staffUsername = ? AND staffPho = ?";
+            = "SELECT * FROM Staff WHERE staffUsername = ? AND staffPassword = ?";
 
     private static final String getStaffByUsernameSQL
             = "SELECT * FROM Staff WHERE staffUsername = ?";
@@ -37,7 +37,7 @@ public class StaffDao {
             = "SELECT * FROM Staff WHERE staffId = ?";
 
     private static final String verifyPasswordSQL
-            = "SELECT staffId FROM Staff WHERE staffUsername = ? AND staffPho = ?";
+            = "SELECT staffId FROM Staff WHERE staffUsername = ? AND staffPassword = ?";
 
     private static final String checkUsernameExistsSQL
             = "SELECT staffId FROM Staff WHERE staffUsername = ?";
@@ -66,7 +66,7 @@ public class StaffDao {
                 staff.setStaffEmail(rs.getString("staffemail"));
                 staff.setStaffPhoneNum(rs.getInt("staffphonenum"));
                 staff.setStaffUsername(rs.getString("staffusername"));
-                staff.setStaffPho(rs.getString("staffpho"));
+                staff.setStaffPho(rs.getString("staffPassword"));
             }
 
         } catch (SQLException e) {
@@ -110,7 +110,7 @@ public class StaffDao {
                 staff.setStaffEmail(rs.getString("staffemail"));
                 staff.setStaffPhoneNum(rs.getInt("staffphonenum"));
                 staff.setStaffUsername(rs.getString("staffusername"));
-                staff.setStaffPho(rs.getString("staffpho"));
+                staff.setStaffPho(rs.getString("staffPassword"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,7 +152,7 @@ public class StaffDao {
                 staff.setStaffEmail(rs.getString("staffemail"));
                 staff.setStaffPhoneNum(rs.getInt("staffphonenum"));
                 staff.setStaffUsername(rs.getString("staffusername"));
-                staff.setStaffPho(rs.getString("staffpho"));
+                staff.setStaffPho(rs.getString("staffPassword"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
