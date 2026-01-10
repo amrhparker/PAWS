@@ -202,40 +202,14 @@
                 <div class="pet-name">${pet.petName}</div>
             </div>
 
-            <div class="pet-details-box">
-                <p><strong>Age:</strong> ${pet.age} years old</p>
-                <p><strong>Breed:</strong> ${pet.breed}</p>
-                <p><strong>Gender:</strong> ${pet.gender}</p>
-                <p><strong>Size:</strong> ${pet.size}</p>
-                <p><strong>Health Status:</strong> ${pet.healthStatus}</p>
-
-                <div class="description-title">Description</div>
-                <p>${pet.description}</p>
-
-                <c:if test="${not empty pet.specialNeeds}">
-                    <p><strong>Special Needs:</strong> ${pet.specialNeeds}</p>
-                </c:if>
-
-                <c:if test="${not empty pet.temperament}">
-                    <p><strong>Temperament:</strong> ${pet.temperament}</p>
-                </c:if>
-
-                <c:if test="${not empty pet.adoptionFee}">
-                    <p><strong>Adoption Fee:</strong> RM${pet.adoptionFee}</p>
-                </c:if>
-
-                <c:if test="${not empty pet.vaccinationStatus}">
-                    <p><strong>Vaccination Status:</strong> ${pet.vaccinationStatus}</p>
-                </c:if>
-
-                <c:if test="${not empty pet.microchipNumber}">
-                    <p><strong>Microchip Number:</strong> ${pet.microchipNumber}</p>
-                </c:if>
-
-                <c:if test="${not empty pet.arrivalDate}">
-                    <p><strong>Arrival Date:</strong> ${pet.arrivalDate}</p>
-                </c:if>
-            </div>
+                <div class="pet-details-box">
+                    <p><strong>Age:</strong> ${pet.petAge} years old</p>
+                    <p><strong>Breed:</strong> ${pet.petBreed}</p>
+                    <p><strong>Gender:</strong> ${pet.petGender}</p>
+                    <p><strong>Species:</strong> ${pet.petSpecies}</p>
+                    <p><strong>Health Status:</strong> ${pet.petHealthStatus}</p>
+                    <p><strong>Adoption Status:</strong> ${pet.petAdoptionStatus}</p>
+                </div>
         </div>
 
         <div class="rehoming-section">

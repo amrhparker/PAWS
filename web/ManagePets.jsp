@@ -13,7 +13,7 @@
 
 <div class="navbar">
     <div class="navbar-left">
-        <a href="Home.jsp">
+        <a href="Home.html">
             <img src="pawsS.png" alt="PAWS Staff">
         </a>
     </div>

@@ -61,8 +61,8 @@
 
     <div class="navbar">
         <div class="navbar-left">
-            <a href="Home.jsp"><img src="PAWS.png" alt="PAWS Logo"></a>
-            <a href="Home.jsp">Home</a>
+            <a href="Home.html"><img src="PAWS.png" alt="PAWS Logo"></a>
+            <a href="Home.html">Home</a>
             <a href="AboutUs.jsp">About</a>
             <a href="DashboardA.jsp">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>

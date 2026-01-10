@@ -12,7 +12,7 @@ public class AdopterBean {
     private String adoptEmail;
     private String adoptAddress;
     private String adoptOccupation;  // NEW
-    private double adoptIncome;  // NEW
+    private BigDecimal adoptIncome;  // NEW
     private String adoptUsername;
     private String adoptPassword;
 
@@ -23,7 +23,7 @@ public class AdopterBean {
 
     public AdopterBean(int adoptId, String adoptFName, String adoptLName, String adoptIC,
                        String adoptPhoneNum, String adoptEmail, String adoptAddress,
-                       String adoptOccupation, double adoptIncome,
+                       String adoptOccupation, BigDecimal adoptIncome,
                        String adoptUsername, String adoptPassword) {
         this.adoptId = adoptId;
         this.adoptFName = adoptFName;
@@ -47,7 +47,7 @@ public class AdopterBean {
     public String getAdoptEmail() { return adoptEmail; }
     public String getAdoptAddress() { return adoptAddress; }
     public String getAdoptOccupation() { return adoptOccupation; }
-    public double getAdoptIncome() { return adoptIncome; }
+    public BigDecimal getAdoptIncome() { return adoptIncome; }
     public String getAdoptUsername() { return adoptUsername; }
     public String getAdoptPassword() { return adoptPassword; }
 
@@ -60,7 +60,7 @@ public class AdopterBean {
     public void setAdoptEmail(String adoptEmail) { this.adoptEmail = adoptEmail; }
     public void setAdoptAddress(String adoptAddress) { this.adoptAddress = adoptAddress; }
     public void setAdoptOccupation(String adoptOccupation) { this.adoptOccupation = adoptOccupation; }
-    public void setAdoptIncome(double adoptIncome) { this.adoptIncome = adoptIncome; }
+    public void setAdoptIncome(BigDecimal adoptIncome) { this.adoptIncome = adoptIncome; }
     public void setAdoptUsername(String adoptUsername) { this.adoptUsername = adoptUsername; }
     public void setAdoptPassword(String adoptPassword) { this.adoptPassword = adoptPassword; }
 }

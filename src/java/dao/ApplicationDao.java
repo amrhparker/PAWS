@@ -93,7 +93,7 @@ public class ApplicationDao {
         }
         return app;
     }
-
+    
     /* ================= UPDATE STATUS ================= */
     public void updateStatus(int appId, String status, String eligibility) throws SQLException {
 
