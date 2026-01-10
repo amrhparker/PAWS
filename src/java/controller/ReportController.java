@@ -19,7 +19,7 @@ public class ReportController extends HttpServlet {
         dao = new ReportDao();
     }
 
-    //GET
+    // ================= GET =================
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,12 +32,15 @@ public class ReportController extends HttpServlet {
         } else if (action.equals("view")) {
             viewReport(request, response);
 
+        } else if (action.equals("delete")) {
+            deleteReport(request, response);
+
         } else {
             listReports(request, response);
         }
     }
 
-    //POST
+    // ================= POST =================
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -76,7 +79,7 @@ public class ReportController extends HttpServlet {
         request.getRequestDispatcher("ManageReports.jsp").forward(request, response);
     }
 
-    // READ BY ID 
+    // READ BY ID
     private void viewReport(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -85,5 +88,16 @@ public class ReportController extends HttpServlet {
 
         request.setAttribute("report", report);
         request.getRequestDispatcher("ViewReports.jsp").forward(request, response);
+    }
+
+    // DELETE
+    private void deleteReport(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        int reportId = Integer.parseInt(request.getParameter("reportId"));
+        dao.deleteReport(reportId);
+
+        // balik ke flow JSP-first
+        response.sendRedirect("ManageReports.jsp");
     }
 }
