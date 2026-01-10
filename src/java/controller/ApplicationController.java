@@ -1,7 +1,9 @@
 package controller;
 
-import model.ApplicationBean;
 import dao.ApplicationDao;
+import dao.AdopterDao;
+import model.ApplicationBean;
+import model.AdopterBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,13 +16,14 @@ import java.util.List;
 public class ApplicationController extends HttpServlet {
 
     private ApplicationDao dao;
+    private AdopterDao adopterDao;
 
     @Override
     public void init() {
         dao = new ApplicationDao();
+        adopterDao = new AdopterDao();
     }
 
-    /* ================= GET ================= */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -28,17 +31,20 @@ public class ApplicationController extends HttpServlet {
         String action = request.getParameter("action");
 
         try {
-            if (action == null || action.equals("list")) {
-                listApplications(request, response);
+            if (action == null || action.equals("dashboardA")) {
+                showAdopterDashboard(request, response);
 
-            } else if (action.equals("edit")) {
-                showEditForm(request, response);
+            } else if (action.equals("view")) {
+                viewApplication(request, response);
 
             } else if (action.equals("delete")) {
                 deleteApplication(request, response);
 
+            } else if (action.equals("form")) {
+                showApplicationForm(request, response);
+
             } else {
-                listApplications(request, response);
+                showAdopterDashboard(request, response);
             }
 
         } catch (SQLException e) {
@@ -46,7 +52,6 @@ public class ApplicationController extends HttpServlet {
         }
     }
 
-    /* ================= POST ================= */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -57,14 +62,8 @@ public class ApplicationController extends HttpServlet {
             if ("add".equals(action)) {
                 insertApplication(request, response);
 
-            } else if ("update".equals(action)) {
-                updateApplication(request, response);
-
             } else if ("updateStatus".equals(action)) {
                 updateStatus(request, response);
-
-            } else {
-                response.sendRedirect("ApplicationController?action=list");
             }
 
         } catch (SQLException e) {
@@ -72,9 +71,47 @@ public class ApplicationController extends HttpServlet {
         }
     }
 
-    /* ================= METHODS ================= */
+    // Dashboard
+    private void showAdopterDashboard(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
 
-    // ===== CREATE =====
+        HttpSession session = request.getSession();
+        int adoptId = (int) session.getAttribute("adoptId");
+
+        List<ApplicationBean> apps = dao.getApplicationsByAdopter(adoptId);
+
+        request.setAttribute("applications", apps);
+        request.getRequestDispatcher("DashboardA.jsp").forward(request, response);
+    }
+
+    // View application
+    private void viewApplication(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+
+        int appId = Integer.parseInt(request.getParameter("appId"));
+        ApplicationBean app = dao.getApplicationById(appId);
+
+        request.setAttribute("application", app);
+        request.getRequestDispatcher("SubmittedApplication.jsp").forward(request, response);
+    }
+
+    // Show application form (pre-fill adopter info)
+    private void showApplicationForm(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+
+        HttpSession session = request.getSession(false);
+        int adoptId = (int) session.getAttribute("adoptId");
+        int petId = Integer.parseInt(request.getParameter("petId"));
+
+        AdopterBean adopter = adopterDao.getAdopterById(adoptId);
+
+        request.setAttribute("adopter", adopter);
+        request.setAttribute("petId", petId);
+
+        request.getRequestDispatcher("applicationform.jsp").forward(request, response);
+    }
+
+    // Insert application
     private void insertApplication(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
 
@@ -82,7 +119,6 @@ public class ApplicationController extends HttpServlet {
 
         app.setAdoptId(Integer.parseInt(request.getParameter("adoptId")));
         app.setPetId(Integer.parseInt(request.getParameter("petId")));
-        app.setStaffId(0); // Not assigned yet
 
         app.setAppStatus("Pending");
         app.setAppEligibility("Pending");
@@ -94,59 +130,10 @@ public class ApplicationController extends HttpServlet {
         app.setAdoptionReason(request.getParameter("adoptionReason"));
 
         dao.insertApplication(app);
-        response.sendRedirect("ApplicationController?action=list");
+        response.sendRedirect("ApplicationController?action=dashboardA");
     }
 
-    // ===== READ ALL =====
-    private void listApplications(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
-
-        List<ApplicationBean> list = dao.getAllApplications();
-        request.setAttribute("applications", list);
-        request.getRequestDispatcher("applicationList.jsp").forward(request, response);
-    }
-
-    // ===== READ BY ID (EDIT FORM) =====
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
-
-        int appId = Integer.parseInt(request.getParameter("appId"));
-        ApplicationBean app = dao.getApplicationById(appId);
-
-        request.setAttribute("application", app);
-        request.getRequestDispatcher("applicationEdit.jsp").forward(request, response);
-    }
-
-    // ===== UPDATE FULL =====
-    private void updateApplication(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
-
-        ApplicationBean app = new ApplicationBean();
-
-        app.setAppId(Integer.parseInt(request.getParameter("appId")));
-        app.setAdoptId(Integer.parseInt(request.getParameter("adoptId")));
-        app.setPetId(Integer.parseInt(request.getParameter("petId")));
-
-        String staffId = request.getParameter("staffId");
-        if (staffId == null || staffId.isEmpty())
-            app.setStaffId(0);
-        else
-            app.setStaffId(Integer.parseInt(staffId));
-
-        app.setAppStatus(request.getParameter("appStatus"));
-        app.setAppEligibility(request.getParameter("appEligibility"));
-
-        app.setHasOwnedPet(request.getParameter("hasOwnedPet"));
-        app.setCaretakerInfo(request.getParameter("caretakerInfo"));
-        app.setPetEnvironment(request.getParameter("petEnvironment"));
-        app.setMedicalReady(request.getParameter("medicalReady"));
-        app.setAdoptionReason(request.getParameter("adoptionReason"));
-
-        dao.updateApplication(app);
-        response.sendRedirect("ApplicationController?action=list");
-    }
-
-    // ===== UPDATE STATUS ONLY =====
+    // Update status
     private void updateStatus(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
 
@@ -155,15 +142,15 @@ public class ApplicationController extends HttpServlet {
         String eligibility = request.getParameter("eligibility");
 
         dao.updateStatus(appId, status, eligibility);
-        response.sendRedirect("ApplicationController?action=list");
+        response.sendRedirect("ApplicationController?action=dashboardA");
     }
 
-    // ===== DELETE =====
+    // Delete
     private void deleteApplication(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
 
         int appId = Integer.parseInt(request.getParameter("appId"));
         dao.deleteApplication(appId);
-        response.sendRedirect("ApplicationController?action=list");
+        response.sendRedirect("ApplicationController?action=dashboardA");
     }
 }

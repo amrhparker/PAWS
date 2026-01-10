@@ -12,7 +12,7 @@ public class LoginDao {
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(
-                     "SELECT * FROM ADOPTER WHERE username=? AND password=?")) {
+                     "SELECT * FROM ADOPTER WHERE adopt_username=? AND adopt_password=?")) {
 
             ps.setString(1, username);
             ps.setString(2, password);

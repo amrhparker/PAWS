@@ -148,7 +148,7 @@
         </div>
         <div class="content-wrapper">
             <div id="heading">Adopter Log In</div>
-            <form method="post" action="AdopterController">
+            <form method="post" action="LoginServlet">
                 <input type="hidden" name="action" value="login">
                 <div class="form-box">
                     <label>Username</label>
