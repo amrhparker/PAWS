@@ -115,26 +115,45 @@ public class ApplicationController extends HttpServlet {
     }
 
     // Insert application
-    private void insertApplication(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+private void insertApplication(HttpServletRequest request, HttpServletResponse response)
+        throws SQLException, IOException {
 
-        ApplicationBean app = new ApplicationBean();
+    int adoptId = Integer.parseInt(request.getParameter("adoptId"));
+    int petId = Integer.parseInt(request.getParameter("petId"));
 
-        app.setAdoptId(Integer.parseInt(request.getParameter("adoptId")));
-        app.setPetId(Integer.parseInt(request.getParameter("petId")));
+    // 1️⃣ Insert application
+    ApplicationBean app = new ApplicationBean();
+    app.setAdoptId(adoptId);
+    app.setPetId(petId);
+    app.setAppStatus("Pending");
+    app.setAppEligibility("Pending");
+    app.setHasOwnedPet(request.getParameter("hasOwnedPet"));
+    app.setCaretakerInfo(request.getParameter("caretakerInfo"));
+    app.setPetEnvironment(request.getParameter("petEnvironment"));
+    app.setMedicalReady(request.getParameter("medicalReady"));
+    app.setAdoptionReason(request.getParameter("adoptionReason"));
 
-        app.setAppStatus("Pending");
-        app.setAppEligibility("Pending");
+    dao.insertApplication(app);
 
-        app.setHasOwnedPet(request.getParameter("hasOwnedPet"));
-        app.setCaretakerInfo(request.getParameter("caretakerInfo"));
-        app.setPetEnvironment(request.getParameter("petEnvironment"));
-        app.setMedicalReady(request.getParameter("medicalReady"));
-        app.setAdoptionReason(request.getParameter("adoptionReason"));
+    // 2️⃣ Update Adopter table with new details
+    AdopterBean updatedAdopter = new AdopterBean();
+    updatedAdopter.setAdoptId(adoptId);
+    updatedAdopter.setAdoptFName(request.getParameter("adoptFName"));
+    updatedAdopter.setAdoptLName(request.getParameter("adoptLName"));
+    updatedAdopter.setAdoptIC(request.getParameter("adoptIC"));
+    updatedAdopter.setAdoptPhoneNum(request.getParameter("adoptPhoneNum"));
+    updatedAdopter.setAdoptAddress(request.getParameter("adoptAddress"));
+    updatedAdopter.setAdoptOccupation(request.getParameter("adoptOccupation"));
+    updatedAdopter.setAdoptIncome(Double.parseDouble(request.getParameter("adoptIncome")));
 
-        dao.insertApplication(app);
-        response.sendRedirect("ApplicationController?action=dashboardA");
-    }
+    adopterDao.updateAdopter(updatedAdopter);
+
+    // 3️⃣ Refresh session
+    HttpSession session = request.getSession();
+    session.setAttribute("adopter", adopterDao.getAdopterById(adoptId));
+
+    response.sendRedirect("ApplicationController?action=dashboardA");
+}
 
     // Update status
     private void updateStatus(HttpServletRequest request, HttpServletResponse response)

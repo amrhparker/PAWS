@@ -27,10 +27,7 @@ public class LoginServlet extends HttpServlet {
             AdopterBean adopter = dao.getAdopter(username, password);
 
             if (adopter != null) {
-                // Save adopter as "adopter" so ApplicationForm.jsp can access it
                 session.setAttribute("adopter", adopter);
-                // Also save adoptId separately if needed
-                session.setAttribute("adoptId", adopter.getAdoptId());
                 response.sendRedirect("DashboardA.jsp");
             } else {
                 response.sendRedirect("AdopterLogin.jsp?error=invalid");
@@ -41,7 +38,7 @@ public class LoginServlet extends HttpServlet {
             StaffBean staff = dao.getStaff(username, password);
 
             if (staff != null) {
-                session.setAttribute("staff", staff);
+                session.setAttribute("user", staff);
                 response.sendRedirect("StaffDashboard.jsp");
             } else {
                 response.sendRedirect("LogInStaff.jsp?error=invalid");

@@ -47,79 +47,186 @@ public class RegisterServlet extends HttpServlet {
         String fname = request.getParameter("fname");
         String lname = request.getParameter("lname");
         String ic = request.getParameter("ic");
-        String phoneStr = request.getParameter("phone");
+        String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String address = request.getParameter("address");
+        String occupation = request.getParameter("occupation");
+        String incomeStr = request.getParameter("income");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        // Basic validation - check for null/empty values
-        if (isEmpty(fname) || isEmpty(lname) || isEmpty(ic) || isEmpty(phoneStr)
-                || isEmpty(email) || isEmpty(address) || isEmpty(username) || isEmpty(password)) {
+        // Trim inputs
+        if (fname != null) {
+            fname = fname.trim();
+        }
+        if (lname != null) {
+            lname = lname.trim();
+        }
+        if (ic != null) {
+            ic = ic.trim();
+        }
+        if (phone != null) {
+            phone = phone.trim();
+        }
+        if (email != null) {
+            email = email.trim();
+        }
+        if (address != null) {
+            address = address.trim();
+        }
+        if (occupation != null) {
+            occupation = occupation.trim();
+        }
+        if (incomeStr != null) {
+            incomeStr = incomeStr.trim();
+        }
+        if (username != null) {
+            username = username.trim();
+        }
+        if (password != null) {
+            password = password.trim();
+        }
 
-            setErrorAndForward(request, response, "All fields are required",
-                    fname, lname, ic, phoneStr, email, address, username);
+        // Basic validation
+        if (fname == null || fname.isEmpty()
+                || lname == null || lname.isEmpty()
+                || ic == null || ic.isEmpty()
+                || phone == null || phone.isEmpty()
+                || email == null || email.isEmpty()
+                || address == null || address.isEmpty()
+                || username == null || username.isEmpty()
+                || password == null || password.isEmpty()) {
+
+            request.setAttribute("errorMessage", "All required fields are required");
+            // Set form values to preserve input
+            request.setAttribute("fname", fname != null ? fname : "");
+            request.setAttribute("lname", lname != null ? lname : "");
+            request.setAttribute("ic", ic != null ? ic : "");
+            request.setAttribute("phone", phone != null ? phone : "");
+            request.setAttribute("email", email != null ? email : "");
+            request.setAttribute("address", address != null ? address : "");
+            request.setAttribute("occupation", occupation != null ? occupation : "");
+            request.setAttribute("income", incomeStr != null ? incomeStr : "");
+            request.setAttribute("username", username != null ? username : "");
+
+            request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
             return;
         }
 
-        // Trim all inputs
-        fname = fname.trim();
-        lname = lname.trim();
-        ic = ic.trim();
-        phoneStr = phoneStr.trim();
-        email = email.trim();
-        address = address.trim();
-        username = username.trim();
-        password = password.trim();
-
         try {
-            // Validate phone number format
-            if (!registerDao.isValidPhoneNumber(phoneStr)) {
-                setErrorAndForward(request, response, "Invalid phone number. Must be 10 digits.",
-                        fname, lname, ic, "", email, address, username);
+            // Phone validation
+            if (!phone.matches("\\d{8,15}")) {
+                request.setAttribute("errorMessage", "Phone number should be 8-15 digits");
+                request.setAttribute("fname", fname);
+                request.setAttribute("lname", lname);
+                request.setAttribute("ic", ic);
+                request.setAttribute("phone", "");
+                request.setAttribute("email", email);
+                request.setAttribute("address", address);
+                request.setAttribute("occupation", occupation);
+                request.setAttribute("income", incomeStr);
+                request.setAttribute("username", username);
+                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
                 return;
             }
 
-            // Parse phone number
-            int phone;
-            try {
-                phone = Integer.parseInt(phoneStr);
-                if (phone <= 0) {
-                    setErrorAndForward(request, response, "Invalid phone number",
-                            fname, lname, ic, "", email, address, username);
+            // Parse income
+            java.math.BigDecimal income = null;
+            if (incomeStr != null && !incomeStr.isEmpty()) {
+                try {
+                    income = new java.math.BigDecimal(incomeStr);
+                    if (income.compareTo(java.math.BigDecimal.ZERO) < 0) {
+                        request.setAttribute("errorMessage", "Income cannot be negative");
+                        request.setAttribute("fname", fname);
+                        request.setAttribute("lname", lname);
+                        request.setAttribute("ic", ic);
+                        request.setAttribute("phone", phone);
+                        request.setAttribute("email", email);
+                        request.setAttribute("address", address);
+                        request.setAttribute("occupation", occupation);
+                        request.setAttribute("income", "");
+                        request.setAttribute("username", username);
+                        request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    request.setAttribute("errorMessage", "Invalid income format. Please enter a valid number.");
+                    request.setAttribute("fname", fname);
+                    request.setAttribute("lname", lname);
+                    request.setAttribute("ic", ic);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("email", email);
+                    request.setAttribute("address", address);
+                    request.setAttribute("occupation", occupation);
+                    request.setAttribute("income", "");
+                    request.setAttribute("username", username);
+                    request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
                     return;
                 }
-            } catch (NumberFormatException e) {
-                setErrorAndForward(request, response, "Invalid phone number format. Please enter digits only.",
-                        fname, lname, ic, "", email, address, username);
-                return;
             }
 
             // Check for duplicate IC
             if (registerDao.checkICExists(ic)) {
-                setErrorAndForward(request, response, "IC number already registered.",
-                        fname, lname, "", phoneStr, email, address, username);
+                request.setAttribute("errorMessage", "IC number already registered.");
+                request.setAttribute("fname", fname);
+                request.setAttribute("lname", lname);
+                request.setAttribute("ic", "");
+                request.setAttribute("phone", phone);
+                request.setAttribute("email", email);
+                request.setAttribute("address", address);
+                request.setAttribute("occupation", occupation);
+                request.setAttribute("income", incomeStr);
+                request.setAttribute("username", username);
+                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
                 return;
             }
 
             // Check for duplicate username
             if (registerDao.checkUsernameExists(username)) {
-                setErrorAndForward(request, response, "Username already exists. Please choose another.",
-                        fname, lname, ic, phoneStr, email, address, "");
+                request.setAttribute("errorMessage", "Username already exists. Please choose another.");
+                request.setAttribute("fname", fname);
+                request.setAttribute("lname", lname);
+                request.setAttribute("ic", ic);
+                request.setAttribute("phone", phone);
+                request.setAttribute("email", email);
+                request.setAttribute("address", address);
+                request.setAttribute("occupation", occupation);
+                request.setAttribute("income", incomeStr);
+                request.setAttribute("username", "");
+                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
                 return;
             }
 
-            // Validate email format (basic validation)
-            if (!isValidEmail(email)) {
-                setErrorAndForward(request, response, "Invalid email format.",
-                        fname, lname, ic, phoneStr, "", address, username);
+            // Validate email
+            String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+            if (!email.matches(emailRegex)) {
+                request.setAttribute("errorMessage", "Invalid email format.");
+                request.setAttribute("fname", fname);
+                request.setAttribute("lname", lname);
+                request.setAttribute("ic", ic);
+                request.setAttribute("phone", phone);
+                request.setAttribute("email", "");
+                request.setAttribute("address", address);
+                request.setAttribute("occupation", occupation);
+                request.setAttribute("income", incomeStr);
+                request.setAttribute("username", username);
+                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
                 return;
             }
 
-            // Validate password strength (minimum 6 characters)
+            // Validate password
             if (password.length() < 6) {
-                setErrorAndForward(request, response, "Password must be at least 6 characters long.",
-                        fname, lname, ic, phoneStr, email, address, username);
+                request.setAttribute("errorMessage", "Password must be at least 6 characters long.");
+                request.setAttribute("fname", fname);
+                request.setAttribute("lname", lname);
+                request.setAttribute("ic", ic);
+                request.setAttribute("phone", phone);
+                request.setAttribute("email", email);
+                request.setAttribute("address", address);
+                request.setAttribute("occupation", occupation);
+                request.setAttribute("income", incomeStr);
+                request.setAttribute("username", username);
+                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
                 return;
             }
 
@@ -131,28 +238,46 @@ public class RegisterServlet extends HttpServlet {
             newAdopter.setAdoptPhoneNum(phone);
             newAdopter.setAdoptEmail(email);
             newAdopter.setAdoptAddress(address);
+            newAdopter.setAdoptOccupation(occupation);
+            newAdopter.setAdoptIncome(income);
             newAdopter.setAdoptUsername(username);
-            newAdopter.setAdoptPassword(password); // Note: Consider hashing the password for security
+            newAdopter.setAdoptPassword(password);
 
             // Register adopter
             boolean success = registerDao.registerAdopter(newAdopter);
             if (success) {
-                // Registration successful
                 request.setAttribute("successMessage", "Registration successful! You can now login.");
                 request.getRequestDispatcher("AdopterLogin.jsp").forward(request, response);
-                // Alternative: response.sendRedirect("AdopterLogin.jsp?success=Registration successful! Please login.");
             } else {
-                setErrorAndForward(request, response, "Registration failed. Please try again.",
-                        fname, lname, ic, phoneStr, email, address, username);
+                request.setAttribute("errorMessage", "Registration failed. Please try again.");
+                request.setAttribute("fname", fname);
+                request.setAttribute("lname", lname);
+                request.setAttribute("ic", ic);
+                request.setAttribute("phone", phone);
+                request.setAttribute("email", email);
+                request.setAttribute("address", address);
+                request.setAttribute("occupation", occupation);
+                request.setAttribute("income", incomeStr);
+                request.setAttribute("username", username);
+                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            setErrorAndForward(request, response, "System error: Please try again later.",
-                    fname, lname, ic, phoneStr, email, address, username);
+            request.setAttribute("errorMessage", "System error: Please try again later.");
+            request.setAttribute("fname", fname);
+            request.setAttribute("lname", lname);
+            request.setAttribute("ic", ic);
+            request.setAttribute("phone", phone);
+            request.setAttribute("email", email);
+            request.setAttribute("address", address);
+            request.setAttribute("occupation", occupation);
+            request.setAttribute("income", incomeStr);
+            request.setAttribute("username", username);
+            request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
         }
     }
-
+    
     // Helper method to check if string is null or empty
     private boolean isEmpty(String str) {
         return str == null || str.trim().isEmpty();
@@ -164,32 +289,7 @@ public class RegisterServlet extends HttpServlet {
         return email != null && email.matches(emailRegex);
     }
 
-    // Helper method to set error and forward to registration page
-    private void setErrorAndForward(HttpServletRequest request, HttpServletResponse response,
-            String errorMessage, String fname, String lname,
-            String ic, String phone, String email,
-            String address, String username)
-            throws ServletException, IOException {
-
-        request.setAttribute("errorMessage", errorMessage);
-        setFormAttributes(request, fname, lname, ic, phone, email, address, username);
-        request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-    }
-
-    // Helper method to set form attributes
-    private void setFormAttributes(HttpServletRequest request,
-            String fname, String lname, String ic,
-            String phone, String email, String address,
-            String username) {
-        request.setAttribute("fname", fname != null ? fname : "");
-        request.setAttribute("lname", lname != null ? lname : "");
-        request.setAttribute("ic", ic != null ? ic : "");
-        request.setAttribute("phone", phone != null ? phone : "");
-        request.setAttribute("email", email != null ? email : "");
-        request.setAttribute("address", address != null ? address : "");
-        request.setAttribute("username", username != null ? username : "");
-    }
-
+    
     // Optional: Method to handle AJAX validation requests
 /*    @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)

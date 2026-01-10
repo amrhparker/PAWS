@@ -1,28 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.AdopterBean" %>
 <%
-    // Get petId from URL parameter if available
     String petIdParam = request.getParameter("petId");
     int petId = 0;
     if (petIdParam != null && !petIdParam.isEmpty()) {
-        try {
-            petId = Integer.parseInt(petIdParam);
-        } catch (NumberFormatException e) {
-            petId = 0;
-        }
+        try { petId = Integer.parseInt(petIdParam); } catch (NumberFormatException e) { petId = 0; }
     }
 
-    // Get logged-in adopter from session
-    AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
+    // ⚡ Get adopter from request attribute (from controller)
+    AdopterBean adopter = (AdopterBean) request.getAttribute("adopter");
 
     int adoptId = 0;
-    String fName = "";
-    String lName = "";
-    String phone = "";
-    String ic = "";
-    String address = "";
-    String occupation = "";
-    String income = "";
+    String fName = "", lName = "", phone = "", ic = "", address = "", occupation = "", income = "";
 
     if (adopter != null) {
         adoptId = adopter.getAdoptId();
@@ -174,3 +163,7 @@
 
 </body>
 </html>
+
+
+
+
