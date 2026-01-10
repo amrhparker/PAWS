@@ -7,13 +7,12 @@ import util.DBConnection;
 
 public class LoginDao {
 
-    // Check ADOPTER table
     public AdopterBean getAdopter(String username, String password) {
         AdopterBean adopter = null;
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(
-                     "SELECT * FROM ADOPTER WHERE username=? AND password=?")) {
+                     "SELECT * FROM ADOPTER WHERE adopt_username=? AND adopt_password=?")) {
 
             ps.setString(1, username);
             ps.setString(2, password);
@@ -35,7 +34,6 @@ public class LoginDao {
         return adopter; 
     }
 
-    // Check STAFF table
     public StaffBean getStaff(String username, String password) {
         StaffBean staff = null;
 

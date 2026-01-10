@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model;
-/**
- *
- * @author amira
- */
+
 public class StaffBean {
     private int staffId;
     private String staffFname;
@@ -57,7 +50,7 @@ public class StaffBean {
     public void setStaffUsername(String username){
         this.staffUsername = username;
     }
-    public void setStaffPassword(String pho){
-        this.staffPassword  = pho;
+    public void setStaffPassword(String password){
+        this.staffPassword  = password;
     }
 }

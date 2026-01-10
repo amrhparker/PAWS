@@ -66,7 +66,7 @@ public class StaffDao {
                 staff.setStaffEmail(rs.getString("staffemail"));
                 staff.setStaffPhoneNum(rs.getInt("staffphonenum"));
                 staff.setStaffUsername(rs.getString("staffusername"));
-                staff.setStaffPho(rs.getString("staffPassword"));
+                staff.setStaffPassword(rs.getString("staffpassword"));
             }
 
         } catch (SQLException e) {
@@ -110,7 +110,7 @@ public class StaffDao {
                 staff.setStaffEmail(rs.getString("staffemail"));
                 staff.setStaffPhoneNum(rs.getInt("staffphonenum"));
                 staff.setStaffUsername(rs.getString("staffusername"));
-                staff.setStaffPho(rs.getString("staffPassword"));
+                staff.setStaffPassword(rs.getString("staffpassword"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,7 +152,7 @@ public class StaffDao {
                 staff.setStaffEmail(rs.getString("staffemail"));
                 staff.setStaffPhoneNum(rs.getInt("staffphonenum"));
                 staff.setStaffUsername(rs.getString("staffusername"));
-                staff.setStaffPho(rs.getString("staffPassword"));
+                staff.setStaffPassword(rs.getString("staffpassword"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -187,7 +187,7 @@ public class StaffDao {
             st.setString(3, staff.getStaffEmail());
             st.setInt(4, staff.getStaffPhoneNum());
             st.setString(5, staff.getStaffUsername());
-            st.setString(6, staff.getStaffPho());
+            st.setString(6, staff.getStaffPassword());
 
             int rows = st.executeUpdate();
             return rows > 0;
@@ -222,7 +222,7 @@ public class StaffDao {
             st.setString(3, staff.getStaffEmail());
             st.setInt(4, staff.getStaffPhoneNum());
             st.setString(5, staff.getStaffUsername());
-            st.setString(6, staff.getStaffPho());
+            st.setString(6, staff.getStaffPassword());
             st.setInt(7, staff.getStaffId());
 
             int rows = st.executeUpdate();
