@@ -140,7 +140,7 @@ public class AdopterDao {
         adopter.setAdoptEmail(rs.getString("ADOPT_EMAIL"));
         adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
         adopter.setAdoptOccupation(rs.getString("ADOPT_OCCUPATION"));
-        adopter.setAdoptIncome(rs.getBigDecimal("ADOPT_INCOME"));
+        adopter.setAdoptIncome(rs.getDouble("ADOPT_INCOME"));
         adopter.setAdoptUsername(rs.getString("ADOPT_USERNAME"));
         adopter.setAdoptPassword(rs.getString("ADOPT_PASSWORD"));
         return adopter;
