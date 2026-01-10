@@ -136,7 +136,7 @@
     </div>
 
     <div class="navbar-right">
-        <a href="Logout.html" class="logout">Log Out</a>
+        <a href="LogoutServlet" class="logout">Log Out</a>
     </div>
 </div>
 

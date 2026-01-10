@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
+import java.sql.Date;
 
 @WebServlet("/ReportController")
 public class ReportController extends HttpServlet {
@@ -50,7 +51,7 @@ public class ReportController extends HttpServlet {
         if ("add".equals(action)) {
             insertReport(request, response);
         } else {
-            response.sendRedirect("ReportController?action=list");
+            response.sendRedirect("ManageReports.jsp");
         }
     }
 
@@ -61,20 +62,44 @@ public class ReportController extends HttpServlet {
             throws IOException {
 
         ReportBean report = new ReportBean();
-
         report.setRecordId(Integer.parseInt(request.getParameter("recordId")));
         report.setStaffId(Integer.parseInt(request.getParameter("staffId")));
         report.setReportType(request.getParameter("reportType"));
 
         dao.insertReport(report);
-        response.sendRedirect("ReportController?action=list");
+        response.sendRedirect("ManageReports.jsp");
     }
 
-    // READ ALL
+    // READ ALL + FILTER
     private void listReports(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        List<ReportBean> reports = dao.getAllReports();
+        String recordIdParam = request.getParameter("recordId");
+        String reportDateParam = request.getParameter("reportDate");
+
+        List<ReportBean> reports;
+
+        if ((recordIdParam != null && !recordIdParam.isEmpty()) ||
+            (reportDateParam != null && !reportDateParam.isEmpty())) {
+
+            Integer recordId = null;
+            Date reportDate = null;
+
+            if (recordIdParam != null && !recordIdParam.isEmpty()) {
+                recordId = Integer.parseInt(recordIdParam);
+            }
+
+            if (reportDateParam != null && !reportDateParam.isEmpty()) {
+                reportDate = Date.valueOf(reportDateParam);
+            }
+
+            reports = dao.filterReports(recordId, reportDate);
+
+        } else {
+            reports = dao.getAllReports();
+        }
+
+        // EVEN IF EMPTY → SET ATTRIBUTE
         request.setAttribute("reports", reports);
         request.getRequestDispatcher("ManageReports.jsp").forward(request, response);
     }
@@ -97,7 +122,7 @@ public class ReportController extends HttpServlet {
         int reportId = Integer.parseInt(request.getParameter("reportId"));
         dao.deleteReport(reportId);
 
-        // balik ke flow JSP-first
+        // balik ke JSP-first flow
         response.sendRedirect("ManageReports.jsp");
     }
 }
