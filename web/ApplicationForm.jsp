@@ -105,10 +105,10 @@
                 <h2>Personal Details *</h2>
 
                 <label>First Name *</label>
-                <input type="text" name="adoptFName" value="<%= fName %>" required>
+                <input type="text" name="adoptFName" value="${adopter.adoptFName}" readonly>
 
                 <label>Last Name *</label>
-                <input type="text" name="adoptLName" value="<%= lName %>" required>
+                <input type="text" name="adoptLName" value="${adopter.adoptLName}" readonly />
 
                 <label>Phone Number *</label>
                 <input type="tel" name="adoptPhoneNum" value="<%= phone %>" required>
@@ -120,10 +120,10 @@
                 <textarea name="adoptAddress" required><%= address %></textarea>
 
                 <label>Occupation *</label>
-                <input type="text" name="adoptOccupation" value="<%= occupation %>" required>
+                <input type="text" name="adoptOccupation" value="${adopter.adoptOccupation != null ? adopter.adoptOccupation : ''}" />
 
                 <label>Income (RM) *</label>
-                <input type="number" step="0.01" name="adoptIncome" value="<%= income %>" required>
+                <input type="number" step="0.01" name="adoptIncome" value="${adopter.adoptIncome != null ? adopter.adoptIncome : ''}" />
             </div>
 
             <!-- ELIGIBILITY -->

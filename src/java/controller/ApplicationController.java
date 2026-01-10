@@ -120,7 +120,7 @@ public class ApplicationController extends HttpServlet {
     }
 
     // =========================
-    // SHOW APPLICATION FORM
+    // SHOW APPLICATION FORM (FIXED PREFILL)
     // =========================
     private void showApplicationForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
@@ -131,12 +131,23 @@ public class ApplicationController extends HttpServlet {
             return;
         }
 
+        // 1️⃣ Get adopter from session
         AdopterBean sessionAdopter = (AdopterBean) session.getAttribute("adopter");
+
+        // 2️⃣ Fetch full adopter info from DB (ensures prefill)
+        AdopterBean fullAdopter = adopterDao.getAdopterById(sessionAdopter.getAdoptId());
+
+        // 3️⃣ Update session with full info
+        session.setAttribute("adopter", fullAdopter);
+
+        // 4️⃣ Get petId from request
         int petId = Integer.parseInt(request.getParameter("petId"));
 
-        request.setAttribute("adopter", sessionAdopter);
+        // 5️⃣ Set attributes for JSP
+        request.setAttribute("adopter", fullAdopter);
         request.setAttribute("petId", petId);
 
+        // 6️⃣ Forward to form
         request.getRequestDispatcher("ApplicationForm.jsp").forward(request, response);
     }
 
