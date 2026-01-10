@@ -179,9 +179,31 @@ public class AdopterDao {
         adopter.setAdoptEmail(rs.getString("ADOPT_EMAIL"));
         adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
         adopter.setAdoptOccupation(rs.getString("ADOPT_OCCUPATION"));
-        adopter.setAdoptIncome(rs.getDouble("ADOPT_INCOME"));  // Changed from getDouble to getBigDecimal
+        adopter.setAdoptIncome(rs.getDouble("ADOPT_INCOME"));  
         adopter.setAdoptUsername(rs.getString("ADOPT_USERNAME"));
         adopter.setAdoptPassword(rs.getString("ADOPT_PASSWORD"));
         return adopter;
     }
+    
+    public boolean updateAdopterApplicationInfo(AdopterBean adopter) {
+    boolean success = false;
+
+    String sql = "UPDATE ADOPTER SET ADOPT_OCCUPATION=?, ADOPT_INCOME=? WHERE ADOPT_ID=?";
+
+    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, adopter.getAdoptOccupation());
+        ps.setDouble(2, adopter.getAdoptIncome());
+        ps.setInt(3, adopter.getAdoptId());
+
+        success = ps.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return success;
+}
+
 }

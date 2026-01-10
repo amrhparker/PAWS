@@ -7,7 +7,11 @@ import model.AdopterBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -15,15 +19,18 @@ import java.util.List;
 @WebServlet("/ApplicationController")
 public class ApplicationController extends HttpServlet {
 
-    private ApplicationDao dao;
+    private ApplicationDao applicationDao;
     private AdopterDao adopterDao;
 
     @Override
     public void init() {
-        dao = new ApplicationDao();
+        applicationDao = new ApplicationDao();
         adopterDao = new AdopterDao();
     }
 
+    // =========================
+    // GET REQUESTS
+    // =========================
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -34,15 +41,15 @@ public class ApplicationController extends HttpServlet {
             if (action == null || action.equals("dashboardA")) {
                 showAdopterDashboard(request, response);
 
+            } else if (action.equals("form")) {
+                showApplicationForm(request, response);
+
             } else if (action.equals("view")) {
                 viewApplication(request, response);
 
             } else if (action.equals("delete")) {
                 deleteApplication(request, response);
 
-            } else if (action.equals("form")) {
-                showApplicationForm(request, response);
-                
             } else if (action.equals("manage")) {
                 manageApplications(request, response);
 
@@ -55,6 +62,9 @@ public class ApplicationController extends HttpServlet {
         }
     }
 
+    // =========================
+    // POST REQUESTS
+    // =========================
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -74,12 +84,13 @@ public class ApplicationController extends HttpServlet {
         }
     }
 
-    // Dashboard
+    // =========================
+    // DASHBOARD (ADOPTER)
+    // =========================
     private void showAdopterDashboard(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-
         if (session == null || session.getAttribute("adopter") == null) {
             response.sendRedirect("AdopterLogin.jsp");
             return;
@@ -88,109 +99,106 @@ public class ApplicationController extends HttpServlet {
         AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
         int adoptId = adopter.getAdoptId();
 
-        List<ApplicationBean> apps = dao.getApplicationsByAdopter(adoptId);
+        List<ApplicationBean> applications =
+                applicationDao.getApplicationsByAdopter(adoptId);
 
-        request.setAttribute("applications", apps);
+        request.setAttribute("applications", applications);
         request.getRequestDispatcher("DashboardA.jsp").forward(request, response);
-
     }
 
-    // View application
+    // =========================
+    // VIEW SUBMITTED APPLICATION
+    // =========================
     private void viewApplication(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
 
         int appId = Integer.parseInt(request.getParameter("appId"));
-        ApplicationBean app = dao.getApplicationById(appId);
+        ApplicationBean application = applicationDao.getApplicationById(appId);
 
-        request.setAttribute("application", app);
+        request.setAttribute("application", application);
         request.getRequestDispatcher("SubmittedApplication.jsp").forward(request, response);
     }
 
-    // Show application form (pre-fill adopter info)
-// Show application form (pre-fill adopter info safely)
-private void showApplicationForm(HttpServletRequest request, HttpServletResponse response)
-        throws SQLException, ServletException, IOException {
+    // =========================
+    // SHOW APPLICATION FORM
+    // =========================
+    private void showApplicationForm(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
 
-    HttpSession session = request.getSession(false);
-    if (session == null || session.getAttribute("adopter") == null) {
-        response.sendRedirect("AdopterLogin.jsp");
-        return;
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("adopter") == null) {
+            response.sendRedirect("AdopterLogin.jsp");
+            return;
+        }
+
+        AdopterBean sessionAdopter = (AdopterBean) session.getAttribute("adopter");
+        int petId = Integer.parseInt(request.getParameter("petId"));
+
+        request.setAttribute("adopter", sessionAdopter);
+        request.setAttribute("petId", petId);
+
+        request.getRequestDispatcher("ApplicationForm.jsp").forward(request, response);
     }
 
-    // Use session adopter (already has all fields)
-    AdopterBean sessionAdopter = (AdopterBean) session.getAttribute("adopter");
+    // =========================
+    // INSERT APPLICATION
+    // =========================
+    private void insertApplication(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException {
 
-    int petId = Integer.parseInt(request.getParameter("petId"));
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("adopter") == null) {
+            response.sendRedirect("AdopterLogin.jsp");
+            return;
+        }
 
-    request.setAttribute("adopter", sessionAdopter); // safe
-    request.setAttribute("petId", petId);
+        // 1️⃣ Get adopter from session (FULL data)
+        AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
 
-    request.getRequestDispatcher("ApplicationForm.jsp").forward(request, response);
-}
+        int petId = Integer.parseInt(request.getParameter("petId"));
 
-    // Insert application
-// Insert application (safe, won't overwrite email/username/password)
-private void insertApplication(HttpServletRequest request, HttpServletResponse response)
-        throws SQLException, IOException {
+        // 2️⃣ Build application bean
+        ApplicationBean application = new ApplicationBean();
+        application.setAdopter(adopter);
+        application.setPetId(petId);
+        application.setAppStatus("Pending");
+        application.setAppEligibility("Pending");
+        application.setHasOwnedPet(request.getParameter("hasOwnedPet"));
+        application.setCaretakerInfo(request.getParameter("caretakerInfo"));
+        application.setPetEnvironment(request.getParameter("petEnvironment"));
+        application.setMedicalReady(request.getParameter("medicalReady"));
+        application.setAdoptionReason(request.getParameter("adoptionReason"));
 
-    HttpSession session = request.getSession(false);
-    if (session == null || session.getAttribute("adopter") == null) {
-        response.sendRedirect("AdopterLogin.jsp");
-        return;
+        // 3️⃣ Insert application (ALWAYS new record)
+        applicationDao.insertApplication(application);
+
+        // 4️⃣ Update adopter editable fields (FIRST application or later)
+        String occupation = request.getParameter("adoptOccupation");
+        String incomeStr = request.getParameter("adoptIncome");
+
+        if (occupation != null && !occupation.isEmpty()) {
+            adopter.setAdoptOccupation(occupation);
+        }
+
+        if (incomeStr != null && !incomeStr.isEmpty()) {
+            adopter.setAdoptIncome(Double.parseDouble(incomeStr));
+        }
+
+        adopterDao.updateAdopterApplicationInfo(adopter);
+
+        // 5️⃣ Refresh adopter session
+        AdopterBean refreshedAdopter =
+                adopterDao.getAdopterById(adopter.getAdoptId());
+
+        session.setAttribute("adopter", refreshedAdopter);
+
+        // 6️⃣ Redirect
+        response.sendRedirect("ApplicationController?action=dashboardA");
     }
 
-    // 1️⃣ Get the session adopter (full info including email/username/password)
-    AdopterBean sessionAdopter = (AdopterBean) session.getAttribute("adopter");
-
-    int petId = Integer.parseInt(request.getParameter("petId"));
-
-    // 2️⃣ Create application bean
-    ApplicationBean app = new ApplicationBean();
-    app.setAdopter(sessionAdopter);  // Keep all adopter fields intact
-    app.setPetId(petId);
-    app.setAppStatus("Pending");
-    app.setAppEligibility("Pending");
-    app.setHasOwnedPet(request.getParameter("hasOwnedPet"));
-    app.setCaretakerInfo(request.getParameter("caretakerInfo"));
-    app.setPetEnvironment(request.getParameter("petEnvironment"));
-    app.setMedicalReady(request.getParameter("medicalReady"));
-    app.setAdoptionReason(request.getParameter("adoptionReason"));
-
-    // 3️⃣ Insert into DB
-    dao.insertApplication(app);
-
-    // 4️⃣ Optional: update any editable adopter fields from form (if you allow editing)
-    //    Only update fields present in the form; leave email/username/password untouched
-    boolean adopterUpdated = false;
-    if (request.getParameter("adoptPhoneNum") != null) {
-        sessionAdopter.setAdoptPhoneNum(request.getParameter("adoptPhoneNum"));
-        adopterUpdated = true;
-    }
-    if (request.getParameter("adoptAddress") != null) {
-        sessionAdopter.setAdoptAddress(request.getParameter("adoptAddress"));
-        adopterUpdated = true;
-    }
-    if (request.getParameter("adoptOccupation") != null) {
-        sessionAdopter.setAdoptOccupation(request.getParameter("adoptOccupation"));
-        adopterUpdated = true;
-    }
-    if (request.getParameter("adoptIncome") != null) {
-        sessionAdopter.setAdoptIncome(Double.parseDouble(request.getParameter("adoptIncome")));
-        adopterUpdated = true;
-    }
-
-    if (adopterUpdated) {
-        adopterDao.updateAdopter(sessionAdopter); // only updates editable fields
-    }
-
-    // 5️⃣ Refresh session with latest adopter info
-    session.setAttribute("adopter", adopterDao.getAdopterById(sessionAdopter.getAdoptId()));
-
-    // 6️⃣ Redirect to dashboard
-    response.sendRedirect("ApplicationController?action=dashboardA");
-}
-
-    // Update status
+    // =========================
+    // UPDATE STATUS (STAFF)
+    // =========================
     private void updateStatus(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
 
@@ -198,27 +206,31 @@ private void insertApplication(HttpServletRequest request, HttpServletResponse r
         String status = request.getParameter("status");
         String eligibility = request.getParameter("eligibility");
 
-        dao.updateStatus(appId, status, eligibility);
+        applicationDao.updateStatus(appId, status, eligibility);
         response.sendRedirect("ApplicationController?action=dashboardA");
     }
 
-    // Delete
+    // =========================
+    // DELETE APPLICATION
+    // =========================
     private void deleteApplication(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
 
         int appId = Integer.parseInt(request.getParameter("appId"));
-        dao.deleteApplication(appId);
+        applicationDao.deleteApplication(appId);
         response.sendRedirect("ApplicationController?action=dashboardA");
     }
-    
-    // Manage Applications
+
+    // =========================
+    // MANAGE APPLICATIONS (STAFF)
+    // =========================
     private void manageApplications(HttpServletRequest request, HttpServletResponse response)
-        throws SQLException, ServletException, IOException {
+            throws SQLException, ServletException, IOException {
 
-    List<ApplicationBean> apps = dao.getAllApplications(); // STAFF VIEW ALL
+        List<ApplicationBean> applications =
+                applicationDao.getAllApplications();
 
-    request.setAttribute("applications", apps);
-    request.getRequestDispatcher("ManageApplications.jsp").forward(request, response);
-}
-
+        request.setAttribute("applications", applications);
+        request.getRequestDispatcher("ManageApplications.jsp").forward(request, response);
+    }
 }
