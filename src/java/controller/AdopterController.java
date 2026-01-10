@@ -327,7 +327,7 @@ public class AdopterController extends HttpServlet {
             temp.setAdoptFName(fname);
             temp.setAdoptLName(lname);
             temp.setAdoptIC(ic);
-            temp.setAdoptPhoneNum(Integer.parseInt(phoneStr));
+            temp.setAdoptPhoneNum(phoneStr);
             temp.setAdoptEmail(email);
             temp.setAdoptAddress(address);
             temp.setAdoptUsername(username);
@@ -411,7 +411,7 @@ public class AdopterController extends HttpServlet {
             adopter.setAdoptFName(fname);
             adopter.setAdoptLName(lname);
             adopter.setAdoptIC(ic);
-            adopter.setAdoptPhoneNum(Integer.parseInt(phoneStr));
+            adopter.setAdoptPhoneNum(phoneStr);
             adopter.setAdoptEmail(email);
             adopter.setAdoptAddress(address);
             adopter.setAdoptUsername(username);

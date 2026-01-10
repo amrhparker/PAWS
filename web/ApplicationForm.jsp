@@ -248,6 +248,10 @@
                 <em>Please fill out all required fields below</em>
             </div>
             <% }%>
+            
+            <%
+                AdopterBean adopter = (AdopterBean) request.getAttribute("adopter");
+            %>
 
             <form action="ApplicationController" method="POST">
                 <input type="hidden" name="action" value="add">
