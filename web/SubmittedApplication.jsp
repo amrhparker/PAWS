@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +75,10 @@
     </div>
 </div>
 
-<!-- ================= CONTENT ================= -->
+<c:if test="${empty application}">
+    <c:redirect url="ApplicationController?action=dashboardA"/>
+</c:if>
+    
 <div class="content-box">
     <h2>Submitted Application Details</h2>
 
@@ -102,12 +106,12 @@
 
         <p>
             <span class="label">Date Submitted:</span>
-            ${application.appDate}
+            <fmt:formatDate value="${application.appDate}" pattern="dd MMM yyyy"/>
         </p>
     </div>
 
     <div class="btn-container">
-        <a href="DashboardA.jsp">
+        <a href="ApplicationController?action=dashboardA">
             <button class="back-btn">Back</button>
         </a>
     </div>

@@ -51,7 +51,7 @@ public class AdopterDao {
             ps.setString(5, adopter.getAdoptEmail());
             ps.setString(6, adopter.getAdoptAddress());
             ps.setString(7, adopter.getAdoptOccupation());  
-            ps.setBigDecimal(8, adopter.getAdoptIncome());
+            ps.setDouble(8, adopter.getAdoptIncome());
             ps.setString(9, adopter.getAdoptUsername());
             ps.setString(10, adopter.getAdoptPassword());
 
@@ -75,7 +75,7 @@ public class AdopterDao {
             ps.setString(5, adopter.getAdoptEmail());
             ps.setString(6, adopter.getAdoptAddress());
             ps.setString(7, adopter.getAdoptOccupation());  
-            ps.setBigDecimal(8, adopter.getAdoptIncome());  
+            ps.setDouble(8, adopter.getAdoptIncome());  
             ps.setString(9, adopter.getAdoptUsername());
             ps.setString(10, adopter.getAdoptPassword());
             ps.setInt(11, adopter.getAdoptId());
@@ -102,22 +102,33 @@ public class AdopterDao {
     }
 
     // Get by ID
-    public AdopterBean getAdopterById(int id) {
-        AdopterBean adopter = null;
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-                PreparedStatement ps = conn.prepareStatement(selectAdopterByIdSql)) {
+    public AdopterBean getAdopterById(int adoptId) throws SQLException {
 
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    adopter = mapResultSetToAdopter(rs);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    String sql = "SELECT * FROM ADOPTER WHERE ADOPT_ID=?";
+
+    AdopterBean adopter = null;
+
+    try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setInt(1, adoptId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            adopter = new AdopterBean();
+            adopter.setAdoptId(rs.getInt("ADOPT_ID"));
+            adopter.setAdoptFName(rs.getString("ADOPT_FNAME"));
+            adopter.setAdoptLName(rs.getString("ADOPT_LNAME"));
+            adopter.setAdoptPhoneNum(rs.getString("ADOPT_PHONENUM"));
+            adopter.setAdoptIC(rs.getString("ADOPT_IC"));
+            adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
+            adopter.setAdoptOccupation(rs.getString("ADOPT_OCCUPATION"));
+            adopter.setAdoptIncome(rs.getDouble("ADOPT_INCOME"));
         }
-        return adopter;
     }
+    return adopter;
+}
+
 
     // Validate login
     public AdopterBean validateAdopter(String un, String pw) {
@@ -168,7 +179,7 @@ public class AdopterDao {
         adopter.setAdoptEmail(rs.getString("ADOPT_EMAIL"));
         adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
         adopter.setAdoptOccupation(rs.getString("ADOPT_OCCUPATION"));
-        adopter.setAdoptIncome(rs.getBigDecimal("ADOPT_INCOME"));  // Changed from getDouble to getBigDecimal
+        adopter.setAdoptIncome(rs.getDouble("ADOPT_INCOME"));  // Changed from getDouble to getBigDecimal
         adopter.setAdoptUsername(rs.getString("ADOPT_USERNAME"));
         adopter.setAdoptPassword(rs.getString("ADOPT_PASSWORD"));
         return adopter;

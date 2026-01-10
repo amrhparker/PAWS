@@ -220,23 +220,27 @@ public class AdopterController extends HttpServlet {
             }
             
             // Parse income if provided
-            java.math.BigDecimal income = null;
-            if (incomeStr != null && !incomeStr.trim().isEmpty()) {
-                try {
-                    income = new java.math.BigDecimal(incomeStr);
-                    if (income.compareTo(java.math.BigDecimal.ZERO) < 0) {
-                        request.setAttribute("errorMessage", "Income cannot be negative");
-                        request.setAttribute("adopter", adopter);
-                        request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
-                        return;
-                    }
-                } catch (NumberFormatException e) {
-                    request.setAttribute("errorMessage", "Invalid income format");
-                    request.setAttribute("adopter", adopter);
-                    request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
-                    return;
-                }
-            }
+           double income = 0.0;
+
+if (incomeStr != null && !incomeStr.trim().isEmpty()) {
+    try {
+        income = Double.parseDouble(incomeStr);
+        if (income < 0) {
+            request.setAttribute("errorMessage", "Income cannot be negative");
+            request.setAttribute("adopter", adopter);
+            request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
+            return;
+        }
+    } catch (NumberFormatException e) {
+        request.setAttribute("errorMessage", "Invalid income format");
+        request.setAttribute("adopter", adopter);
+        request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
+        return;
+    }
+}
+
+adopter.setAdoptIncome(income);   // ✅ double → double
+
 
             // UPDATE ALL FIELDS INCLUDING NEW ONES
             adopter.setAdoptFName(fname);

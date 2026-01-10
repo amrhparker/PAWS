@@ -1,34 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.AdopterBean" %>
 <%
-if (request.getAttribute("adopter") == null) {
-    response.sendRedirect("ApplicationController");
-    return;
-}
-%>
-<%
-    String petIdParam = request.getParameter("petId");
+    // Redirect if adopter is missing
+    if (request.getAttribute("adopter") == null) {
+        response.sendRedirect("ApplicationController");
+        return;
+    }
+
+    AdopterBean adopter = (AdopterBean) request.getAttribute("adopter");
+
     int petId = 0;
+    String petIdParam = request.getParameter("petId");
     if (petIdParam != null && !petIdParam.isEmpty()) {
         try { petId = Integer.parseInt(petIdParam); } 
         catch (NumberFormatException e) { petId = 0; }
     }
 
-    AdopterBean adopter = (AdopterBean) request.getAttribute("adopter");
-
-    int adoptId = 0;
-    String fName = "", lName = "", phone = "", ic = "", address = "", occupation = "", income = "";
-
-    if (adopter != null) {
-        adoptId = adopter.getAdoptId();
-        fName = adopter.getAdoptFName() != null ? adopter.getAdoptFName() : "";
-        lName = adopter.getAdoptLName() != null ? adopter.getAdoptLName() : "";
-        phone = adopter.getAdoptPhoneNum() != null ? adopter.getAdoptPhoneNum() : "";
-        ic = adopter.getAdoptIC() != null ? adopter.getAdoptIC() : "";
-        address = adopter.getAdoptAddress() != null ? adopter.getAdoptAddress() : "";
-        occupation = adopter.getAdoptOccupation() != null ? adopter.getAdoptOccupation() : "";
-        income = String.valueOf(adopter.getAdoptIncome()); // ✅ FIXED
-    }
+    // Pre-fill adopter info safely
+    int adoptId = adopter.getAdoptId();
+    String fName = adopter.getAdoptFName() != null ? adopter.getAdoptFName() : "";
+    String lName = adopter.getAdoptLName() != null ? adopter.getAdoptLName() : "";
+    String phone = adopter.getAdoptPhoneNum() != null ? adopter.getAdoptPhoneNum() : "";
+    String ic = adopter.getAdoptIC() != null ? adopter.getAdoptIC() : "";
+    String address = adopter.getAdoptAddress() != null ? adopter.getAdoptAddress() : "";
+    String occupation = adopter.getAdoptOccupation() != null ? adopter.getAdoptOccupation() : "";
+    String income = adopter.getAdoptIncome() != 0 ? String.valueOf(adopter.getAdoptIncome()) : "";
 %>
 
 <!DOCTYPE html>
@@ -37,10 +33,8 @@ if (request.getAttribute("adopter") == null) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Application Form</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+
     <style>
-        /* Add your existing styles here */
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
         .main-content { flex: 1; }
         .navbar { padding: 15px 30px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; align-items: center; }
@@ -63,114 +57,120 @@ if (request.getAttribute("adopter") == null) {
         .submit-btn:hover { background: #45a049; transform: translateY(-3px); }
         .pet-info { background: #f2dfd1; padding: 15px; border-radius: 15px; margin: 20px auto; width: 80%; max-width: 500px; text-align: center; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
 
-    <div class="navbar">
-        <div class="navbar-left">
-            <a href="Home.jsp"><img src="PAWS.png" alt="PAWS Logo"></a>
-            <a href="Home.jsp">Home</a>
+<div class="navbar">
+    <div class="navbar-left">
+        <a href="Home.html">
+            <img src="pawsA.png" alt="PAWS Logo">
+        </a>
+        <div class="navbar-links">
+            <a href="Home.html">Home</a>
             <a href="AboutUs.jsp">About</a>
             <a href="DashboardA.jsp">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>
         </div>
-        <div class="navbar-profile">
-            <a href="Profile.jsp"><img src="ProfileIcon.png" alt="Profile" class="profile-icon"></a>
-            <a href="Logout.jsp" class="logout">LOG OUT</a>
-        </div>
     </div>
 
-    <div class="main-content">
-        <div class="page-title">Application Form</div>
+    <div class="navbar-profile">
+        <a href="Profile.jsp">
+            <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
+        </a>
+        <a href="LogoutServlet" class="logout">LOG OUT</a>
+    </div>
+</div>
 
-        <% if (petId > 0) { %>
-        <div class="pet-info">
-            <strong>Applying for Pet ID:</strong> <%= petId %><br>
-            <em>Please fill out all required fields below</em>
-        </div>
-        <% } %>
+<div class="main-content">
+    <div class="page-title">Application Form</div>
 
-        <form action="ApplicationController" method="POST">
-            <input type="hidden" name="action" value="add">
-            <input type="hidden" name="petId" value="<%= petId %>">
-            <input type="hidden" name="adoptId" value="<%= adoptId %>">
+    <% if (petId > 0) { %>
+    <div class="pet-info">
+        <strong>Applying for Pet ID:</strong> <%= petId %><br>
+        <em>Please fill out all required fields below</em>
+    </div>
+    <% } %>
 
-            <div class="form-wrapper">
-                <div class="form-section">
-                    <h2>Personal Details <span class="required">*</span></h2>
+    <form action="ApplicationController" method="POST">
+        <input type="hidden" name="action" value="add">
+        <input type="hidden" name="petId" value="<%= petId %>">
+        <input type="hidden" name="adoptId" value="<%= adoptId %>">
 
-                    <label>First Name: <span class="required">*</span></label>
-                    <input type="text" name="adoptFName" value="<%= fName %>" required>
+        <div class="form-wrapper">
+            <div class="form-section">
+                <h2>Personal Details <span class="required">*</span></h2>
 
-                    <label>Last Name: <span class="required">*</span></label>
-                    <input type="text" name="adoptLName" value="<%= lName %>" required>
+                <label>First Name: <span class="required">*</span></label>
+                <input type="text" name="adoptFName" value="<%= fName %>" required>
 
-                    <label>Phone Number: <span class="required">*</span></label>
-                    <input type="tel" name="adoptPhoneNum" value="<%= phone %>" required>
+                <label>Last Name: <span class="required">*</span></label>
+                <input type="text" name="adoptLName" value="<%= lName %>" required>
 
-                    <label>IC / Passport: <span class="required">*</span></label>
-                    <input type="text" name="adoptIC" value="<%= ic %>" required>
+                <label>Phone Number: <span class="required">*</span></label>
+                <input type="tel" name="adoptPhoneNum" value="<%= phone %>" required>
 
-                    <label>Address: <span class="required">*</span></label>
-                    <textarea name="adoptAddress" required><%= address %></textarea>
+                <label>IC / Passport: <span class="required">*</span></label>
+                <input type="text" name="adoptIC" value="<%= ic %>" required>
 
-                    <label>Occupation: <span class="required">*</span></label>
-                    <input type="text" name="adoptOccupation" value="<%= occupation %>" required>
+                <label>Address: <span class="required">*</span></label>
+                <textarea name="adoptAddress" required><%= address %></textarea>
 
-                    <label>Income (RM): <span class="required">*</span></label>
-                    <input type="number" step="0.01" name="adoptIncome" value="<%= income %>" required>
+                <label>Occupation: <span class="required">*</span></label>
+                <input type="text" name="adoptOccupation" value="<%= occupation %>" required>
+
+                <label>Income (RM): <span class="required">*</span></label>
+                <input type="number" step="0.01" name="adoptIncome" value="<%= income %>" required>
+            </div>
+
+            <div class="form-section">
+                <h2>Eligibility Review <span class="required">*</span></h2>
+
+                <label>Have you owned a pet before? <span class="required">*</span></label>
+                <div class="radio-row">
+                    <input type="radio" name="hasOwnedPet" value="Yes" required> Yes
+                    <input type="radio" name="hasOwnedPet" value="No"> No
                 </div>
 
-                <div class="form-section">
-                    <h2>Eligibility Review <span class="required">*</span></h2>
+                <label>Who will be responsible for feeding, grooming, vet visits? <span class="required">*</span></label>
+                <input type="text" name="caretakerInfo" required>
 
-                    <label>Have you owned a pet before? <span class="required">*</span></label>
-                    <div class="radio-row">
-                        <input type="radio" name="hasOwnedPet" value="Yes" required> Yes
-                        <input type="radio" name="hasOwnedPet" value="No"> No
-                    </div>
+                <label>Will the pet be kept indoors/outdoors? <span class="required">*</span></label>
+                <select name="petEnvironment" required>
+                    <option value="">Select Location</option>
+                    <option value="Indoor">Indoor</option>
+                    <option value="Outdoor">Outdoor</option>
+                    <option value="Both">Both</option>
+                </select>
 
-                    <label>Who will be responsible for feeding, grooming, vet visits? <span class="required">*</span></label>
-                    <input type="text" name="caretakerInfo" required>
+                <label>Are you prepared for medical expenses? <span class="required">*</span></label>
+                <div class="radio-row">
+                    <input type="radio" name="medicalReady" value="Yes" required> Yes
+                    <input type="radio" name="medicalReady" value="No"> No
+                </div>
 
-                    <label>Will the pet be kept indoors/outdoors? <span class="required">*</span></label>
-                    <select name="petEnvironment" required>
-                        <option value="">Select Location</option>
-                        <option value="Indoor">Indoor</option>
-                        <option value="Outdoor">Outdoor</option>
-                        <option value="Both">Both</option>
-                    </select>
+                <label>Why do you want to adopt this pet? <span class="required">*</span></label>
+                <input type="text" name="adoptionReason" required>
 
-                    <label>Are you prepared for medical expenses? <span class="required">*</span></label>
-                    <div class="radio-row">
-                        <input type="radio" name="medicalReady" value="Yes" required> Yes
-                        <input type="radio" name="medicalReady" value="No"> No
-                    </div>
+                <div class="checkboxes">
+                    <label><input type="checkbox" name="confirmInfo" required> I confirm that all information provided is true and accurate. <span class="required">*</span></label>
+                    <label><input type="checkbox" name="acceptResponsibility" required> I understand and accept full responsibility for the pet. <span class="required">*</span></label>
+                    <label><input type="checkbox" name="financialAbility" required> I am financially able to provide care and medical attention. <span class="required">*</span></label>
+                </div>
 
-                    <label>Why do you want to adopt this pet? <span class="required">*</span></label>
-                    <input type="text" name="adoptionReason" required>
-
-                    <div class="checkboxes">
-                        <label><input type="checkbox" name="confirmInfo" required> I confirm that all information provided is true and accurate. <span class="required">*</span></label>
-                        <label><input type="checkbox" name="acceptResponsibility" required> I understand and accept full responsibility for the pet. <span class="required">*</span></label>
-                        <label><input type="checkbox" name="financialAbility" required> I am financially able to provide care and medical attention. <span class="required">*</span></label>
-                    </div>
-
-                    <div class="final-submit-container">
-                        <button type="submit" class="submit-btn">Submit Application</button>
-                    </div>
+                <div class="final-submit-container">
+                    <button type="submit" class="submit-btn">Submit Application</button>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 
-    <div class="footer">
-        © 2026 PAWS Pet Adoption Welfare System — All Rights Reserved
-    </div>
+<div class="footer">
+    © 2026 PAWS Pet Adoption Welfare System — All Rights Reserved
+</div>
 
 </body>
 </html>
-
-
-
-

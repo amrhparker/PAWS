@@ -193,7 +193,7 @@
                     </div>
                     <div class="field">
                         <label>Phone Number</label>
-                        <input type="number" name="phone" required min="1000000000" max="9999999999" pattern="[0-9]{10}">
+                            <input type="text" name="phone" required pattern="[0-9]{8,15}" title="Phone number must contain 8 to 15 digits" inputmode="numeric" maxlength="15" placeholder="e.g. 0123456789">
                     </div>
 
                     <!-- Row 3 -->

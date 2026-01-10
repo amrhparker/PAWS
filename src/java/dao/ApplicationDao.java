@@ -13,7 +13,6 @@ public class ApplicationDao {
 
     /* ================= CREATE ================= */
     public void insertApplication(ApplicationBean app) throws SQLException {
-
         String sql = "INSERT INTO APPLICATION "
                    + "(ADOPT_ID, PET_ID, STAFF_ID, "
                    + "APP_STATUS, APP_ELIGIBILITY, "
@@ -25,7 +24,7 @@ public class ApplicationDao {
 
             ps.setInt(1, app.getAdoptId());
             ps.setInt(2, app.getPetId());
-            ps.setNull(3, Types.INTEGER); // staff not assigned yet
+            ps.setObject(3, null, Types.INTEGER); // staff not assigned yet
 
             ps.setString(4, app.getAppStatus());
             ps.setString(5, app.getAppEligibility());
@@ -39,20 +38,17 @@ public class ApplicationDao {
         }
     }
 
-    /* ================= READ (BY ADOPTER – DASHBOARD) ================= */
+    /* ================= READ BY ADOPTER ================= */
     public List<ApplicationBean> getApplicationsByAdopter(int adoptId) throws SQLException {
-
         List<ApplicationBean> list = new ArrayList<>();
-
-        String sql =
-            "SELECT a.*, " +
-            "       ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
-            "       p.PET_NAME " +
-            "FROM APPLICATION a " +
-            "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +
-            "JOIN PET p ON a.PET_ID = p.PET_ID " +
-            "WHERE a.ADOPT_ID = ? " +
-            "ORDER BY a.APP_ID DESC";
+        String sql = "SELECT a.*, "
+                   + "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, "
+                   + "p.PET_NAME "
+                   + "FROM APPLICATION a "
+                   + "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID "
+                   + "JOIN PET p ON a.PET_ID = p.PET_ID "
+                   + "WHERE a.ADOPT_ID = ? "
+                   + "ORDER BY a.APP_ID DESC";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -69,22 +65,18 @@ public class ApplicationDao {
 
     /* ================= READ ALL (STAFF) ================= */
     public List<ApplicationBean> getAllApplications() throws SQLException {
-
         List<ApplicationBean> list = new ArrayList<>();
-
-        String sql =
-            "SELECT a.*, " +
-            "       ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
-            "       p.PET_NAME " +
-            "FROM APPLICATION a " +
-            "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +
-            "JOIN PET p ON a.PET_ID = p.PET_ID " +
-            "ORDER BY a.APP_DATE DESC";
+        String sql = "SELECT a.*, "
+                   + "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, "
+                   + "p.PET_NAME "
+                   + "FROM APPLICATION a "
+                   + "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID "
+                   + "JOIN PET p ON a.PET_ID = p.PET_ID "
+                   + "ORDER BY a.APP_DATE DESC";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ResultSet rs = ps.executeQuery();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 list.add(mapApplication(rs));
@@ -93,20 +85,17 @@ public class ApplicationDao {
         return list;
     }
 
-    /* ================= READ (BY APP ID) ================= */
+    /* ================= READ BY APP ID ================= */
     public ApplicationBean getApplicationById(int appId) throws SQLException {
-
-        String sql =
-            "SELECT a.*, " +
-            "       ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
-            "       p.PET_NAME " +
-            "FROM APPLICATION a " +
-            "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +
-            "JOIN PET p ON a.PET_ID = p.PET_ID " +
-            "WHERE a.APP_ID = ?";
+        String sql = "SELECT a.*, "
+                   + "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, "
+                   + "p.PET_NAME "
+                   + "FROM APPLICATION a "
+                   + "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID "
+                   + "JOIN PET p ON a.PET_ID = p.PET_ID "
+                   + "WHERE a.APP_ID = ?";
 
         ApplicationBean app = null;
-
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -122,9 +111,7 @@ public class ApplicationDao {
 
     /* ================= UPDATE STATUS ================= */
     public void updateStatus(int appId, String status, String eligibility) throws SQLException {
-
         String sql = "UPDATE APPLICATION SET APP_STATUS=?, APP_ELIGIBILITY=? WHERE APP_ID=?";
-
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -137,9 +124,7 @@ public class ApplicationDao {
 
     /* ================= DELETE ================= */
     public void deleteApplication(int appId) throws SQLException {
-
         String sql = "DELETE FROM APPLICATION WHERE APP_ID=?";
-
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -150,7 +135,6 @@ public class ApplicationDao {
 
     /* ================= HELPER ================= */
     private ApplicationBean mapApplication(ResultSet rs) throws SQLException {
-
         ApplicationBean app = new ApplicationBean();
 
         app.setAppId(rs.getInt("APP_ID"));
@@ -158,6 +142,7 @@ public class ApplicationDao {
         app.setPetId(rs.getInt("PET_ID"));
         app.setStaffId(rs.getInt("STAFF_ID"));
 
+        app.setAppDate(rs.getDate("APP_DATE"));
         app.setAppStatus(rs.getString("APP_STATUS"));
         app.setAppEligibility(rs.getString("APP_ELIGIBILITY"));
         app.setHasOwnedPet(rs.getString("HAS_OWNED_PET"));

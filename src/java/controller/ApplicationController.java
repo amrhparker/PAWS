@@ -107,36 +107,46 @@ public class ApplicationController extends HttpServlet {
     }
 
     // Show application form (pre-fill adopter info)
-    private void showApplicationForm(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
+// Show application form (pre-fill adopter info safely)
+private void showApplicationForm(HttpServletRequest request, HttpServletResponse response)
+        throws SQLException, ServletException, IOException {
 
-           HttpSession session = request.getSession(false);
-
-           if (session == null || session.getAttribute("adopter") == null) {
-            response.sendRedirect("AdopterLogin.jsp");
-            return;
-           }
-
-           AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
-           int petId = Integer.parseInt(request.getParameter("petId"));
-
-           request.setAttribute("adopter", adopter);
-           request.setAttribute("petId", petId);
-
-           request.getRequestDispatcher("ApplicationForm.jsp").forward(request, response);
-
+    HttpSession session = request.getSession(false);
+    if (session == null || session.getAttribute("adopter") == null) {
+        response.sendRedirect("AdopterLogin.jsp");
+        return;
     }
 
+    // Use session adopter (already has all fields)
+    AdopterBean sessionAdopter = (AdopterBean) session.getAttribute("adopter");
+
+    int petId = Integer.parseInt(request.getParameter("petId"));
+
+    request.setAttribute("adopter", sessionAdopter); // safe
+    request.setAttribute("petId", petId);
+
+    request.getRequestDispatcher("ApplicationForm.jsp").forward(request, response);
+}
+
     // Insert application
+// Insert application (safe, won't overwrite email/username/password)
 private void insertApplication(HttpServletRequest request, HttpServletResponse response)
         throws SQLException, IOException {
 
-    int adoptId = Integer.parseInt(request.getParameter("adoptId"));
+    HttpSession session = request.getSession(false);
+    if (session == null || session.getAttribute("adopter") == null) {
+        response.sendRedirect("AdopterLogin.jsp");
+        return;
+    }
+
+    // 1️⃣ Get the session adopter (full info including email/username/password)
+    AdopterBean sessionAdopter = (AdopterBean) session.getAttribute("adopter");
+
     int petId = Integer.parseInt(request.getParameter("petId"));
 
-    // 1️⃣ Insert application
+    // 2️⃣ Create application bean
     ApplicationBean app = new ApplicationBean();
-    app.setAdoptId(adoptId);
+    app.setAdopter(sessionAdopter);  // Keep all adopter fields intact
     app.setPetId(petId);
     app.setAppStatus("Pending");
     app.setAppEligibility("Pending");
@@ -146,25 +156,37 @@ private void insertApplication(HttpServletRequest request, HttpServletResponse r
     app.setMedicalReady(request.getParameter("medicalReady"));
     app.setAdoptionReason(request.getParameter("adoptionReason"));
 
+    // 3️⃣ Insert into DB
     dao.insertApplication(app);
 
-    // 2️⃣ Update Adopter table with new details
-    AdopterBean updatedAdopter = new AdopterBean();
-    updatedAdopter.setAdoptId(adoptId);
-    updatedAdopter.setAdoptFName(request.getParameter("adoptFName"));
-    updatedAdopter.setAdoptLName(request.getParameter("adoptLName"));
-    updatedAdopter.setAdoptIC(request.getParameter("adoptIC"));
-    updatedAdopter.setAdoptPhoneNum(request.getParameter("adoptPhoneNum"));
-    updatedAdopter.setAdoptAddress(request.getParameter("adoptAddress"));
-    updatedAdopter.setAdoptOccupation(request.getParameter("adoptOccupation"));
-    updatedAdopter.setAdoptIncome(Double.parseDouble(request.getParameter("adoptIncome")));
+    // 4️⃣ Optional: update any editable adopter fields from form (if you allow editing)
+    //    Only update fields present in the form; leave email/username/password untouched
+    boolean adopterUpdated = false;
+    if (request.getParameter("adoptPhoneNum") != null) {
+        sessionAdopter.setAdoptPhoneNum(request.getParameter("adoptPhoneNum"));
+        adopterUpdated = true;
+    }
+    if (request.getParameter("adoptAddress") != null) {
+        sessionAdopter.setAdoptAddress(request.getParameter("adoptAddress"));
+        adopterUpdated = true;
+    }
+    if (request.getParameter("adoptOccupation") != null) {
+        sessionAdopter.setAdoptOccupation(request.getParameter("adoptOccupation"));
+        adopterUpdated = true;
+    }
+    if (request.getParameter("adoptIncome") != null) {
+        sessionAdopter.setAdoptIncome(Double.parseDouble(request.getParameter("adoptIncome")));
+        adopterUpdated = true;
+    }
 
-    adopterDao.updateAdopter(updatedAdopter);
+    if (adopterUpdated) {
+        adopterDao.updateAdopter(sessionAdopter); // only updates editable fields
+    }
 
-    // 3️⃣ Refresh session
-    HttpSession session = request.getSession();
-    session.setAttribute("adopter", adopterDao.getAdopterById(adoptId));
+    // 5️⃣ Refresh session with latest adopter info
+    session.setAttribute("adopter", adopterDao.getAdopterById(sessionAdopter.getAdoptId()));
 
+    // 6️⃣ Redirect to dashboard
     response.sendRedirect("ApplicationController?action=dashboardA");
 }
 

@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class ApplicationBean implements Serializable{
 
@@ -16,7 +17,7 @@ public class ApplicationBean implements Serializable{
     private StaffBean staff;
 
     // ===== Application Info =====
-    private int appDate;
+    private Date appDate;
     private String appStatus;
     private String appEligibility;
 
@@ -32,7 +33,7 @@ public class ApplicationBean implements Serializable{
         // No-arg constructor for frameworks
     }
 
-    public ApplicationBean(int appId, int adoptId, int petId, int staffId, int appDate, String appStatus, String appEligibility, String hasOwnedPet, String caretakerInfo, String petEnvironment, String medicalReady, String adoptionReason) {
+    public ApplicationBean(int appId, int adoptId, int petId, int staffId, Date appDate, String appStatus, String appEligibility, String hasOwnedPet, String caretakerInfo, String petEnvironment, String medicalReady, String adoptionReason) {
         this.appId = appId;
         this.adoptId = adoptId;
         this.petId = petId;
@@ -113,12 +114,26 @@ public class ApplicationBean implements Serializable{
             this.staffId = staff.getStaffId();  // Keep FK ID in sync
         }
     }
+    
+    public String getApplicantName() {
+    if (adopter != null) {
+        return adopter.getAdoptFName() + " " + adopter.getAdoptLName();
+    }
+    return "";
+}
 
-    public int getAppDate() {
+    public String getPetName() {
+        if (pet != null) {
+            return pet.getPetName();
+        }
+        return "";
+    }
+
+    public Date getAppDate() {
         return appDate;
     }
 
-    public void setAppDate(int appDate) {
+    public void setAppDate(Date appDate) {
         this.appDate = appDate;
     }
 

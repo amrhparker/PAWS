@@ -151,9 +151,12 @@ if (session == null || session.getAttribute("adopter") == null) {
                         <strong>Breed:</strong> <%= pet.getPetBreed() != null ? pet.getPetBreed() : "Unknown"%><br>
                         <a href="PetDetails.jsp?petId=<%= pet.getPetId()%>" class="more-details">More Details</a>
                     </div>
-                    <a href="ApplicationController?action=form&petId=<%= pet.getPetId() %>">
-                        <button class="rehoming-btn">Rehome 🐾</button>
-                    </a>
+                    <form action="ApplicationController" method="get">
+                        <input type="hidden" name="action" value="form">
+                        <input type="hidden" name="petId" value="<%= pet.getPetId() %>">
+                        <button type="submit" class="rehoming-btn">Rehome 🐾</button>
+                    </form>
+
                 </div>
 
                 <%
