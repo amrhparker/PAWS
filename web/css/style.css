@@ -1,15 +1,26 @@
-html, body{
+html, body {
     height: 100%;
 }
 
-body{
+body {
     font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    overflow-x: hidden;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+.main-content {
+    flex: 1 0 auto; /* This makes the content grow and push footer down */
 }
 
 /* NAVBAR */
@@ -56,10 +67,10 @@ body{
 }
 
 .navbar-right.profile-icon {
-        height: 32px;
-        display: block;
-        margin-bottom: 3px;
-    }
+    height: 32px;
+    display: block;
+    margin-bottom: 3px;
+}
 
 .navbar-links a{
     margin: 0 15px;
@@ -140,7 +151,8 @@ body{
 }
 
 /* ================== FOOTER ================== */
-.footer{
+.footer {
+    flex-shrink: 0; /* Prevent footer from shrinking */
     text-align: center;
     background: #644d4d;
     color: white;
