@@ -131,7 +131,7 @@
             <div class="right-link">
                 <a href="#">Forgot Password?</a>
             </div>
-
+            <input type="hidden" name="page" value="staff">
             <button type="submit" class="btn">LOG IN</button>
 
         </form>
