@@ -67,12 +67,38 @@ public class ApplicationDao {
         return list;
     }
 
+    /* ================= READ ALL (STAFF) ================= */
+    public List<ApplicationBean> getAllApplications() throws SQLException {
+
+        List<ApplicationBean> list = new ArrayList<>();
+
+        String sql =
+            "SELECT a.*, " +
+            "       ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
+            "       p.PET_NAME " +
+            "FROM APPLICATION a " +
+            "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +
+            "JOIN PET p ON a.PET_ID = p.PET_ID " +
+            "ORDER BY a.APP_DATE DESC";
+
+        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(mapApplication(rs));
+            }
+        }
+        return list;
+    }
+
     /* ================= READ (BY APP ID) ================= */
     public ApplicationBean getApplicationById(int appId) throws SQLException {
 
         String sql =
             "SELECT a.*, " +
-            "       ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.PHONE, ad.ADDRESS, " +
+            "       ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
             "       p.PET_NAME " +
             "FROM APPLICATION a " +
             "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +

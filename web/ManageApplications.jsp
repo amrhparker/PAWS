@@ -1,74 +1,143 @@
 <%-- 
     Document   : ManageApplications
-    Created on : Jan 6, 2026, 9:04:09 PM
     Author     : Acer
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%
+    /*
+     FLOW (SAMA MACAM RECORDS & REPORTS):
+
+     1. User RUN ManageApplications.jsp
+     2. JSP check → ada data "applications" atau belum
+     3. Kalau belum → redirect ApplicationController
+     4. Controller ambil data DAO
+     5. Controller forward balik ke JSP
+     6. JSP DISPLAY DATA
+    */
+
+    if (request.getAttribute("applications") == null) {
+        response.sendRedirect("ApplicationController?action=manage");
+        return;
+    }
+%>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Manage Applications</title>
+    <title>Manage Adoption Applications</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        #main-title{
-            font-size:32px;
-            font-weight:bold;
-            margin:40px auto 20px auto;
-            width:95%;
-            text-align:left;
+        body{
+            font-family:'Poppins', sans-serif;
+            background:#f6f7fb;
+            margin:0;
         }
 
-        #view{
-            width:95%;
-            margin-left:auto;
-            margin-right:auto;
+        .container{
+            width:90%;
+            margin:40px auto;
+        }
+
+        h2{
+            margin-bottom:25px;
+            font-weight:600;
+        }
+
+        table{
+            width:100%;
             border-collapse:collapse;
-        }
-
-        #view th, #view td{
-            border:1px solid black;
-            padding:15px;
-            text-align:center;
-            font-size:18px;
-        }
-
-        .action-column{
-            padding:10px;
-            vertical-align:middle;
-        }
-
-        .action-wrapper{
-            display:flex;
-            flex-direction:column;
-            gap:10px;
-            align-items:center;
-        }
-
-        .action-btn{
-            padding:8px 12px;
-            border:1px solid black;
             background:white;
-            border-radius:6px;
-            cursor:pointer;
-            font-size:14px;
-            width:110px;
+            border-radius:14px;
+            overflow:hidden;
+            box-shadow:0 8px 20px rgba(0,0,0,0.08);
         }
 
-        .action-btn:hover{
-            background:#e6e6e6;
+        th{
+            background:#f2f3f7;
+            padding:16px;
+            text-align:left;
+            font-size:15px;
+        }
+
+        td{
+            padding:16px;
+            border-top:1px solid #eee;
+            font-size:14px;
+        }
+
+        .status{
+            padding:6px 12px;
+            border-radius:20px;
+            font-size:13px;
+            font-weight:500;
+            display:inline-block;
+        }
+
+        .Pending{
+            background:#fff3cd;
+            color:#856404;
+        }
+
+        .Approved{
+            background:#d4edda;
+            color:#155724;
+        }
+
+        .Rejected{
+            background:#f8d7da;
+            color:#721c24;
+        }
+
+        .actions{
+            display:flex;
+            gap:8px;
+        }
+
+        .btn{
+            padding:7px 14px;
+            border-radius:6px;
+            font-size:13px;
+            border:none;
+            cursor:pointer;
+            font-weight:500;
+        }
+
+        .btn-view{
+            background:#0d6efd;
+            color:white;
+        }
+
+        .btn-approve{
+            background:#198754;
+            color:white;
+        }
+
+        .btn-reject{
+            background:#dc3545;
+            color:white;
+        }
+
+        .btn:hover{
+            opacity:0.9;
+        }
+
+        .empty{
+            text-align:center;
+            color:gray;
+            padding:30px;
         }
     </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
+<!-- ===== NAVBAR (KEKAL PAWS STYLE) ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.html">
@@ -76,114 +145,91 @@
         </a>
 
         <div class="navbar-links">
-            <a href="StaffDashboard.html">Dashboard</a>
-            <a href="ManagePets.html">Pets</a>
-            <a href="ManageRecords.html">Records</a>
-            <a href="ManageReports.html">Reports</a>
+            <a href="StaffDashboard.jsp">Dashboard</a>
+            <a href="ManagePets.jsp">Pets</a>
+            <a href="ManageRecords.jsp">Records</a>
+            <a href="ManageReports.jsp">Reports</a>
             <a href="ManageApplications.jsp" class="active">Applications</a>
-            <a href="ActivityLog.html">Logs</a>
+            <a href="ActivityLog.jsp">Logs</a>
         </div>
     </div>
 
     <div class="navbar-right">
-        <a href="Logout.html" class="logout">Log Out</a>
+        <a href="LogoutServlet" class="logout">Log Out</a>
     </div>
 </div>
 
-<div id="main-title">Manage Adoption Applications</div>
+<!-- ===== CONTENT ===== -->
+<div class="container">
 
-<table id="view">
-    <tr>
-        <th>Application ID</th>
-        <th>Adopter</th>
-        <th>Pet</th>
-        <th>Date</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
+    <h2>Manage Adoption Applications</h2>
 
-<%
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
+    <table>
+        <tr>
+            <th>Application ID</th>
+            <th>Adopter</th>
+            <th>Pet</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
 
-    try {
-        Class.forName("org.apache.derby.jdbc.ClientDriver");
-        conn = DriverManager.getConnection(
-            "jdbc:derby://localhost:1527/PAWSdb",
-            "app",
-            "app"
-        );
+        <c:forEach var="a" items="${applications}">
+            <tr>
+                <td>APP${a.appId}</td>
 
-        String sql =
-            "SELECT a.APP_ID, a.APP_DATE, a.APP_STATUS, " +
-            "ad.ADOPT_FNAME, ad.ADOPT_LNAME, p.PET_NAME " +
-            "FROM APPLICATION a " +
-            "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +
-            "JOIN PET p ON a.PET_ID = p.PET_ID " +
-            "ORDER BY a.APP_DATE DESC";
+                <td>
+                    ${a.adopter.adoptFName} ${a.adopter.adoptLName}
+                </td>
 
-        ps = conn.prepareStatement(sql);
-        rs = ps.executeQuery();
+                <td>${a.pet.petName}</td>
 
-        while (rs.next()) {
-            int appId = rs.getInt("APP_ID");
-            String adopterName = rs.getString("ADOPT_FNAME") + " " + rs.getString("ADOPT_LNAME");
-            String petName = rs.getString("PET_NAME");
-            Date appDate = rs.getDate("APP_DATE");
-            String status = rs.getString("APP_STATUS");
-%>
+                <td>${a.appDate}</td>
 
-    <tr>
-        <td>APP<%= String.format("%03d", appId) %></td>
-        <td><%= adopterName %></td>
-        <td><%= petName %></td>
-        <td><%= appDate %></td>
-        <td><%= status %></td>
+                <td>
+                    <span class="status ${a.appStatus}">
+                        ${a.appStatus}
+                    </span>
+                </td>
 
-        <td class="action-column">
-            <div class="action-wrapper">
+                <td>
+                    <div class="actions">
 
-                <button class="action-btn"
-                        onclick="location.href='ViewApplication.jsp?appId=<%=appId%>'">
-                    View
-                </button>
+                        <button class="btn btn-view"
+                                onclick="location.href='ViewAppliction.jsp?appId=${a.appId}'">
+                            View
+                        </button>
 
-                <% if ("Pending".equalsIgnoreCase(status)) { %>
+                        <c:if test="${a.appStatus eq 'Pending'}">
 
-                    <button class="action-btn"
-                            onclick="location.href='UpdateApplicationStatusServlet?appId=<%=appId%>&status=Approved'">
-                        Approve
-                    </button>
+                            <button class="btn btn-approve"
+                                    onclick="location.href='ApplicationController?action=updateStatus&appId=${a.appId}&status=Approved&eligibility=Approved'">
+                                Approve
+                            </button>
 
-                    <button class="action-btn"
-                            onclick="location.href='UpdateApplicationStatusServlet?appId=<%=appId%>&status=Rejected'">
-                        Reject
-                    </button>
+                            <button class="btn btn-reject"
+                                    onclick="location.href='ApplicationController?action=updateStatus&appId=${a.appId}&status=Rejected&eligibility=Rejected'">
+                                Reject
+                            </button>
 
-                <% } %>
-            </div>
-        </td>
-    </tr>
+                        </c:if>
 
-<%
-        }
-    } catch (Exception e) {
-%>
-    <tr>
-        <td colspan="6" style="color:red;">
-            Error loading applications: <%= e.getMessage() %>
-        </td>
-    </tr>
-<%
-    } finally {
-        if (rs != null) rs.close();
-        if (ps != null) ps.close();
-        if (conn != null) conn.close();
-    }
-%>
+                    </div>
+                </td>
+            </tr>
+        </c:forEach>
 
-</table>
+        <c:if test="${empty applications}">
+            <tr>
+                <td colspan="6" class="empty">
+                    No adoption applications found
+                </td>
+            </tr>
+        </c:if>
+
+    </table>
+
+</div>
 
 </body>
 </html>

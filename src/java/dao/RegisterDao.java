@@ -13,7 +13,16 @@ import util.DBConnection;
  * @author amira
  */
 public class RegisterDao {
-
+    
+    private boolean hasNewColumns(Connection con) throws SQLException {
+        try {
+            DatabaseMetaData meta = con.getMetaData();
+            ResultSet columns = meta.getColumns(null, null, "ADOPTER", "ADOPT_OCCUPATION");
+            return columns.next();
+        } catch (SQLException e) {
+            return false;
+        }
+    }
     //check if username exists first
     public boolean checkUsernameExists(String username) {
         boolean exists = false;
@@ -39,33 +48,55 @@ public class RegisterDao {
     }
 
     //then, register new adopter
+    // Update registration method
     public boolean registerAdopter(AdopterBean adopter) {
         boolean success = false;
 
-        try (Connection con = DBConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement(
-                        "INSERT INTO ADOPTER (adopt_fname, adopt_lname, adopt_ic, adopt_phoneNum, adopt_email, adopt_address, adopt_username, adopt_password) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+        String sql;
+        try (Connection con = DBConnection.getConnection()) {
+            // Check if table has new columns
+            boolean hasNewColumns = hasNewColumns(con);
 
-            ps.setString(1, adopter.getAdoptFName());
-            ps.setString(2, adopter.getAdoptLName());
-            ps.setString(3, adopter.getAdoptIC());
-            ps.setInt(4, adopter.getAdoptPhoneNum());
-            ps.setString(5, adopter.getAdoptEmail());
-            ps.setString(6, adopter.getAdoptAddress());
-            ps.setString(7, adopter.getAdoptUsername());
-            ps.setString(8, adopter.getAdoptPassword());
+            if (hasNewColumns) {
+                sql = "INSERT INTO ADOPTER (adopt_fname, adopt_lname, adopt_ic, adopt_phoneNum, "
+                        + "adopt_email, adopt_address, adopt_occupation, adopt_income, "
+                        + "adopt_username, adopt_password) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            } else {
+                // Fallback to old structure if columns don't exist
+                sql = "INSERT INTO ADOPTER (adopt_fname, adopt_lname, adopt_ic, adopt_phoneNum, "
+                        + "adopt_email, adopt_address, adopt_username, adopt_password) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            }
 
-            int rowsAffected = ps.executeUpdate();
-            success = rowsAffected > 0;
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setString(1, adopter.getAdoptFName());
+                ps.setString(2, adopter.getAdoptLName());
+                ps.setString(3, adopter.getAdoptIC());
+                ps.setString(4, adopter.getAdoptPhoneNum());
+                ps.setString(5, adopter.getAdoptEmail());
+                ps.setString(6, adopter.getAdoptAddress());
 
+                if (hasNewColumns) {
+                    ps.setString(7, adopter.getAdoptOccupation() != null ? adopter.getAdoptOccupation() : "");
+                    ps.setBigDecimal(8, adopter.getAdoptIncome() != null ? adopter.getAdoptIncome() : java.math.BigDecimal.ZERO);
+                    ps.setString(9, adopter.getAdoptUsername());
+                    ps.setString(10, adopter.getAdoptPassword());
+                } else {
+                    ps.setString(7, adopter.getAdoptUsername());
+                    ps.setString(8, adopter.getAdoptPassword());
+                }
+
+                int rowsAffected = ps.executeUpdate();
+                success = rowsAffected > 0;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return success;
     }
-
+    
     //check if IC number exists
     public boolean checkICExists(String ic) {
         boolean exists = false;
@@ -89,13 +120,5 @@ public class RegisterDao {
 
         return exists;
     }
-
-    // Validate phone number format (10 digits)
-    public boolean isValidPhoneNumber(String phone) {
-        if(phone != null && phone.matches("\\d{10}")){
-            return true;
-        }else{
-            return false;
-        }
-    }
+    
 }

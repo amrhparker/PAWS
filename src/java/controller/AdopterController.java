@@ -105,9 +105,6 @@ public class AdopterController extends HttpServlet {
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("DashboardA.jsp");
             dispatcher.forward(request, response);
-        } catch(SQLException e) {
-            request.setAttribute("error", "Error loading dashboard"+ e.getMessage());
-            request.getRequestDispatcher("error.jsp").forward(request, response);
         } catch(Exception e) {
             request.setAttribute("error", "Error loading dashboard");
             request.getRequestDispatcher("error.jsp").forward(request, response);
@@ -190,12 +187,14 @@ public class AdopterController extends HttpServlet {
         String fname = request.getParameter("fname");
         String lname = request.getParameter("lname");
         String ic = request.getParameter("ic");
-        String phoneStr = request.getParameter("phone");
+        String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String address = request.getParameter("address");
+        String occupation = request.getParameter("occupation");
+        String incomeStr = request.getParameter("income");
         String username = request.getParameter("username");
         
-        if (fname == null || lname == null || ic == null || phoneStr == null || 
+        if (fname == null || lname == null || ic == null || phone == null || 
             email == null || address == null || username == null) {
             request.setAttribute("errorMessage", "All fields are required");
             request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
@@ -220,21 +219,43 @@ public class AdopterController extends HttpServlet {
                 }
             }
             
+            // Parse income if provided
+            java.math.BigDecimal income = null;
+            if (incomeStr != null && !incomeStr.trim().isEmpty()) {
+                try {
+                    income = new java.math.BigDecimal(incomeStr);
+                    if (income.compareTo(java.math.BigDecimal.ZERO) < 0) {
+                        request.setAttribute("errorMessage", "Income cannot be negative");
+                        request.setAttribute("adopter", adopter);
+                        request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    request.setAttribute("errorMessage", "Invalid income format");
+                    request.setAttribute("adopter", adopter);
+                    request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
+                    return;
+                }
+            }
+
+            // UPDATE ALL FIELDS INCLUDING NEW ONES
             adopter.setAdoptFName(fname);
             adopter.setAdoptLName(lname);
             adopter.setAdoptIC(ic);
-            adopter.setAdoptPhoneNum(phoneStr);
+            adopter.setAdoptPhoneNum(phone);
             adopter.setAdoptEmail(email);
             adopter.setAdoptAddress(address);
+            adopter.setAdoptOccupation(occupation);  
+            adopter.setAdoptIncome(income);          
             adopter.setAdoptUsername(username);
-            
+
             boolean success = adopterDao.updateAdopter(adopter);
-            
-            if(success) {
+
+            if (success) {
                 session.setAttribute("username", username);
                 session.setAttribute("fullName", fname + " " + lname);
                 session.setAttribute("adopter", adopter);
-                
+
                 request.setAttribute("successMessage", "Profile updated successfully!");
                 request.setAttribute("adopter", adopter);
                 request.getRequestDispatcher("Profile.jsp").forward(request, response);
@@ -243,12 +264,9 @@ public class AdopterController extends HttpServlet {
                 request.setAttribute("adopter", adopter);
                 request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
             }
-        } catch(NumberFormatException e) {
-            request.setAttribute("errorMessage", "Invalid phone number format");
-            request.getRequestDispatcher("EditProfileA.jsp").forward(request, response);
-        } catch (IOException | ServletException e) {
+        } catch (IOException | ServletException e) {  // Remove NumberFormatException catch
             request.setAttribute("errorMessage", "Error updating profile");
-            request.getRequestDispatcher("EditProfileA.jsp").forward(request, response);
+            request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
         }
     }
     
@@ -304,5 +322,4 @@ public class AdopterController extends HttpServlet {
             request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
         }
     }
-}
 }
