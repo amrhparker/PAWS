@@ -5,12 +5,11 @@ import java.util.*;
 import model.AdopterBean;
 
 public class AdopterDao {
-
     private final String URL = "jdbc:derby://localhost:1527/PAWSdb";
     private final String USER = "app";
     private final String PASS = "app";
 
-    //SQL queries
+    // SQL Queries
     private static final String insertAdopterSql
             = "INSERT INTO ADOPTER (ADOPT_FNAME, ADOPT_LNAME, ADOPT_IC, ADOPT_PHONENUM, "
             + "ADOPT_EMAIL, ADOPT_ADDRESS, ADOPT_OCCUPATION, ADOPT_INCOME, "
@@ -39,7 +38,7 @@ public class AdopterDao {
     private static final String checkUsernameExistsSql = 
             "SELECT COUNT(*) FROM ADOPTER WHERE ADOPT_USERNAME = ?";
 
-    //insert
+    // Insert
     public boolean insertAdopter(AdopterBean adopter) {
         boolean success = false;
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -63,7 +62,7 @@ public class AdopterDao {
         return success;
     }
 
-    //update
+    // Update - FIXED VERSION (using the correct signature with all fields)
     public boolean updateAdopter(AdopterBean adopter) {
         boolean success = false;
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -88,7 +87,7 @@ public class AdopterDao {
         return success;
     }
 
-    //delete adopter
+    // Delete
     public boolean deleteAdopter(int adoptId) {
         boolean success = false;
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -102,7 +101,7 @@ public class AdopterDao {
         return success;
     }
 
-    //get adopter by id
+    // Get by ID
     public AdopterBean getAdopterById(int id) {
         AdopterBean adopter = null;
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -120,7 +119,7 @@ public class AdopterDao {
         return adopter;
     }
 
-    //validate login
+    // Validate login
     public AdopterBean validateAdopter(String un, String pw) {
         AdopterBean adopter = null;
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -139,6 +138,7 @@ public class AdopterDao {
         return adopter;
     }
     
+    // Check if username exists
     public boolean checkUsernameExists(String username) {
         boolean exists = false;
         
@@ -157,6 +157,7 @@ public class AdopterDao {
         return exists;
     }
 
+    // Map ResultSet to AdopterBean
     private AdopterBean mapResultSetToAdopter(ResultSet rs) throws SQLException {
         AdopterBean adopter = new AdopterBean();
         adopter.setAdoptId(rs.getInt("ADOPT_ID"));
@@ -167,7 +168,7 @@ public class AdopterDao {
         adopter.setAdoptEmail(rs.getString("ADOPT_EMAIL"));
         adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
         adopter.setAdoptOccupation(rs.getString("ADOPT_OCCUPATION"));
-        adopter.setAdoptIncome(rs.getBigDecimal("ADOPT_INCOME"));
+        adopter.setAdoptIncome(rs.getBigDecimal("ADOPT_INCOME"));  // Changed from getDouble to getBigDecimal
         adopter.setAdoptUsername(rs.getString("ADOPT_USERNAME"));
         adopter.setAdoptPassword(rs.getString("ADOPT_PASSWORD"));
         return adopter;

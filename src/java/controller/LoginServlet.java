@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
             AdopterBean adopter = dao.getAdopter(username, password);
 
             if (adopter != null) {
-                session.setAttribute("user", adopter);
+                session.setAttribute("adopter", adopter);
                 response.sendRedirect("DashboardA.jsp");
             } else {
                 response.sendRedirect("AdopterLogin.jsp?error=invalid");
