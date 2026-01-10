@@ -1,13 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.AdopterBean" %>
 <%
+if (request.getAttribute("adopter") == null) {
+    response.sendRedirect("ApplicationController");
+    return;
+}
+%>
+<%
     String petIdParam = request.getParameter("petId");
     int petId = 0;
     if (petIdParam != null && !petIdParam.isEmpty()) {
-        try { petId = Integer.parseInt(petIdParam); } catch (NumberFormatException e) { petId = 0; }
+        try { petId = Integer.parseInt(petIdParam); } 
+        catch (NumberFormatException e) { petId = 0; }
     }
 
-    // ⚡ Get adopter from request attribute (from controller)
     AdopterBean adopter = (AdopterBean) request.getAttribute("adopter");
 
     int adoptId = 0;
@@ -21,9 +27,10 @@
         ic = adopter.getAdoptIC() != null ? adopter.getAdoptIC() : "";
         address = adopter.getAdoptAddress() != null ? adopter.getAdoptAddress() : "";
         occupation = adopter.getAdoptOccupation() != null ? adopter.getAdoptOccupation() : "";
-        income = adopter.getAdoptIncome() != null ? adopter.getAdoptIncome().toString() : "";
+        income = String.valueOf(adopter.getAdoptIncome()); // ✅ FIXED
     }
 %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

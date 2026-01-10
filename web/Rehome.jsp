@@ -6,6 +6,15 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="dao.PetDao, model.PetBean, java.util.List" %>
+
+<%
+ session = request.getSession(false);
+if (session == null || session.getAttribute("adopter") == null) {
+    response.sendRedirect("AdopterLogin.jsp");
+    return;
+}
+%>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -142,7 +151,7 @@
                         <strong>Breed:</strong> <%= pet.getPetBreed() != null ? pet.getPetBreed() : "Unknown"%><br>
                         <a href="PetDetails.jsp?petId=<%= pet.getPetId()%>" class="more-details">More Details</a>
                     </div>
-                    <a href="ApplicationForm.jsp?petId=<%= pet.getPetId()%>">
+                    <a href="ApplicationController?action=form&petId=<%= pet.getPetId() %>">
                         <button class="rehoming-btn">Rehome 🐾</button>
                     </a>
                 </div>
