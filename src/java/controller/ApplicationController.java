@@ -42,6 +42,9 @@ public class ApplicationController extends HttpServlet {
 
             } else if (action.equals("form")) {
                 showApplicationForm(request, response);
+                
+            } else if (action.equals("manage")) {
+                manageApplications(request, response);
 
             } else {
                 showAdopterDashboard(request, response);
@@ -153,4 +156,15 @@ public class ApplicationController extends HttpServlet {
         dao.deleteApplication(appId);
         response.sendRedirect("ApplicationController?action=dashboardA");
     }
+    
+    // Manage Applications
+    private void manageApplications(HttpServletRequest request, HttpServletResponse response)
+        throws SQLException, ServletException, IOException {
+
+    List<ApplicationBean> apps = dao.getAllApplications(); // STAFF VIEW ALL
+
+    request.setAttribute("applications", apps);
+    request.getRequestDispatcher("ManageApplications.jsp").forward(request, response);
+}
+
 }
