@@ -1,47 +1,39 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
-/**
- *
- * @author Acer
- */
 import model.RecordBean;
-import util.DBConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecordDao {
 
-    // INSERT RECORD
+    private final String URL = "jdbc:derby://localhost:1527/PAWSdb";
+    private final String USER = "app";
+    private final String PASS = "app";
+
+    //INSERT
     public void insertRecord(RecordBean record) {
 
         String sql = "INSERT INTO RECORD (APP_ID, RECORD_DATE) VALUES (?, CURRENT_DATE)";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, record.getAppId());
             ps.executeUpdate();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // GET ALL RECORDS
+    //GET ALL
     public List<RecordBean> getAllRecords() {
 
         List<RecordBean> list = new ArrayList<>();
         String sql = "SELECT * FROM RECORD ORDER BY RECORD_DATE DESC";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -53,19 +45,19 @@ public class RecordDao {
                 list.add(r);
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
-    
-    // GET RECORD BY ID
+
+    //GET BY ID 
     public RecordBean getRecordById(int recordId) {
 
-        RecordBean r = null;
         String sql = "SELECT * FROM RECORD WHERE RECORD_ID = ?";
+        RecordBean r = null;
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, recordId);
@@ -78,25 +70,26 @@ public class RecordDao {
                 r.setRecordDate(rs.getDate("RECORD_DATE"));
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return r;
     }
     
-    // DELETE RECORD
-    public void deleteRecord(int recordId) {
+    //DELETE 
+public void deleteRecord(int recordId) {
 
-        String sql = "DELETE FROM RECORD WHERE RECORD_ID = ?";
+    String sql = "DELETE FROM RECORD WHERE RECORD_ID = ?";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, recordId);
-            ps.executeUpdate();
+        ps.setInt(1, recordId);
+        ps.executeUpdate();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+}
+
 }
