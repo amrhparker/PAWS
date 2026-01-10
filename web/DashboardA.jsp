@@ -243,20 +243,27 @@
             <div class="card-grid">
                 <c:choose>
                     <c:when test="${not empty records}">
-                        <c:forEach var="record" items="${records}">
-                            <a href="adopter?action=viewRecord&id=${record.id}" class="data-card">
-                                <p><span class="data-label">Adopter Name:</span> ${record.adopterName}</p>
-                                <p><span class="data-label">Pet Name:</span> ${record.petName}</p>
-                                <p><span class="data-label">Status:</span> 
-                                    <span style="color: ${record.status == 'Completed' ? 'green' : 'orange'}">
-                                        ${record.status}
-                                    </span>
-                                </p>
-                                <p><span class="data-label">Adoption Date:</span>
-                                    <fmt:formatDate value="${record.adoptionDate}" pattern="dd MMM yyyy"/>
-                                </p>
+                        <c:forEach var="app" items="${applications}">
+                           <a href="ApplicationController?action=view&appId=${app.appId}" class="data-card">
+
+                           <p><span class="data-label">Applicant Name:</span>
+                                ${app.adopter.adoptFName} ${app.adopter.adoptLName}
+                           </p>
+
+                           <p><span class="data-label">Pet Name:</span>
+                                ${app.pet.petName}
+                           </p>
+
+                            <p><span class="data-label">Status:</span>
+                                ${app.appStatus}
+                            </p>
+
+                            <p><span class="data-label">Eligibility:</span>
+                                ${app.appEligibility}
+                            </p>
                             </a>
                         </c:forEach>
+
                     </c:when>
                     <c:otherwise>
                         <div class="data-card">

@@ -120,7 +120,8 @@
         </c:if>
 
         <!-- LOGIN FORM -->
-        <form action="StaffLoginServlet" method="post">
+        <form action="StaffController" method="post">
+            <input type="hidden" name="action" value="login">
 
             <label>Username</label>
             <input type="text" name="username" required>
@@ -131,7 +132,7 @@
             <div class="right-link">
                 <a href="#">Forgot Password?</a>
             </div>
-
+            <input type="hidden" name="page" value="staff">
             <button type="submit" class="btn">LOG IN</button>
 
         </form>
