@@ -66,7 +66,7 @@ public class StaffDao {
                 staff.setStaffEmail(rs.getString("staffemail"));
                 staff.setStaffPhoneNum(rs.getInt("staffphonenum"));
                 staff.setStaffUsername(rs.getString("staffusername"));
-                staff.setStaffPho(rs.getString("staffpho"));
+                staff.setStaffPassword(rs.getString("staffpassword"));
             }
 
         } catch (SQLException e) {
@@ -110,7 +110,7 @@ public class StaffDao {
                 staff.setStaffEmail(rs.getString("staffemail"));
                 staff.setStaffPhoneNum(rs.getInt("staffphonenum"));
                 staff.setStaffUsername(rs.getString("staffusername"));
-                staff.setStaffPho(rs.getString("staffpho"));
+                staff.setStaffPassword(rs.getString("staffpassword"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,7 +152,7 @@ public class StaffDao {
                 staff.setStaffEmail(rs.getString("staffemail"));
                 staff.setStaffPhoneNum(rs.getInt("staffphonenum"));
                 staff.setStaffUsername(rs.getString("staffusername"));
-                staff.setStaffPho(rs.getString("staffpho"));
+                staff.setStaffPassword(rs.getString("staffpassword"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -15,24 +15,22 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 1️⃣ Get form input
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String page = request.getParameter("page"); // hidden input in JSP
+        String page = request.getParameter("page"); 
 
         LoginDao dao = new LoginDao();
         HttpSession session = request.getSession();
 
-        // 2️⃣ Check which table to query based on page
         if ("adopter".equals(page)) {
 
             AdopterBean adopter = dao.getAdopter(username, password);
 
             if (adopter != null) {
                 session.setAttribute("user", adopter);
-                response.sendRedirect("adopter/home.jsp");
+                response.sendRedirect("DashboardA.jsp");
             } else {
-                response.sendRedirect("adopterLogin.jsp?error=invalid");
+                response.sendRedirect("AdopterLogin.jsp?error=invalid");
             }
 
         } else if ("staff".equals(page)) {
@@ -41,19 +39,18 @@ public class LoginServlet extends HttpServlet {
 
             if (staff != null) {
                 session.setAttribute("user", staff);
-                response.sendRedirect("staff/dashboard.jsp");
+                response.sendRedirect("StaffDashboard.jsp");
             } else {
-                response.sendRedirect("staffLogin.jsp?error=invalid");
+                response.sendRedirect("LogInStaff.jsp?error=invalid");
             }
 
         } else {
-            // Invalid submission
-            response.sendRedirect("login.jsp?error=invalid");
+            response.sendRedirect("Home.html?error=invalid");
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("Home.html");
     }
 }

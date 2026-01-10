@@ -7,7 +7,6 @@ import util.DBConnection;
 
 public class LoginDao {
 
-    // Check ADOPTER table
     public AdopterBean getAdopter(String username, String password) {
         AdopterBean adopter = null;
 
@@ -35,7 +34,6 @@ public class LoginDao {
         return adopter; 
     }
 
-    // Check STAFF table
     public StaffBean getStaff(String username, String password) {
         StaffBean staff = null;
 
