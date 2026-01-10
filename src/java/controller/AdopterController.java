@@ -1,4 +1,3 @@
-
 package controller;
 
 import dao.AdopterDao;
@@ -16,17 +15,14 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/**
- *
- * @author amira
- */
+
 @WebServlet(name = "AdopterController", urlPatterns = {"/AdopterController"})
 public class AdopterController extends HttpServlet {
     
     private AdopterDao adopterDao;
     private ApplicationDao applicationDao;
     private RecordDao recordDao;
-    //initialize
+    
     @Override
     public void init() throws ServletException {
         super.init();
@@ -34,6 +30,7 @@ public class AdopterController extends HttpServlet {
         applicationDao = new ApplicationDao();
         recordDao = new RecordDao();
     }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,22 +60,16 @@ public class AdopterController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        
+
         if (action == null) {
             response.sendRedirect("AdopterLogin.jsp");
             return;
-        }   
-        //crud methods
+        }
+
         switch (action) {
-            case "login":
-                login(request, response);
-                break;
-            case "signin":
-                signin(request, response);
-                break;
             case "updateProfile":
                 updateProfile(request, response);
                 break;
@@ -90,288 +81,112 @@ public class AdopterController extends HttpServlet {
                 break;
         }
     }
-      
-    //admin authentication
-    private boolean isStaffLoggedIn(HttpServletRequest request) {
+    
+    // Dashboard method
+    private void showDashboard(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        return session != null && session.getAttribute("staffId") != null;
-    }
-    //dashboard
-    private void showDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        //check user's type
-        HttpSession session = request.getSession(false);
-        if(session == null || session.getAttribute("adopterId")==null){
+        if(session == null || session.getAttribute("adopterId") == null){
             response.sendRedirect("AdopterLogin.jsp");
             return;
         }
         
         int adopterId = (int) session.getAttribute("adopterId");
-        try{
-            
+        try {
             ApplicationDao appDao = new ApplicationDao();
             RecordDao recordsDao = new RecordDao();
             
-            //fetch data for dashboard
-            //TODO: add getApplicationsByAdopter(adopterId) and getRecordsByAdopter(adopterId)
             List<ApplicationBean> apps = appDao.getAllApplications();
             List<RecordBean> records = recordsDao.getAllRecords();
             
-            //set attributes
             request.setAttribute("applications", apps);
             request.setAttribute("records", records);
             request.setAttribute("username", session.getAttribute("username"));
             
-            //forward data to DashboardA.jsp
             RequestDispatcher dispatcher = request.getRequestDispatcher("DashboardA.jsp");
             dispatcher.forward(request, response);
-        }catch(SQLException e){
+        } catch(SQLException e) {
             request.setAttribute("error", "Error loading dashboard"+ e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
-        }catch(Exception e){
+        } catch(Exception e) {
             request.setAttribute("error", "Error loading dashboard");
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
     
-    //profile
-    private void showProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    // Profile method
+    private void showProfile(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if(session == null || session.getAttribute("adopterId")==null){
+        if(session == null || session.getAttribute("adopterId") == null){
             response.sendRedirect("AdopterLogin.jsp");
             return;
         }
         
         int adopterId = (int) session.getAttribute("adopterId");
         
-        try{
+        try {
             AdopterDao adoptDao = new AdopterDao();
-            
-            //fetch adopter profile's data
             AdopterBean adopter = adopterDao.getAdopterById(adopterId);
-            if(adopter !=null){
+            if(adopter != null) {
                 request.setAttribute("adopter", adopter);
                 request.getRequestDispatcher("Profile.jsp").forward(request, response);
             } else {
                 session.invalidate();
                 response.sendRedirect("AdopterLogin.jsp");
             }
-        }catch(IOException | ServletException e){
+        } catch(IOException | ServletException e) {
             request.setAttribute("error", "Error loading profile" + e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
     
-    //edit profile
-    private void showEditProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // Edit profile method
+    private void showEditProfile(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if(session == null || session.getAttribute("adopterId")==null){
+        if(session == null || session.getAttribute("adopterId") == null){
             response.sendRedirect("AdopterLogin.jsp");
             return;
         }
         
-        try{
+        try {
             int adopterId = (int) session.getAttribute("adopterId");
             AdopterBean adopter = adopterDao.getAdopterById(adopterId);
-            if(adopter!=null){
+            if(adopter != null) {
                 request.setAttribute("adopter", adopter);
                 request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request,response);
-            }else{
+            } else {
                 session.invalidate();
                 response.sendRedirect("AdopterLogin.jsp");
             }
-        }catch(Exception e){
+        } catch(Exception e) {
             request.setAttribute("error", "Error loading edit profile page");
             request.getRequestDispatcher("error.jsp").forward(request,response);
         }
     }
-        
-    //logout
-    private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    
+    // Logout method
+    private void logout(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if(session!=null){
+        if(session != null) {
             session.invalidate();
         }
         response.sendRedirect("Home.html");
     }
-            
-    //login
-    private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String un = request.getParameter("username");
-        String pw = request.getParameter("password");
-        
-        if(un == null || pw == null){
-            request.setAttribute("errorMessage", "Username and password are required");
-            request.getRequestDispatcher("AdopterLogin.jsp").forward(request, response);
-            return;
-        }
-        
-        try{
-            AdopterBean adopter = adopterDao.validateAdopter(un, pw);
-            
-            if (adopter != null) {
-                //create session
-                HttpSession session = request.getSession();
-                session.setAttribute("adopterId", adopter.getAdoptId());
-                session.setAttribute("username", adopter.getAdoptUsername());
-                session.setAttribute("fullName", adopter.getAdoptFName() + " " + adopter.getAdoptLName());
-                session.setAttribute("adopter", adopter);
-                
-                //set session timeout (30 minutes)
-                session.setMaxInactiveInterval(30 * 60);
-                
-                //go to dashboard
-                response.sendRedirect("AdopterController?action=dashboard");
-            } else {
-                request.setAttribute("errorMessage", "Invalid username or password");
-                request.getRequestDispatcher("AdopterLogin.jsp").forward(request, response);
-            }
-        } catch (IOException | ServletException e) {
-            request.setAttribute("errorMessage", "Login failed. Please try again.");
-            request.getRequestDispatcher("AdopterLogin.jsp").forward(request, response);
-
-        }
-    }
     
-    //ergister
-    private void signin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //get parameters
-        try{
-            String fname = request.getParameter("fname");
-            String lname = request.getParameter("lname");
-            String ic = request.getParameter("ic");
-            String phoneStr = request.getParameter("phone");
-            String email = request.getParameter("email");
-            String address = request.getParameter("address");
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-
-            //validate
-            if (fname == null || lname == null || ic == null || phoneStr == null || email == null || address == null || username == null || password == null) {
-
-                request.setAttribute("errorMessage", "All fields are required");
-                request.setAttribute("fname", fname);
-                request.setAttribute("lname", lname);
-                request.setAttribute("ic", ic);
-                request.setAttribute("phone", phoneStr);
-                request.setAttribute("email", email);
-                request.setAttribute("address", address);
-                request.setAttribute("username", username);
-                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-                return;
-            }
-
-            //validate phone number
-            try {
-                //parse phone number to int
-                int phone = Integer.parseInt(phoneStr);
-
-                //validate phoneNum length
-                if (phoneStr.length() != 10) {
-                    request.setAttribute("errorMessage", "Phone number must be 10 digits");
-                    //set each attribute individually
-                    request.setAttribute("fname", fname);
-                    request.setAttribute("lname", lname);
-                    request.setAttribute("ic", ic);
-                    request.setAttribute("phone", ""); //clear phone text field
-                    request.setAttribute("email", email);
-                    request.setAttribute("address", address);
-                    request.setAttribute("username", username);
-                    request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-                    return;
-                }
-                //ensuring phone number entered is not all zeros
-                if (phone <= 0) {
-                    request.setAttribute("errorMessage", "Invalid phone number");
-                    //set each attribute individually
-                    request.setAttribute("fname", fname);
-                    request.setAttribute("lname", lname);
-                    request.setAttribute("ic", ic);
-                    request.setAttribute("phone", ""); //clear phone text field
-                    request.setAttribute("email", email);
-                    request.setAttribute("address", address);
-                    request.setAttribute("username", username);
-                    request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-                    return;
-                }
-
-            }catch(NumberFormatException e) {
-                request.setAttribute("errorMessage", "Invalid phone number format. Please enter digits only.");
-                //set each attribute individually
-                request.setAttribute("fname", fname);
-                request.setAttribute("lname", lname);
-                request.setAttribute("ic", ic);
-                request.setAttribute("phone", ""); // Clear phone field
-                request.setAttribute("email", email);
-                request.setAttribute("address", address);
-                request.setAttribute("username", username);
-                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-                return;
-            }
-
-            //prevent duplicate username
-            if (adopterDao.checkUsernameExists(username)) {
-                request.setAttribute("errorMessage", "Username already exists. Please choose another.");
-                request.setAttribute("fname", fname);
-                request.setAttribute("lname", lname);
-                request.setAttribute("ic", ic);
-                request.setAttribute("phone", phoneStr);
-                request.setAttribute("email", email);
-                request.setAttribute("address", address);
-                request.setAttribute("username", username);
-                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-                return;
-            }
-
-            //create adopter object
-            AdopterBean temp = new AdopterBean();
-            temp.setAdoptFName(fname);
-            temp.setAdoptLName(lname);
-            temp.setAdoptIC(ic);
-            temp.setAdoptPhoneNum(phoneStr);
-            temp.setAdoptEmail(email);
-            temp.setAdoptAddress(address);
-            temp.setAdoptUsername(username);
-            temp.setAdoptPassword(password);
-
-            boolean success = adopterDao.insertAdopter(temp);
-            if(success){
-                response.sendRedirect("AdopterLogin.jsp?success=Registration successful! Please login.");
-            }else{
-                request.setAttribute("errorMessage", "Registration failed. Please try again.");
-                request.setAttribute("fname", fname);
-                request.setAttribute("lname", lname);
-                request.setAttribute("ic", ic);
-                request.setAttribute("phone", phoneStr);
-                request.setAttribute("email", email);
-                request.setAttribute("address", address);
-                request.setAttribute("username", username);
-                request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-            }
-        }catch(IOException | NumberFormatException | ServletException e) {
-            request.setAttribute("errorMessage", "Registration error: " + e.getMessage());
-            //preserve form data in case of unexpected error.
-            request.setAttribute("fname", request.getParameter("fname"));
-            request.setAttribute("lname", request.getParameter("lname"));
-            request.setAttribute("ic", request.getParameter("ic"));
-            request.setAttribute("phone", request.getParameter("phone"));
-            request.setAttribute("email", request.getParameter("email"));
-            request.setAttribute("address", request.getParameter("address"));
-            request.setAttribute("username", request.getParameter("username"));
-            request.getRequestDispatcher("AdopterSignin.jsp").forward(request, response);
-        }
-    }
-    
-    //update profile
-    private void updateProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // Update profile method
+    private void updateProfile(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if(session == null || session.getAttribute("adopterId")==null){
+        if(session == null || session.getAttribute("adopterId") == null){
             response.sendRedirect("AdopterLogin.jsp");
             return;
         }
         
         int adopterId = (int) session.getAttribute("adopterId");
         
-        //get parameters
         String fname = request.getParameter("fname");
         String lname = request.getParameter("lname");
         String ic = request.getParameter("ic");
@@ -380,27 +195,24 @@ public class AdopterController extends HttpServlet {
         String address = request.getParameter("address");
         String username = request.getParameter("username");
         
-        //validate
-        if (fname == null || lname == null || ic == null || phoneStr == null || email == null || address == null || username == null) {
-
+        if (fname == null || lname == null || ic == null || phoneStr == null || 
+            email == null || address == null || username == null) {
             request.setAttribute("errorMessage", "All fields are required");
             request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
             return;
-
         }
         
-        try{
-            //retrieve data
+        try {
             AdopterBean adopter = adopterDao.getAdopterById(adopterId);
             
-            if(adopter == null){
+            if(adopter == null) {
                 session.invalidate();
                 response.sendRedirect("AdopterLogin.jsp");
                 return;
             }
-            //check if username changed and already exists for other users
-            if(!username.equals(adopter.getAdoptUsername())){
-                if(adopterDao.checkUsernameExists(username)){
+            
+            if(!username.equals(adopter.getAdoptUsername())) {
+                if(adopterDao.checkUsernameExists(username)) {
                     request.setAttribute("errorMessage", "Username already exists. Please choose another.");
                     request.setAttribute("adopter", adopter);
                     request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
@@ -418,8 +230,7 @@ public class AdopterController extends HttpServlet {
             
             boolean success = adopterDao.updateAdopter(adopter);
             
-            if(success){
-                //update session
+            if(success) {
                 session.setAttribute("username", username);
                 session.setAttribute("fullName", fname + " " + lname);
                 session.setAttribute("adopter", adopter);
@@ -427,12 +238,12 @@ public class AdopterController extends HttpServlet {
                 request.setAttribute("successMessage", "Profile updated successfully!");
                 request.setAttribute("adopter", adopter);
                 request.getRequestDispatcher("Profile.jsp").forward(request, response);
-            }else{
+            } else {
                 request.setAttribute("errorMessage", "Failed to update profile :(");
                 request.setAttribute("adopter", adopter);
                 request.getRequestDispatcher("EditAdopterProfile.jsp").forward(request, response);
             }
-        }catch(NumberFormatException e){
+        } catch(NumberFormatException e) {
             request.setAttribute("errorMessage", "Invalid phone number format");
             request.getRequestDispatcher("EditProfileA.jsp").forward(request, response);
         } catch (IOException | ServletException e) {
@@ -440,10 +251,10 @@ public class AdopterController extends HttpServlet {
             request.getRequestDispatcher("EditProfileA.jsp").forward(request, response);
         }
     }
-        
-        
-    //change password
-    private void changePassword(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+    
+    // Change password method
+    private void changePassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("adopterId") == null) {
             response.sendRedirect("AdopterLogin.jsp");
@@ -456,9 +267,7 @@ public class AdopterController extends HttpServlet {
         String newPassword = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
 
-        //validate
         if (currentPassword == null || newPassword == null || confirmPassword == null) {
-
             request.setAttribute("errorMessage", "All password fields are required");
             request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
             return;
@@ -471,7 +280,6 @@ public class AdopterController extends HttpServlet {
         }
 
         try {
-            //verify current password
             String username = (String) session.getAttribute("username");
             AdopterBean adopter = adopterDao.validateAdopter(username, currentPassword);
 
@@ -481,7 +289,6 @@ public class AdopterController extends HttpServlet {
                 return;
             }
 
-            //update password
             adopter.setAdoptPassword(newPassword);
             boolean success = adopterDao.updateAdopter(adopter);
 
@@ -497,4 +304,5 @@ public class AdopterController extends HttpServlet {
             request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
         }
     }
+}
 }
