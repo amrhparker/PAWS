@@ -21,14 +21,14 @@ public class StaffDao {
     //sql queries
     //insert
     private static final String insertStaffSql
-            = "INSERT INTO Staff (staffFname, staffLname, staffEmail, staffPhoneNum, staffUsername, staffPho) "
+            = "INSERT INTO Staff (staffFname, staffLname, staffEmail, staffPhoneNum, staffUsername, staffPassword) "
             + "VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String updateStaffSql
-            = "UPDATE Staff SET staffFname = ?, staffLname = ?, staffEmail = ?, staffPhoneNum = ?, staffUsername = ?, staffPho = ? WHERE staffId = ?";
+            = "UPDATE Staff SET staffFname = ?, staffLname = ?, staffEmail = ?, staffPhoneNum = ?, staffUsername = ?, staffPassword = ? WHERE staffId = ?";
 
     private static final String authenticateStaffSQL
-            = "SELECT * FROM Staff WHERE staffUsername = ? AND staffPho = ?";
+            = "SELECT * FROM Staff WHERE staffUsername = ? AND staffPassword = ?";
 
     private static final String getStaffByUsernameSQL
             = "SELECT * FROM Staff WHERE staffUsername = ?";
@@ -37,7 +37,7 @@ public class StaffDao {
             = "SELECT * FROM Staff WHERE staffId = ?";
 
     private static final String verifyPasswordSQL
-            = "SELECT staffId FROM Staff WHERE staffUsername = ? AND staffPho = ?";
+            = "SELECT staffId FROM Staff WHERE staffUsername = ? AND staffPassword = ?";
 
     private static final String checkUsernameExistsSQL
             = "SELECT staffId FROM Staff WHERE staffUsername = ?";
@@ -187,7 +187,7 @@ public class StaffDao {
             st.setString(3, staff.getStaffEmail());
             st.setInt(4, staff.getStaffPhoneNum());
             st.setString(5, staff.getStaffUsername());
-            st.setString(6, staff.getStaffPho());
+            st.setString(6, staff.getStaffPassword());
 
             int rows = st.executeUpdate();
             return rows > 0;
@@ -222,7 +222,7 @@ public class StaffDao {
             st.setString(3, staff.getStaffEmail());
             st.setInt(4, staff.getStaffPhoneNum());
             st.setString(5, staff.getStaffUsername());
-            st.setString(6, staff.getStaffPho());
+            st.setString(6, staff.getStaffPassword());
             st.setInt(7, staff.getStaffId());
 
             int rows = st.executeUpdate();

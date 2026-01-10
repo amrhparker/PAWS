@@ -28,7 +28,7 @@ public class StaffBean {
     public String getStaffUsername(){
         return staffUsername;
     }
-    public String getStaffPho(){
+    public String getStaffPassword(){
         return staffPassword;
     }
     
