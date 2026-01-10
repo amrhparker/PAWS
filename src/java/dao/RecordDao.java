@@ -75,4 +75,21 @@ public class RecordDao {
         }
         return r;
     }
+    
+    //DELETE 
+public void deleteRecord(int recordId) {
+
+    String sql = "DELETE FROM RECORD WHERE RECORD_ID = ?";
+
+    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, recordId);
+        ps.executeUpdate();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
 }
