@@ -3,6 +3,7 @@ package dao;
 import java.sql.*;
 import java.util.*;
 import model.AdopterBean;
+import util.DBConnection;
 
 public class AdopterDao {
     private final String URL = "jdbc:derby://localhost:1527/PAWSdb";
@@ -56,27 +57,26 @@ public class AdopterDao {
     }
 
     // Update
-    public boolean updateAdopter(AdopterBean adopter){
-        boolean success = false;
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement ps = conn.prepareStatement(updateAdopterSql)) {
+public void updateAdopter(AdopterBean adopter) throws SQLException {
+    String sql = "UPDATE ADOPTER SET ADOPT_FNAME=?, ADOPT_LNAME=?, ADOPT_IC=?, ADOPT_PHONENUM=?, " +
+                 "ADOPT_ADDRESS=?, ADOPT_OCCUPATION=?, ADOPT_INCOME=? WHERE ADOPT_ID=?";
 
-            ps.setString(1, adopter.getAdoptFName());
-            ps.setString(2, adopter.getAdoptLName());
-            ps.setString(3, adopter.getAdoptIC());
-            ps.setString(4, adopter.getAdoptPhoneNum());
-            ps.setString(5, adopter.getAdoptEmail());
-            ps.setString(6, adopter.getAdoptAddress());
-            ps.setString(7, adopter.getAdoptUsername());
-            ps.setString(8, adopter.getAdoptPassword());
-            ps.setInt(9, adopter.getAdoptId());
+    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            success = ps.executeUpdate() > 0;
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
-        return success;
+        ps.setString(1, adopter.getAdoptFName());
+        ps.setString(2, adopter.getAdoptLName());
+        ps.setString(3, adopter.getAdoptIC());
+        ps.setString(4, adopter.getAdoptPhoneNum());
+        ps.setString(5, adopter.getAdoptAddress());
+        ps.setString(6, adopter.getAdoptOccupation());
+        ps.setDouble(7, adopter.getAdoptIncome());
+        ps.setInt(8, adopter.getAdoptId());
+
+        ps.executeUpdate();
     }
+}
+
 
     // Delete
     public boolean deleteAdopter(int adoptId){
