@@ -42,6 +42,9 @@ public class ApplicationController extends HttpServlet {
 
             } else if (action.equals("form")) {
                 showApplicationForm(request, response);
+                
+            } else if (action.equals("manage")) {
+                manageApplications(request, response);
 
             } else {
                 showAdopterDashboard(request, response);
@@ -75,13 +78,21 @@ public class ApplicationController extends HttpServlet {
     private void showAdopterDashboard(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        int adoptId = (int) session.getAttribute("adoptId");
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("adopter") == null) {
+            response.sendRedirect("AdopterLogin.jsp");
+            return;
+        }
+
+        AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
+        int adoptId = adopter.getAdoptId();
 
         List<ApplicationBean> apps = dao.getApplicationsByAdopter(adoptId);
 
         request.setAttribute("applications", apps);
         request.getRequestDispatcher("DashboardA.jsp").forward(request, response);
+
     }
 
     // View application
@@ -99,16 +110,21 @@ public class ApplicationController extends HttpServlet {
     private void showApplicationForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
-        int adoptId = (int) session.getAttribute("adoptId");
-        int petId = Integer.parseInt(request.getParameter("petId"));
+           HttpSession session = request.getSession(false);
 
-        AdopterBean adopter = adopterDao.getAdopterById(adoptId);
+           if (session == null || session.getAttribute("adopter") == null) {
+            response.sendRedirect("AdopterLogin.jsp");
+            return;
+           }
 
-        request.setAttribute("adopter", adopter);
-        request.setAttribute("petId", petId);
+           AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
+           int petId = Integer.parseInt(request.getParameter("petId"));
 
-        request.getRequestDispatcher("applicationform.jsp").forward(request, response);
+           request.setAttribute("adopter", adopter);
+           request.setAttribute("petId", petId);
+
+           request.getRequestDispatcher("ApplicationForm.jsp").forward(request, response);
+
     }
 
     // Insert application
@@ -172,4 +188,15 @@ private void insertApplication(HttpServletRequest request, HttpServletResponse r
         dao.deleteApplication(appId);
         response.sendRedirect("ApplicationController?action=dashboardA");
     }
+    
+    // Manage Applications
+    private void manageApplications(HttpServletRequest request, HttpServletResponse response)
+        throws SQLException, ServletException, IOException {
+
+    List<ApplicationBean> apps = dao.getAllApplications(); // STAFF VIEW ALL
+
+    request.setAttribute("applications", apps);
+    request.getRequestDispatcher("ManageApplications.jsp").forward(request, response);
+}
+
 }
