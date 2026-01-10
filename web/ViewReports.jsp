@@ -1,59 +1,98 @@
 <%-- 
     Document   : ViewReports
-    Created on : Jan 10, 2026, 2:33:32 PM
-    Author     : Acer
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%
+    /*
+     FLOW:
+     1. JSP dibuka
+     2. Kalau "report" belum ada → redirect Controller
+     3. Controller fetch data & forward balik
+     4. JSP display
+    */
+
+    if (request.getAttribute("report") == null) {
+
+        String reportId = request.getParameter("reportId");
+
+        if (reportId != null && !reportId.equals("")) {
+            response.sendRedirect(
+                "ReportController?action=view&reportId=" + reportId
+            );
+            return;
+        } else {
+            response.sendRedirect("ReportController?action=list");
+            return;
+        }
+    }
+%>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>View Report</title>
+    <title>Adoption Report</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        #heading{
-            font-size:30px;
-            padding-left:60px;
-            padding-top:20px;
-            width:95%;
+        body{
+            font-family:'Poppins', sans-serif;
+            background:#f6f7fb;
+            margin:0;
+        }
+
+        .page-title{
+            width:90%;
+            margin:35px auto 20px;
+            font-size:28px;
+            font-weight:600;
+        }
+
+        .card{
+            width:90%;
+            max-width:700px;
             margin:auto;
+            background:white;
+            border-radius:16px;
+            padding:35px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.08);
         }
 
-        #view{
-            width:95%;
-            padding:10px;
-            margin:auto;
+        .field{
+            margin-bottom:22px;
         }
 
-        #view th{
-            font-size:20px;
-            padding:15px;
-            text-align:left;
+        .label{
+            font-size:14px;
+            color:#666;
+            margin-bottom:6px;
+            font-weight:500;
         }
 
-        #view td{
-            padding:15px;
-            text-align:left;
+        .value{
+            background:#f5f6fa;
+            padding:12px 14px;
+            border-radius:10px;
+            font-size:15px;
+            font-weight:500;
         }
 
-        table{
-            font-family:banschrift, sans-serif;
-            width:100%;
-            border-collapse:collapse;
-        }
-
-        a{
+        .back-btn{
+            display:inline-block;
+            margin-top:25px;
+            padding:12px 26px;
+            background:#333;
+            color:white;
+            border-radius:10px;
             text-decoration:none;
-            color:black;
+            font-size:14px;
         }
 
-        a:hover{
-            color:#848484;
+        .back-btn:hover{
+            background:#555;
         }
     </style>
 </head>
@@ -82,54 +121,42 @@
     </div>
 </div>
 
-<!-- PAGE TITLE -->
-<table id="heading">
-    <tr>
-        <th style="text-align:left;">Adoption Report</th>
-    </tr>
-</table>
+<!-- TITLE -->
+<div class="page-title">Adoption Report</div>
 
 <!-- REPORT DETAILS -->
-<table>
-    <tr>
-        <td>
-            <table id="view" border="1">
-                <tr>
-                    <th colspan="2">
-                        Report ${report.reportId}
-                    </th>
-                </tr>
+<div class="card">
 
-                <tr>
-                    <td><strong>Record ID</strong></td>
-                    <td>${report.recordId}</td>
-                </tr>
+    <div class="field">
+        <div class="label">Report ID</div>
+        <div class="value">Report ${report.reportId}</div>
+    </div>
 
-                <tr>
-                    <td><strong>Staff ID</strong></td>
-                    <td>${report.staffId}</td>
-                </tr>
+    <div class="field">
+        <div class="label">Record ID</div>
+        <div class="value">${report.recordId}</div>
+    </div>
 
-                <tr>
-                    <td><strong>Report Type</strong></td>
-                    <td>${report.reportType}</td>
-                </tr>
+    <div class="field">
+        <div class="label">Staff ID</div>
+        <div class="value">${report.staffId}</div>
+    </div>
 
-                <tr>
-                    <td><strong>Report Date</strong></td>
-                    <td>${report.reportDate}</td>
-                </tr>
+    <div class="field">
+        <div class="label">Report Type</div>
+        <div class="value">${report.reportType}</div>
+    </div>
 
-                <tr>
-                    <td colspan="2" style="text-align:center;">
-                        <a href="ReportController?action=list">← Back to Reports</a>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+    <div class="field">
+        <div class="label">Report Date</div>
+        <div class="value">${report.reportDate}</div>
+    </div>
+
+    <a href="ReportController?action=list" class="back-btn">
+        Back to Reports
+    </a>
+
+</div>
 
 </body>
 </html>
-

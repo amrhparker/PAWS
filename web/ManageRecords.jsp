@@ -1,7 +1,5 @@
 <%-- 
     Document   : ManageRecords
-    Created on : Jan 6, 2026, 9:34:16 PM
-    Author     : Acer
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -10,57 +8,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Adoption</title>
+    <title>Adoption Records</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        #heading{
-            font-size:30px;
-            padding-left:60px;
-            padding-top:20px;
-            width:95%;
-            margin:auto;
+        body{
+            font-family:'Poppins', sans-serif;
+            background:#f6f7fb;
+            margin:0;
         }
 
-        #view{
-            width:95%;
-            padding:10px;
-            margin:auto;
-            border-collapse:collapse;
+        /* CONTENT */
+        .content{
+            width:90%;
+            margin:40px auto;
         }
 
-        #view th{
-            border:1px solid black;
-            font-size:20px;
-            padding:15px;
+        h2{
+            margin-bottom:25px;
+            font-weight:600;
         }
 
-        #view td{
-            padding:10px;
+        /* RECORD CARD */
+        .record-card{
+            background:white;
+            border-radius:14px;
+            padding:22px 28px;
+            margin-bottom:18px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.08);
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
         }
 
-        table{
-            font-family:banschrift, sans-serif;
-            width:100%;
-            border-collapse:collapse;
+        .record-title{
+            font-size:18px;
+            font-weight:500;
         }
 
-        a{
+        /* BUTTONS */
+        .actions a{
             text-decoration:none;
-            color:black;
+            padding:9px 16px;
+            border-radius:8px;
+            font-size:14px;
+            font-weight:500;
+            margin-left:10px;
+            display:inline-block;
         }
 
-        a:hover{
-            color:#848484;
+        .view-btn{
+            background:#0d6efd;
+            color:white;
+        }
+
+        .delete-btn{
+            background:#dc3545;
+            color:white;
+        }
+
+        .view-btn:hover{ background:#0b5ed7; }
+        .delete-btn:hover{ background:#bb2d3b; }
+
+        /* EMPTY */
+        .empty{
+            background:white;
+            padding:30px;
+            border-radius:14px;
+            text-align:center;
+            color:gray;
+            box-shadow:0 6px 16px rgba(0,0,0,0.06);
         }
     </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
+<!-- ===== PAWS ORIGINAL NAVBAR (KEKAL) ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.html">
@@ -68,12 +94,12 @@
         </a>
 
         <div class="navbar-links">
-            <a href="StaffDashboard.html">Dashboard</a>
-            <a href="ManagePets.html">Pets</a>
-            <a href="RecordController?action=list" class="active">Records</a>
-            <a href="ManageReports.html">Reports</a>
-            <a href="ApplicationController?action=list">Applications</a>
-            <a href="ActivityLog.html">Logs</a>
+            <a href="StaffDashboard.jsp">Dashboard</a>
+            <a href="ManagePets.jsp">Pets</a>
+            <a href="ManageRecords.jsp">Records</a>
+            <a href="ManageReports.jsp">Reports</a>
+            <a href="ManageApplications.jsp">Applications</a>
+            <a href="ActivityLog.jsp">Logs</a>
         </div>
     </div>
 
@@ -82,47 +108,41 @@
     </div>
 </div>
 
-<!-- PAGE TITLE -->
-<table id="heading">
-    <tr>
-        <th style="text-align:left;">Adoption Records</th>
-    </tr>
-</table>
+<!-- ===== CONTENT ===== -->
+<div class="content">
 
-<!-- RECORD LIST -->
-<table>
-    <tr>
-        <td>
-            <table id="view" border="1">
-                <tr>
-                    <th>Records</th>
-                </tr>
+    <h2>Adoption Records</h2>
 
-                <!-- DYNAMIC RECORDS -->
-                <c:forEach var="r" items="${records}">
-                    <tr>
-                        <td>
-                            <a href="RecordController?action=view&recordId=${r.recordId}">
-                                Adoption ${r.recordId}
-                            </a>
-                        </td>
-                    </tr>
-                </c:forEach>
+    <c:forEach var="r" items="${records}">
+        <div class="record-card">
 
-                <!-- EMPTY STATE -->
-                <c:if test="${empty records}">
-                    <tr>
-                        <td style="text-align:center; color:gray;">
-                            No adoption records found
-                        </td>
-                    </tr>
-                </c:if>
+            <div class="record-title">
+                Adoption ${r.recordId}
+            </div>
 
-            </table>
-        </td>
-    </tr>
-</table>
+            <div class="actions">
+                <a class="view-btn"
+                   href="ViewRecords.jsp?recordId=${r.recordId}">
+                   View
+                </a>
+
+                <a class="delete-btn"
+                   href="RecordController?action=delete&recordId=${r.recordId}"
+                   onclick="return confirm('Delete this record?');">
+                   Delete
+                </a>
+            </div>
+
+        </div>
+    </c:forEach>
+
+    <c:if test="${empty records}">
+        <div class="empty">
+            No adoption records found
+        </div>
+    </c:if>
+
+</div>
 
 </body>
 </html>
-

@@ -82,4 +82,21 @@ public class ReportDao {
         }
         return r;
     }
+    
+    //DELETE
+    public void deleteReport(int reportId) {
+
+    String sql = "DELETE FROM REPORT WHERE REPORT_ID = ?";
+
+    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, reportId);
+        ps.executeUpdate();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
 }

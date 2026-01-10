@@ -84,7 +84,7 @@ public class RecordController extends HttpServlet {
         RecordBean record = dao.getRecordById(recordId);
 
         request.setAttribute("record", record);
-        request.getRequestDispatcher("ViewRecord.jsp").forward(request, response);
+        request.getRequestDispatcher("ViewRecords.jsp").forward(request, response);
     }
 
     // ===== DELETE =====
