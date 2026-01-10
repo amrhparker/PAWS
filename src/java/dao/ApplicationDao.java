@@ -145,7 +145,7 @@ public class ApplicationDao {
         adopter.setAdoptId(rs.getInt("ADOPT_ID"));
         adopter.setAdoptFName(rs.getString("ADOPT_FNAME"));
         adopter.setAdoptLName(rs.getString("ADOPT_LNAME"));
-        adopter.setAdoptPhoneNum(rs.getInt("ADOPT_PHONENUM"));
+        adopter.setAdoptPhoneNum(rs.getString("ADOPT_PHONENUM"));
         adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
         app.setAdopter(adopter);
 
