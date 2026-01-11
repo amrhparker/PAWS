@@ -35,14 +35,6 @@ public class ApplicationController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession(false);
-
-        if (session == null || session.getAttribute("adopter") == null) {
-            response.sendRedirect("AdopterLogin.jsp?error=loginRequired");
-            return;
-        }
-
-
         String action = request.getParameter("action");
 
         try {
@@ -102,8 +94,9 @@ public class ApplicationController extends HttpServlet {
             throws SQLException, ServletException, IOException {
 
         HttpSession session = request.getSession(false);
+
         if (session == null || session.getAttribute("adopter") == null) {
-            response.sendRedirect("AdopterLogin.jsp");
+            response.sendRedirect("AdopterLogin.jsp?error=loginRequired");
             return;
         }
 
@@ -121,14 +114,16 @@ public class ApplicationController extends HttpServlet {
     // VIEW SUBMITTED APPLICATION
     // =========================
     private void viewApplication(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
+        throws SQLException, ServletException, IOException {
 
-        int appId = Integer.parseInt(request.getParameter("appId"));
-        ApplicationBean application = applicationDao.getApplicationById(appId);
+    int appId = Integer.parseInt(request.getParameter("appId"));
 
-        request.setAttribute("application", application);
-        request.getRequestDispatcher("SubmittedApplication.jsp").forward(request, response);
-    }
+    ApplicationBean application =
+            applicationDao.getApplicationById(appId);
+
+    request.setAttribute("application", application);
+    request.getRequestDispatcher("ViewApplication.jsp").forward(request, response);
+}
 
     // =========================
     // SHOW APPLICATION FORM (FIXED PREFILL)
@@ -229,7 +224,7 @@ public class ApplicationController extends HttpServlet {
         String eligibility = request.getParameter("eligibility");
 
         applicationDao.updateStatus(appId, status, eligibility);
-        response.sendRedirect("ApplicationController?action=dashboardA");
+        response.sendRedirect("ApplicationController?action=manage");
     }
 
     // =========================
