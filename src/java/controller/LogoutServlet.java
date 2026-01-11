@@ -19,7 +19,7 @@ public class LogoutServlet extends HttpServlet {
         }
 
         // Redirect to login page after logout
-        response.sendRedirect("Home.html");
+        response.sendRedirect("Home.html?logout=success");
     }
 
     @Override

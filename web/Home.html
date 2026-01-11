@@ -106,5 +106,12 @@
         © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
     </div>
 
+    <script>
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("logout") === "success") {
+        alert("Logout Successful");
+    }
+    </script>
+
 </body>
 </html>
