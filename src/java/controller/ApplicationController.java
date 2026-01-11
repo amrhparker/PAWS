@@ -32,35 +32,40 @@ public class ApplicationController extends HttpServlet {
     // GET REQUESTS
     // =========================
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        String action = request.getParameter("action");
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 
-        try {
-            if (action == null || action.equals("dashboardA")) {
-                showAdopterDashboard(request, response);
+    String action = request.getParameter("action");
 
-            } else if (action.equals("form")) {
-                showApplicationForm(request, response);
+    try {
+        if (action == null || action.equals("dashboardA")) {
+            showAdopterDashboard(request, response);
 
-            } else if (action.equals("view")) {
-                viewApplication(request, response);
+        } else if (action.equals("form")) {
+            showApplicationForm(request, response);
 
-            } else if (action.equals("delete")) {
-                deleteApplication(request, response);
+        } else if (action.equals("view")) {
+            // Staff view
+            viewApplication(request, response);
 
-            } else if (action.equals("manage")) {
-                manageApplications(request, response);
+        } else if (action.equals("viewAdopter")) {
+            // Adopter view
+            viewApplicationAdopter(request, response);
 
-            } else {
-                showAdopterDashboard(request, response);
-            }
+        } else if (action.equals("delete")) {
+            deleteApplication(request, response);
 
-        } catch (SQLException e) {
-            throw new ServletException(e);
+        } else if (action.equals("manage")) {
+            manageApplications(request, response);
+
+        } else {
+            showAdopterDashboard(request, response);
         }
+
+    } catch (SQLException e) {
+        throw new ServletException(e);
     }
+}
 
     // =========================
     // POST REQUESTS
@@ -113,6 +118,7 @@ public class ApplicationController extends HttpServlet {
     // =========================
     // VIEW SUBMITTED APPLICATION
     // =========================
+    //Staff
     private void viewApplication(HttpServletRequest request, HttpServletResponse response)
         throws SQLException, ServletException, IOException {
 
@@ -124,6 +130,19 @@ public class ApplicationController extends HttpServlet {
     request.setAttribute("application", application);
     request.getRequestDispatcher("ViewApplication.jsp").forward(request, response);
 }
+    //Adopter
+    private void viewApplicationAdopter(HttpServletRequest request, HttpServletResponse response)
+        throws SQLException, ServletException, IOException {
+
+    int appId = Integer.parseInt(request.getParameter("appId"));
+
+    ApplicationBean application = applicationDao.getApplicationById(appId);
+
+    request.setAttribute("application", application);
+    // Forward to adopter JSP instead of staff JSP
+    request.getRequestDispatcher("SubmittedApplication.jsp").forward(request, response);
+}
+
 
     // =========================
     // SHOW APPLICATION FORM (FIXED PREFILL)
