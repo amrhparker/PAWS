@@ -43,7 +43,7 @@ public class ApplicationDao {
         List<ApplicationBean> list = new ArrayList<>();
         String sql = "SELECT a.*, "
                    + "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, "
-                   + "p.PET_NAME "
+                   + "p.PET_ID, p.PET_NAME,p.PET_DESC, p.PET_SPECIES,p.PET_GENDER, p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS "
                    + "FROM APPLICATION a "
                    + "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID "
                    + "JOIN PET p ON a.PET_ID = p.PET_ID "
@@ -68,7 +68,7 @@ public class ApplicationDao {
         List<ApplicationBean> list = new ArrayList<>();
         String sql = "SELECT a.*, "
                    + "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, "
-                   + "p.PET_NAME "
+                   + "p.PET_ID, p.PET_NAME,p.PET_DESC, p.PET_SPECIES,p.PET_GENDER, p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS "
                    + "FROM APPLICATION a "
                    + "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID "
                    + "JOIN PET p ON a.PET_ID = p.PET_ID "
@@ -89,7 +89,7 @@ public class ApplicationDao {
     public ApplicationBean getApplicationById(int appId) throws SQLException {
         String sql = "SELECT a.*, "
                    + "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, "
-                   + "p.PET_NAME "
+                   + "p.PET_ID, p.PET_NAME,p.PET_DESC, p.PET_SPECIES,p.PET_GENDER, p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS "
                    + "FROM APPLICATION a "
                    + "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID "
                    + "JOIN PET p ON a.PET_ID = p.PET_ID "
@@ -135,37 +135,46 @@ public class ApplicationDao {
 
     /* ================= HELPER ================= */
     private ApplicationBean mapApplication(ResultSet rs) throws SQLException {
-        ApplicationBean app = new ApplicationBean();
+    ApplicationBean app = new ApplicationBean();
 
-        app.setAppId(rs.getInt("APP_ID"));
-        app.setAdoptId(rs.getInt("ADOPT_ID"));
-        app.setPetId(rs.getInt("PET_ID"));
-        app.setStaffId(rs.getInt("STAFF_ID"));
+    app.setAppId(rs.getInt("APP_ID"));
+    app.setAdoptId(rs.getInt("ADOPT_ID"));
+    app.setPetId(rs.getInt("PET_ID"));
+    app.setStaffId(rs.getInt("STAFF_ID"));
 
-        app.setAppDate(rs.getDate("APP_DATE"));
-        app.setAppStatus(rs.getString("APP_STATUS"));
-        app.setAppEligibility(rs.getString("APP_ELIGIBILITY"));
-        app.setHasOwnedPet(rs.getString("HAS_OWNED_PET"));
-        app.setCaretakerInfo(rs.getString("CARETAKER_INFO"));
-        app.setPetEnvironment(rs.getString("PET_ENVIRONMENT"));
-        app.setMedicalReady(rs.getString("MEDICAL_READY"));
-        app.setAdoptionReason(rs.getString("ADOPTION_REASON"));
+    app.setAppDate(rs.getDate("APP_DATE"));
+    app.setAppStatus(rs.getString("APP_STATUS"));
+    app.setAppEligibility(rs.getString("APP_ELIGIBILITY"));
+    app.setHasOwnedPet(rs.getString("HAS_OWNED_PET"));
+    app.setCaretakerInfo(rs.getString("CARETAKER_INFO"));
+    app.setPetEnvironment(rs.getString("PET_ENVIRONMENT"));
+    app.setMedicalReady(rs.getString("MEDICAL_READY"));
+    app.setAdoptionReason(rs.getString("ADOPTION_REASON"));
 
-        // ===== Adopter =====
-        AdopterBean adopter = new AdopterBean();
-        adopter.setAdoptId(rs.getInt("ADOPT_ID"));
-        adopter.setAdoptFName(rs.getString("ADOPT_FNAME"));
-        adopter.setAdoptLName(rs.getString("ADOPT_LNAME"));
-        adopter.setAdoptPhoneNum(rs.getString("ADOPT_PHONENUM"));
-        adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
-        app.setAdopter(adopter);
+    // ===== Adopter =====
+    AdopterBean adopter = new AdopterBean();
+    adopter.setAdoptId(rs.getInt("ADOPT_ID"));
+    adopter.setAdoptFName(rs.getString("ADOPT_FNAME"));
+    adopter.setAdoptLName(rs.getString("ADOPT_LNAME"));
+    adopter.setAdoptPhoneNum(rs.getString("ADOPT_PHONENUM"));
+    adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
+    app.setAdopter(adopter);
 
-        // ===== Pet =====
-        PetBean pet = new PetBean();
-        pet.setPetId(rs.getInt("PET_ID"));
-        pet.setPetName(rs.getString("PET_NAME"));
-        app.setPet(pet);
+    // ===== Pet =====
+    PetBean pet = new PetBean();
+    pet.setPetId(rs.getInt("PET_ID"));
+    pet.setPetName(rs.getString("PET_NAME"));
+    pet.setPetDesc(rs.getString("PET_DESC"));
+    pet.setPetSpecies(rs.getString("PET_SPECIES"));
+    pet.setPetGender(rs.getString("PET_GENDER"));
+    pet.setPetBreed(rs.getString("PET_BREED"));
+    pet.setPetAge(rs.getInt("PET_AGE"));
+    pet.setPetHealthStatus(rs.getString("PET_HEALTHSTATUS"));
+    pet.setPetAdoptionStatus(rs.getString("PET_ADOPTIONSTATUS"));
 
-        return app;
-    }
+    app.setPet(pet);
+
+    return app;
+}
+
 }

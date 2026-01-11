@@ -120,7 +120,7 @@
         </c:if>
 
         <!-- LOGIN FORM -->
-        <form action="StaffController" method="post">
+        <form action="LoginServlet" method="post">
             <input type="hidden" name="action" value="login">
 
             <label>Username</label>

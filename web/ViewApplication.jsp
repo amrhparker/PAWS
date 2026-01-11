@@ -131,7 +131,7 @@
     <h1>Application Details</h1>
 
     <div class="info">
-        <p><b>Application ID:</b> APP${application.appId}</p>
+        <p><b>Application ID:</b> #${application.appId}</p>
         <p><b>Status:</b> ${application.appStatus}</p>
     </div>
 

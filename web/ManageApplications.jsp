@@ -195,26 +195,35 @@
                 <td>
                     <div class="actions">
 
-                        <button class="btn btn-view"
-                                onclick="location.href='ViewAppliction.jsp?appId=${a.appId}'">
-                            View
-                        </button>
+        <button class="btn btn-view"
+            onclick="location.href='ApplicationController?action=view&appId=${a.appId}'">
+            View
+        </button>
 
-                        <c:if test="${a.appStatus eq 'Pending'}">
 
-                            <button class="btn btn-approve"
-                                    onclick="location.href='ApplicationController?action=updateStatus&appId=${a.appId}&status=Approved&eligibility=Approved'">
-                                Approve
-                            </button>
+        <c:if test="${a.appStatus eq 'Pending'}">
 
-                            <button class="btn btn-reject"
-                                    onclick="location.href='ApplicationController?action=updateStatus&appId=${a.appId}&status=Rejected&eligibility=Rejected'">
-                                Reject
-                            </button>
+            <!-- APPROVE FORM -->
+            <form action="ApplicationController" method="post" style="display:inline;">
+                <input type="hidden" name="action" value="updateStatus">
+                <input type="hidden" name="appId" value="${a.appId}">
+                <input type="hidden" name="status" value="Approved">
+                <input type="hidden" name="eligibility" value="Approved">
+                <button type="submit" class="btn btn-approve">Approve</button>
+            </form>
 
-                        </c:if>
+            <!-- REJECT FORM -->
+            <form action="ApplicationController" method="post" style="display:inline;">
+                <input type="hidden" name="action" value="updateStatus">
+                <input type="hidden" name="appId" value="${a.appId}">
+                <input type="hidden" name="status" value="Rejected">
+                <input type="hidden" name="eligibility" value="Rejected">
+                <button type="submit" class="btn btn-reject">Reject</button>
+            </form>
 
-                    </div>
+        </c:if>
+
+    </div>
                 </td>
             </tr>
         </c:forEach>
