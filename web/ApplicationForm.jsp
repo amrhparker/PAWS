@@ -86,7 +86,7 @@
         <a href="Profile.jsp">
             <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
         </a>
-        <a href="Logout.jsp" class="logout">LOG OUT</a>
+        <a href="LogoutServlet" class="logout">LOG OUT</a>
     </div>
 
     </div>
