@@ -33,7 +33,10 @@ public class RecordController extends HttpServlet {
 
         } else if (action.equals("delete")) {
             deleteRecord(request, response);
-
+            
+        } else if (action.equals("complete")) {
+        completeRecord(request, response);
+        
         } else {
             listRecords(request, response);
         }
@@ -95,4 +98,14 @@ public class RecordController extends HttpServlet {
         dao.deleteRecord(recordId);
         response.sendRedirect("RecordController?action=list");
     }
+    
+    private void completeRecord(HttpServletRequest request, HttpServletResponse response)
+        throws IOException {
+
+        int recordId = Integer.parseInt(request.getParameter("recordId"));
+        dao.updateRecordStatus(recordId, "Completed");
+
+        response.sendRedirect("RecordController?action=view&recordId=" + recordId);
+}
+
 }

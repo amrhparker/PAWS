@@ -6,11 +6,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
-    // FLOW CONTROL (JANGAN BUANG)
+    // ===== FLOW CONTROL (LECTURER STYLE) =====
     if (request.getAttribute("record") == null) {
         String recordId = request.getParameter("recordId");
 
-        if (recordId != null && !recordId.equals("")) {
+        if (recordId != null && !recordId.isEmpty()) {
             response.sendRedirect(
                 "RecordController?action=view&recordId=" + recordId
             );
@@ -25,7 +25,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Adoption Record</title>
+    <title>Adoption Record Details</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -37,7 +37,6 @@
             margin:0;
         }
 
-        /* PAGE TITLE */
         .page-title{
             width:90%;
             margin:35px auto 20px;
@@ -45,7 +44,6 @@
             font-weight:600;
         }
 
-        /* CARD */
         .record-wrapper{
             width:90%;
             margin:auto;
@@ -55,7 +53,7 @@
 
         .record-card{
             width:100%;
-            max-width:700px;
+            max-width:750px;
             background:white;
             padding:35px 40px;
             border-radius:16px;
@@ -70,11 +68,11 @@
         .divider{
             height:1px;
             background:#e0e0e0;
-            margin:15px 0 25px;
+            margin:18px 0 25px;
         }
 
         .field{
-            margin-bottom:22px;
+            margin-bottom:20px;
         }
 
         .label{
@@ -93,9 +91,25 @@
             border-radius:10px;
         }
 
-        /* BUTTON */
+        .status{
+            display:inline-block;
+            padding:6px 14px;
+            border-radius:20px;
+            font-size:13px;
+            font-weight:600;
+            color:white;
+            background:#ffc107;
+        }
+
+        .status.completed{
+            background:#28a745;
+        }
+
         .actions{
             margin-top:30px;
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
         }
 
         .back-btn{
@@ -113,12 +127,20 @@
         .back-btn:hover{
             background:#555;
         }
+
+        .complete-btn{
+            background:#28a745;
+        }
+
+        .complete-btn:hover{
+            background:#218838;
+        }
     </style>
 </head>
 
 <body>
 
-<!-- ===== PAWS NAVBAR (KEKAL) ===== -->
+<!-- ===== NAVBAR ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.html">
@@ -128,7 +150,7 @@
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
-            <a href="ManageRecords.jsp">Records</a>
+            <a href="ManageRecords.jsp" class="active">Records</a>
             <a href="ManageReports.jsp">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
             <a href="ActivityLog.jsp">Logs</a>
@@ -142,30 +164,63 @@
 
 <!-- ===== PAGE TITLE ===== -->
 <div class="page-title">
-    Adoption Record
+    Adoption Record Details
 </div>
 
-<!-- ===== RECORD CARD ===== -->
+<!-- ===== RECORD DETAILS ===== -->
 <div class="record-wrapper">
     <div class="record-card">
 
-        <h3>Adoption ${record.recordId}</h3>
+        <h3>Adoption Record #${record.recordId}</h3>
         <div class="divider"></div>
 
         <div class="field">
-            <div class="label">Application ID</div>
-            <div class="value">${record.appId}</div>
+            <div class="label">Adopter Name</div>
+            <div class="value">${record.adopterName}</div>
         </div>
 
         <div class="field">
-            <div class="label">Record Date</div>
+            <div class="label">Pet Name</div>
+            <div class="value">${record.petName}</div>
+        </div>
+
+        <div class="field">
+            <div class="label">Contact Number</div>
+            <div class="value">${record.adopterPhone}</div>
+        </div>
+
+        <div class="field">
+            <div class="label">Home Address</div>
+            <div class="value">${record.adopterAddress}</div>
+        </div>
+
+        <div class="field">
+            <div class="label">Adoption Date</div>
             <div class="value">${record.recordDate}</div>
         </div>
 
+        <div class="field">
+            <div class="label">Record Status</div>
+            <span class="status ${record.recordStatus == 'Completed' ? 'completed' : ''}">
+                ${record.recordStatus}
+            </span>
+        </div>
+
+        <!-- ===== ACTION BUTTONS ===== -->
         <div class="actions">
+
             <a href="RecordController?action=list" class="back-btn">
                 Back to Records
             </a>
+
+            <c:if test="${record.recordStatus == 'Pending'}">
+                <a href="RecordController?action=complete&recordId=${record.recordId}"
+                   class="back-btn complete-btn"
+                   onclick="return confirm('Mark this adoption as completed?');">
+                    Mark as Completed
+                </a>
+            </c:if>
+
         </div>
 
     </div>
