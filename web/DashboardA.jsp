@@ -8,6 +8,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<%
+    if (session.getAttribute("adopter") == null) {
+        response.sendRedirect("AdopterLogin.jsp");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,18 +220,19 @@
                     <c:when test="${not empty applications}">
                         <c:forEach var="app" items="${applications}">
                             <a href="ApplicationController?action=view&appId=${app.appId}" class="data-card">
+                                <strong>( ${app.appId} )</strong>
                                 <p><span class="data-label">Applicant Name:</span> ${app.applicantName}</p>
                                 <p><span class="data-label">Pet Name:</span> ${app.petName}</p>
                                 <p><span class="data-label">Status:</span> 
                                     <span style="color: 
-                                        ${app.status == 'Completed' ? 'green' : 
-                                          app.status == 'Pending Review' ? 'orange' : 
-                                          app.status == 'Under Screening' ? 'blue' : 'red'}">
-                                        ${app.status}
+                                        ${app.appStatus == 'Completed' ? 'green' : 
+                                          app.appStatus == 'Pending Review' ? 'orange' : 
+                                          app.appStatus == 'Under Screening' ? 'blue' : 'red'}">
+                                        ${app.appStatus}
                                     </span>
                                 </p>
                                 <p><span class="data-label">Date Submitted:</span> 
-                                    <fmt:formatDate value="${app.dateSubmitted}" pattern="dd MMM yyyy"/>
+                                    <fmt:formatDate value="${app.appDate}" pattern="dd MMM yyyy"/>
                                 </p>
                             </a>
                         </c:forEach>
