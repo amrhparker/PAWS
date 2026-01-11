@@ -218,7 +218,7 @@ public class ApplicationController extends HttpServlet {
     }
 
     // 3️⃣ Redirect AFTER everything
-    response.sendRedirect("ApplicationController?action=manage");
+    response.sendRedirect("ApplicationController?action=manage&email=sent");
 }
 
 
