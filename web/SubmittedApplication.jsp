@@ -2,6 +2,13 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<%
+    if (session.getAttribute("adopter") == null) {
+        response.sendRedirect("AdopterLogin.jsp");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,10 +118,22 @@
     </div>
 
     <div class="btn-container">
-        <a href="ApplicationController?action=dashboardA">
-            <button class="back-btn">Back</button>
-        </a>
-    </div>
+    <a href="ApplicationController?action=dashboardA">
+        <button class="back-btn">Back</button>
+    </a>
+
+    <form action="ApplicationController" method="post"
+          onsubmit="return confirm('Are you sure you want to delete this application?');">
+
+        <input type="hidden" name="action" value="delete">
+        <input type="hidden" name="appId" value="${application.appId}">
+
+        <button type="submit" class="back-btn" style="background:#ff6b6b;">
+            Delete
+        </button>
+    </form>
+</div>
+
 </div>
 
 <!-- ================= FOOTER ================= -->

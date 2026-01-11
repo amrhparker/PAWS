@@ -34,6 +34,14 @@ public class ApplicationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("adopter") == null) {
+            response.sendRedirect("AdopterLogin.jsp?error=loginRequired");
+            return;
+        }
+
 
         String action = request.getParameter("action");
 
@@ -77,7 +85,10 @@ public class ApplicationController extends HttpServlet {
 
             } else if ("updateStatus".equals(action)) {
                 updateStatus(request, response);
+            }else if ("delete".equals(action)) {
+                deleteApplication(request, response);
             }
+
 
         } catch (SQLException e) {
             throw new ServletException(e);

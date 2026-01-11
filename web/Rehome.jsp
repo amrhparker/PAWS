@@ -7,14 +7,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="dao.PetDao, model.PetBean, java.util.List" %>
 
-<%
- session = request.getSession(false);
-if (session == null || session.getAttribute("adopter") == null) {
-    response.sendRedirect("AdopterLogin.jsp");
-    return;
-}
-%>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -151,18 +143,27 @@ if (session == null || session.getAttribute("adopter") == null) {
                         <strong>Breed:</strong> <%= pet.getPetBreed() != null ? pet.getPetBreed() : "Unknown"%><br>
                         <a href="PetServlet?action=viewDetails&petId=<%= pet.getPetId()%>" class="more-details">More Details</a>
                     </div>
+                    <%
+                        boolean loggedIn = (session != null && session.getAttribute("adopter") != null);
+                    %>
+
+                    <% if (loggedIn) { %>
                     <form action="ApplicationController" method="get">
                         <input type="hidden" name="action" value="form">
                         <input type="hidden" name="petId" value="<%= pet.getPetId() %>">
                         <button type="submit" class="rehoming-btn">Rehome 🐾</button>
                     </form>
+                    <% } else { %>
+                        <a href="AdopterLogin.jsp">
+                        <button type="button" class="rehoming-btn">Login to Rehome 🐾</button>
+                        </a>
+                    <% } %>
 
                 </div>
 
                 <%
                     }
                 } else {
-                    // Show static pet cards if no database pets (for testing)
                 %>
 
                 <div class="no-pet">

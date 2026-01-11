@@ -2,6 +2,13 @@
 <%@ page import="model.AdopterBean" %>
 
 <%
+    if (session.getAttribute("adopter") == null) {
+        response.sendRedirect("AdopterLogin.jsp");
+        return;
+    }
+%>
+
+<%
     if (request.getAttribute("adopter") == null) {
         response.sendRedirect("ApplicationController");
         return;
@@ -89,7 +96,7 @@
 
     <% if (petId > 0) { %>
     <div class="pet-info">
-        <strong>Applying for Pet ID:</strong> <%= petId %>
+        <strong>Applying for Pet:</strong> <%= petId %>
     </div>
     <% } %>
 
@@ -128,16 +135,16 @@
 
             <!-- ELIGIBILITY -->
             <div class="form-section">
-                <h2>Eligibility Review *</h2>
+                <h2>Eligibility Review</h2>
 
-                <label>Owned a pet before? *</label>
+                <label>Have you owned a pet before?</label>
                 <input type="radio" name="hasOwnedPet" value="Yes" required> Yes
                 <input type="radio" name="hasOwnedPet" value="No"> No
 
-                <label>Pet caretaker *</label>
+                <label>Who will be responsible for feeding, grooming, vet visits?</label>
                 <input type="text" name="caretakerInfo" required>
 
-                <label>Pet environment *</label>
+                <label>Will the pet be kept indoors/outdoors?</label>
                 <select name="petEnvironment" required>
                     <option value="">Select</option>
                     <option value="Indoor">Indoor</option>
@@ -145,17 +152,18 @@
                     <option value="Both">Both</option>
                 </select>
 
-                <label>Medical expenses ready? *</label>
+                <label>Are you prepared for medical expenses?</label>
                 <input type="radio" name="medicalReady" value="Yes" required> Yes
                 <input type="radio" name="medicalReady" value="No"> No
 
-                <label>Reason for adoption *</label>
+                <label>Why do you want to adopt this pet?</label>
                 <input type="text" name="adoptionReason" required>
 
-                <label>
-                    <input type="checkbox" name="confirmInfo" required>
-                    Information provided is true *
-                </label>
+        <div class="checkboxes">
+            <label><input type="checkbox"> I confirm that all information provided is true and accurate.</label>
+            <label><input type="checkbox"> I understand and accept full responsibility for the pet.</label>
+            <label><input type="checkbox"> I am financially able to provide care and medical attention.</label>
+        </div>
 
                 <div class="final-submit-container"> <button type="submit" class="submit-btn">Submit Application</button> </div>
             </div>
