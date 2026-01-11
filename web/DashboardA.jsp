@@ -197,7 +197,7 @@
         <div class="navbar-links">
             <a href="Home.html">Home</a>
             <a href="AboutUs.html">About</a>
-            <a href="DashboardA.jsp">Dashboard</a>
+            <a href="ApplicationController?action=dashboardA">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>
         </div>
     </div>
@@ -219,10 +219,10 @@
                 <c:choose>
                     <c:when test="${not empty applications}">
                         <c:forEach var="app" items="${applications}">
-                            <a href="ApplicationController?action=view&appId=${app.appId}" class="data-card">
+                            <a href="ApplicationController?action=viewAdopter&appId=${app.appId}" class="data-card">
                                 <strong>( ${app.appId} )</strong>
-                                <p><span class="data-label">Applicant Name:</span> ${app.applicantName}</p>
-                                <p><span class="data-label">Pet Name:</span> ${app.petName}</p>
+                                <p><span class="data-label">Applicant Name:</span> ${app.adopter.adoptFName} ${app.adopter.adoptLName}</p>
+                                <p><span class="data-label">Pet Name:</span> ${app.pet.petName}</p>
                                 <p><span class="data-label">Status:</span> 
                                     <span style="color: 
                                         ${app.appStatus == 'Completed' ? 'green' : 
@@ -240,7 +240,6 @@
                     <c:otherwise>
                         <div class="data-card">
                             <p>No submitted applications found.</p>
-                            <p><a href="adopter?action=apply">Apply for adoption now!</a></p>
                         </div>
                     </c:otherwise>
                 </c:choose>

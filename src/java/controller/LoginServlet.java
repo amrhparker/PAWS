@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
             if (adopter != null) {
                 session.setAttribute("adopter", adopter);
                 session.setAttribute("adoptId", adopter.getAdoptId());
-                response.sendRedirect("DashboardA.jsp");
+                response.sendRedirect("ApplicationController?action=dashboardA");
             } else {
                 response.sendRedirect("AdopterLogin.jsp?error=invalid");
             }
