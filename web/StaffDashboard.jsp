@@ -21,7 +21,7 @@
     <div class="navbar-links">
         <a href="StaffDashboard.jsp">Dashboard</a>
         <a href="PetServlet">Pets</a>
-        <a href="ManageRecords.jsp">Records</a>
+        <a href="RecordController?action=list">Records</a>
         <a href="ManageReports.jsp">Reports</a>
         <a href="ManageApplications.jsp">Applications</a>
         <a href="ActivityLog.jsp">Logs</a>
@@ -43,7 +43,7 @@
     </div>
 
     <div class="manage-card">
-        <a href="ManageRecords.jsp">
+        <a href="RecordController?action=list">
             <h3>Manage Records</h3>
             <p class="sub">View records, trend and graph of adoptions</p>
         </a>

@@ -74,7 +74,7 @@
         <div class="navbar-links">
             <a href="Home.html">Home</a>
             <a href="AboutUs.jsp">About</a>
-            <a href="DashboardA.jsp">Dashboard</a>
+            <a href="ApplicationController?action=dashboardA">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>
         </div>
     </div>
@@ -109,21 +109,16 @@
 
     <div class="info-row">
         <span class="label">Contact Number:</span>
-        ${record.application.adopter.phone}
+        ${record.application.adopter.adoptPhoneNum}
     </div>
 
     <div class="info-row">
         <span class="label">Home Address:</span>
-        ${record.application.adopter.address}
-    </div>
-
-    <div class="info-row">
-        <span class="label">Post-Adoption Notes:</span>
-        ${record.postAdoptionNotes}
+        ${record.application.adopter.adoptAddress}
     </div>
 
     <div class="btn-container">
-        <a href="DashboardA.jsp">
+        <a href="ApplicationController?action=dashboardA">
             <button class="back-btn">Back</button>
         </a>
     </div>

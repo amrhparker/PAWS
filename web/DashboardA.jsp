@@ -184,7 +184,7 @@
             <c:choose>
                 <c:when test="${not empty records}">
                     <c:forEach var="r" items="${records}">
-                        <a href="RecordController?action=view&recordId=${r.recordId}"
+                        <a href="RecordController?action=viewAdopter&recordId=${r.recordId}"
                            class="data-card">
 
                             <p><span class="data-label">Adopter:</span>

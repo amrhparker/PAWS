@@ -1,6 +1,9 @@
 package dao;
 
 import model.RecordBean;
+import model.ApplicationBean;
+import model.AdopterBean;
+import model.PetBean;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +103,7 @@ public List<RecordBean> getRecordsByAdopter(int adoptId) {
 
     String sql =
         "SELECT r.RECORD_ID, r.RECORD_DATE, r.RECORD_STATUS, " +
+        "a.APP_ID, a.APP_DATE, " +
         "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
         "p.PET_NAME " +
         "FROM RECORD r " +
@@ -108,7 +112,7 @@ public List<RecordBean> getRecordsByAdopter(int adoptId) {
         "JOIN PET p ON a.PET_ID = p.PET_ID " +
         "WHERE r.RECORD_ID = ?";
 
-    RecordBean r = null;
+    RecordBean record = null;
 
     try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
          PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -117,27 +121,41 @@ public List<RecordBean> getRecordsByAdopter(int adoptId) {
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-            r = new RecordBean();
-            r.setRecordId(rs.getInt("RECORD_ID"));
-            r.setRecordDate(rs.getDate("RECORD_DATE"));
-            r.setRecordStatus(rs.getString("RECORD_STATUS"));
 
-            r.setAdopterName(
-                rs.getString("ADOPT_FNAME") + " " + rs.getString("ADOPT_LNAME")
-            );
-            r.setAdopterPhone(rs.getString("ADOPT_PHONENUM"));
-            r.setAdopterAddress(rs.getString("ADOPT_ADDRESS"));
-            r.setPetName(rs.getString("PET_NAME"));
+            record = new RecordBean();
+            record.setRecordId(rs.getInt("RECORD_ID"));
+            record.setRecordDate(rs.getDate("RECORD_DATE"));
+            record.setRecordStatus(rs.getString("RECORD_STATUS"));
+
+            // ===== BUILD APPLICATION =====
+            ApplicationBean app = new ApplicationBean();
+            app.setAppId(rs.getInt("APP_ID"));
+            app.setAppDate(rs.getDate("APP_DATE"));
+
+            // ===== BUILD ADOPTER =====
+            AdopterBean adopter = new AdopterBean();
+            adopter.setAdoptFName(rs.getString("ADOPT_FNAME"));
+            adopter.setAdoptLName(rs.getString("ADOPT_LNAME"));
+            adopter.setAdoptPhoneNum(rs.getString("ADOPT_PHONENUM"));
+            adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
+
+            // ===== BUILD PET =====
+            PetBean pet = new PetBean();
+            pet.setPetName(rs.getString("PET_NAME"));
+
+            // ===== LINK OBJECTS =====
+            app.setAdopter(adopter);
+            app.setPet(pet);
+            record.setApplication(app);
         }
 
     } catch (SQLException e) {
         e.printStackTrace();
     }
 
-    return r;
+    return record;
 }
 
-    
     //DELETE 
     public void deleteRecord(int recordId) {
 
