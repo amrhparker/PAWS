@@ -240,7 +240,7 @@
                     <c:otherwise>
                         <div class="data-card">
                             <p>No submitted applications found.</p>
-                            <p><a href="adopter?action=apply">Apply for adoption now!</a></p>
+                            <!--<p><a href="PetServlet?action=list">Browse Available Pets</a></p>-->
                         </div>
                     </c:otherwise>
                 </c:choose>
