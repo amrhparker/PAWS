@@ -131,11 +131,11 @@ public class RegisterServlet extends HttpServlet {
             }
 
             // Parse income
-            java.math.BigDecimal income = null;
-            if (incomeStr != null && !incomeStr.isEmpty()) {
+            Double income = null;
+            if (incomeStr != null && !incomeStr.trim().isEmpty()) {
                 try {
-                    income = new java.math.BigDecimal(incomeStr);
-                    if (income.compareTo(java.math.BigDecimal.ZERO) < 0) {
+                    income = Double.parseDouble(incomeStr);
+                    if (income < 0) {
                         request.setAttribute("errorMessage", "Income cannot be negative");
                         request.setAttribute("fname", fname);
                         request.setAttribute("lname", lname);
@@ -150,7 +150,7 @@ public class RegisterServlet extends HttpServlet {
                         return;
                     }
                 } catch (NumberFormatException e) {
-                    request.setAttribute("errorMessage", "Invalid income format. Please enter a valid number.");
+                    request.setAttribute("errorMessage", "Invalid income format. Please enter a valid number (e.g., 3500.50)");
                     request.setAttribute("fname", fname);
                     request.setAttribute("lname", lname);
                     request.setAttribute("ic", ic);
