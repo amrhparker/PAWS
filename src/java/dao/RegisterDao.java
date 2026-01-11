@@ -50,7 +50,6 @@ public class RegisterDao {
     }
 
     //then, register new adopter
-    // Update registration method with Double support
     public boolean registerAdopter(AdopterBean adopter) {
         boolean success = false;
 
