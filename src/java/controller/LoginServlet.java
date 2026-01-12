@@ -9,7 +9,6 @@ import model.AdopterBean;
 import model.StaffBean;
 import dao.LoginDao;
 
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

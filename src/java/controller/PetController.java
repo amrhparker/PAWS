@@ -9,7 +9,6 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/PetServlet")
 public class PetController extends HttpServlet {
 
     private PetDao petDao;

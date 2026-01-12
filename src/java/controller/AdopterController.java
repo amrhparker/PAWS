@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "AdopterController", urlPatterns = {"/AdopterController"})
 public class AdopterController extends HttpServlet {
 
     private AdopterDao adopterDao;

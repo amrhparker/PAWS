@@ -16,7 +16,7 @@ import java.io.IOException;
  *
  * @author amira
  */
-@WebServlet(name = "StaffController", urlPatterns = {"/StaffController"})
+
 public class StaffController extends HttpServlet {
 
     private StaffDao staffDao;

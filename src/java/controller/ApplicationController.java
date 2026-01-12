@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/ApplicationController")
 public class ApplicationController extends HttpServlet {
 
     private ApplicationDao applicationDao;

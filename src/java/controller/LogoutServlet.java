@@ -5,7 +5,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
-//@WebServlet("/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
 
     @Override

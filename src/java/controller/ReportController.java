@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.List;
 import java.sql.Date;
 
-@WebServlet("/ReportController")
 public class ReportController extends HttpServlet {
 
     private ReportDao dao;

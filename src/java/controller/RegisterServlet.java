@@ -11,7 +11,6 @@ import java.sql.SQLException;
  *
  * @author amira
  */
-@WebServlet(name = "RegisterServlet", urlPatterns = {"/RegisterServlet"})
 public class RegisterServlet extends HttpServlet {
 
     private RegisterDao registerDao;
