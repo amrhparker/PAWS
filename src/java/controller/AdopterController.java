@@ -346,32 +346,71 @@ public class AdopterController extends HttpServlet {
             return;
         }
 
-        String username = (String) session.getAttribute("username");
-        AdopterBean adopter = adopterDao.validateAdopter(username, currentPassword);
-        if (adopter == null) {
-            request.setAttribute("errorMessage", "Current password is incorrect");
-            request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
-            return;
-        }
         // Check if new password is same as current
         if (currentPassword.equals(newPassword)) {
             request.setAttribute("errorMessage", "New password must be different from current password");
             request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
             return;
         }
-        adopter.setAdoptPassword(newPassword);
-        boolean success = adopterDao.updateAdopter(adopter);
-        if (success) {
-            log("Password changed successfully for adopter ID: " + adopterId);
-            request.setAttribute("successMessage", "Password changed successfully!");
-            request.setAttribute("adopter", adopter);
-            request.getRequestDispatcher("Profile.jsp").forward(request, response);
-        } else {
-            request.setAttribute("errorMessage", "Failed to change password");
+
+        try {
+            // DEBUG: Add logging to see what's happening
+            System.out.println("=== DEBUG PASSWORD CHANGE ===");
+            System.out.println("Adopter ID: " + adopterId);
+            System.out.println("Current password entered: '" + currentPassword + "'");
+            System.out.println("Length of entered password: " + currentPassword.length());
+
+            // First, try getting the adopter by ID
+            AdopterBean adopterById = adopterDao.getAdopterById(adopterId);
+
+            if (adopterById == null) {
+                System.out.println("ERROR: Could not find adopter with ID: " + adopterId);
+                session.invalidate();
+                response.sendRedirect("AdopterLogin.jsp");
+                return;
+            }
+
+            System.out.println("Adopter username from DB: '" + adopterById.getAdoptUsername() + "'");
+            System.out.println("Password from DB: '" + adopterById.getAdoptPassword() + "'");
+            System.out.println("Length of DB password: " + adopterById.getAdoptPassword().length());
+
+            // Check if passwords match directly
+            boolean directMatch = currentPassword.equals(adopterById.getAdoptPassword());
+            System.out.println("Direct comparison result: " + directMatch);
+
+            // Now try using validateAdopter method
+            String username = adopterById.getAdoptUsername();
+            System.out.println("Trying validateAdopter with username: '" + username + "'");
+            AdopterBean validatedAdopter = adopterDao.validateAdopter(username, currentPassword);
+
+            System.out.println("ValidateAdopter returned: " + (validatedAdopter != null ? "Adopter found" : "null"));
+
+            // Use the validateAdopter method to check current password
+            if (validatedAdopter == null) {
+                request.setAttribute("errorMessage", "Current password is incorrect");
+                request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
+                return;
+            }
+
+            // Update the password
+            adopterById.setAdoptPassword(newPassword);
+            boolean success = adopterDao.updateAdopter(adopterById);
+
+            if (success) {
+                log("Password changed successfully for adopter ID: " + adopterId);
+                request.setAttribute("successMessage", "Password changed successfully!");
+                request.setAttribute("adopter", adopterById);
+                request.getRequestDispatcher("Profile.jsp").forward(request, response);
+            } else {
+                request.setAttribute("errorMessage", "Failed to change password. Database update failed.");
+                request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
+            }
+        } catch (SQLException e) {
+            log("Database error changing password for adopter: " + adopterId, e);
+            request.setAttribute("errorMessage", "Database error occurred. Please try again.");
             request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
         }
     }
-
     // =========== HELPER METHODS ===========
     private void forwardToEditProfileWithData(HttpServletRequest request,
             HttpServletResponse response,

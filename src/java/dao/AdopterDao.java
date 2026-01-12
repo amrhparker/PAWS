@@ -139,11 +139,16 @@ public class AdopterDao {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
                 PreparedStatement ps = conn.prepareStatement(validateAdopterSql)) {
 
-            ps.setString(1, un);
-            ps.setString(2, pw);
+            ps.setString(1, un.trim());
+            ps.setString(2, pw.trim());
+            
+            System.out.println("DEBUG - SQL query: " + validateAdopterSql);
+
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     adopter = mapResultSetToAdopter(rs);
+                }else{
+                    System.out.println("DEBUG - No matching adopter found");
                 }
             }
         } catch (SQLException e) {
