@@ -189,8 +189,8 @@
             <p><strong>IC Number:</strong> ${adopter.adoptIC}</p>
             <p><strong>Password:</strong> ********</p>
 
-            <a href="AdopterController?action=editProfile" class="btn"><button class="edit-btn">Edit</button></a>
-            <a href="AdopterController?action=changePasswordForm" class="btn"><button class="edit-btn">Change Password</button></a>
+            <a href="${pageContext.request.contextPath}/AdopterController?action=editProfile" class="btn"><button class="edit-btn">Edit</button></a>
+            <a href="${pageContext.request.contextPath}/AdopterController?action=changePasswordForm" class="btn"><button class="edit-btn">Change Password</button></a>
         </div>
 
     </div>

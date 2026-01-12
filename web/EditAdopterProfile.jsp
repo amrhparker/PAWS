@@ -216,11 +216,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fname">First Name:</label>
-                            <input type="text" id="fname" name="fname" value="${adopter.adoptFname}" required>
+                            <input type="text" id="fname" name="fname" value="${adopter.adoptFName}" required>
                         </div>
                         <div class="form-group">
                             <label for="lname">Last Name:</label>
-                            <input type="text" id="lname" name="lname" value="${adopter.adoptLname}" required>
+                            <input type="text" id="lname" name="lname" value="${adopter.adoptLName}" required>
                         </div>
                     </div>
 

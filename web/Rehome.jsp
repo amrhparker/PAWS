@@ -7,7 +7,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="dao.PetDao, model.PetBean, java.util.List" %>
 <%
-    if (session.getAttribute("adoptId") == null) {
+    if (session.getAttribute("adopterId") == null) {
         response.sendRedirect("AdopterLogin.jsp");
         return;
     }
