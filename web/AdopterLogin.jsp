@@ -148,8 +148,7 @@
         </div>
         <div class="content-wrapper">
             <div id="heading">Adopter Log In</div>
-            <form method="post" action="LoginServlet">
-                <input type="hidden" name="action" value="login">
+            <form method="post" action="${pageContext.request.contextPath}/LoginServlet">
                 <div class="form-box">
                     <label>Username</label>
                     <input type="text" name="username" required>

@@ -6,6 +6,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
+    if (session.getAttribute("staff") == null) {
+        response.sendRedirect("LogInStaff.jsp");
+        return;
+    }
+%>
+
+<%
     // ===== FLOW CONTROL (LECTURER STYLE) =====
     if (request.getAttribute("record") == null) {
         String recordId = request.getParameter("recordId");

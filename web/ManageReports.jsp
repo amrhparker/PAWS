@@ -6,6 +6,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
+    if (session.getAttribute("staff") == null) {
+        response.sendRedirect("LogInStaff.jsp");
+        return;
+    }
+%>
+
+<%
     /*
      FLOW:
      1. User buka ManageReports.jsp

@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%
-    if (session.getAttribute("adopterId") == null) {
+    if (session.getAttribute("adoptId") == null) {
         response.sendRedirect("AdopterLogin.jsp");
         return;
     }
@@ -111,8 +111,18 @@
 </head>
 
 <body>
+<%
+    String loginSuccess = (String) session.getAttribute("loginSuccess");
+    if ("adopter".equals(loginSuccess)) {
+%>
+    <script>
+        alert("Adopter logged in successfully!");
+    </script>
+<%
+        session.removeAttribute("loginSuccess"); 
+    }
+%>
 
-<!-- ===== NAVBAR ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.html">

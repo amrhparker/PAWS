@@ -28,21 +28,29 @@ public class LoginServlet extends HttpServlet {
             if (adopter != null) {
                 session.setAttribute("adopter", adopter);
                 session.setAttribute("adoptId", adopter.getAdoptId());
+
+                session.setAttribute("loginSuccess", "adopter");
+
                 response.sendRedirect("ApplicationController?action=dashboardA");
             } else {
-                response.sendRedirect("AdopterLogin.jsp?error=invalid");
+                 response.sendRedirect("AdopterLogin.jsp?error=invalid");
             }
+
 
         } else if ("staff".equals(page)) {
 
             StaffBean staff = dao.getStaff(username, password);
 
             if (staff != null) {
-                session.setAttribute("user", staff);
+                session.setAttribute("staff", staff);
+
+                session.setAttribute("loginSuccess", "staff");
+
                 response.sendRedirect("StaffDashboard.jsp");
             } else {
                 response.sendRedirect("LogInStaff.jsp?error=invalid");
             }
+
 
         } else {
             response.sendRedirect("Home.html?error=invalid");

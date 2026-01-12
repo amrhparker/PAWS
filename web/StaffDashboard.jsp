@@ -1,6 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%
+    if (session.getAttribute("staff") == null) {
+        response.sendRedirect("LogInStaff.jsp");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +17,18 @@
 </head>
 
 <body>
+    
+<%
+    String loginSuccess = (String) session.getAttribute("loginSuccess");
+    if ("staff".equals(loginSuccess)) {
+%>
+    <script>
+        alert("Staff logged in successfully!");
+    </script>
+<%
+        session.removeAttribute("loginSuccess"); 
+    }
+%>
 
 <div class="navbar">
     <div class="navbar-left">

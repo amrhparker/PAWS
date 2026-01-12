@@ -5,6 +5,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+    if (session.getAttribute("staff") == null) {
+        response.sendRedirect("LogInStaff.jsp");
+        return;
+    }
+%>
+
+<%
     /*
      FLOW:
      1. JSP dibuka
