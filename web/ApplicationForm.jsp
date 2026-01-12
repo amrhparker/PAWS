@@ -70,12 +70,12 @@
     <div class="navbar">
 
     <div class="navbar-left">
-        <a href="Home.html">
+        <a href="Home.jsp">
             <img src="pawsA.png" alt="PAWS Logo">
         </a>
 
         <div class="navbar-links">
-            <a href="Home.html">Home</a>
+            <a href="Home.jsp">Home</a>
             <a href="AboutUs.html">About</a>
             <a href="ApplicationController?action=dashboardA">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>

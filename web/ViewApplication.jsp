@@ -116,7 +116,7 @@
 <!-- NAVBAR -->
 <div class="navbar">
     <div class="navbar-left">
-        <a href="Home.html"><img src="pawsS.png" alt="PAWS Staff"></a>
+        <a href="Home.jsp"><img src="pawsS.png" alt="PAWS Staff"></a>
 
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>

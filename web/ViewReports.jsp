@@ -97,8 +97,13 @@
 <!-- NAVBAR -->
 <div class="navbar">
     <div class="navbar-left">
+
         <a href="StaffDashboard.jsp">
             <img src="pawsS.png">
+
+        <a href="Home.jsp">
+            <img src="pawsS.png" alt="PAWS Staff">
+
         </a>
 
         <div class="navbar-links">

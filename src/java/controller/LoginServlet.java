@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
 
             if (adopter != null) {
                 session.setAttribute("adopter", adopter);
-                session.setAttribute("adoptId", adopter.getAdoptId());
+                session.setAttribute("adopterId", adopter.getAdoptId());
 
                 session.setAttribute("loginSuccess", "adopter");
 

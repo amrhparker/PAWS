@@ -175,12 +175,12 @@
         <div class="navbar">
 
             <div class="navbar-left">
-                <a href="Home.html">
+                <a href="Home.jsp">
                     <img src="pawsA.png" alt="PAWS Logo">
                 </a>
 
                 <div class="navbar-links">
-                    <a href="Home.html">Home</a>
+                    <a href="Home.jsp">Home</a>
                     <a href="AboutUs.html">About</a>
                     <a href="AdopterController?action=dashboard">Dashboard</a>
                     <a href="Rehome.jsp">Rehome Pet</a>
@@ -216,11 +216,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fname">First Name:</label>
-                            <input type="text" id="fname" name="fname" value="${adopter.adoptFname}" required>
+                            <input type="text" id="fname" name="fname" value="${adopter.adoptFName}" required>
                         </div>
                         <div class="form-group">
                             <label for="lname">Last Name:</label>
-                            <input type="text" id="lname" name="lname" value="${adopter.adoptLname}" required>
+                            <input type="text" id="lname" name="lname" value="${adopter.adoptLName}" required>
                         </div>
                     </div>
 

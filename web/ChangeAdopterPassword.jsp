@@ -195,7 +195,7 @@
     <body>
         <div class="navbar">
             <div class="navbar-left">
-                <a href="Home.html">
+                <a href="Home.jsp">
                     <img src="pawsA.png" alt="PAWS Logo">
                 </a>
             </div>

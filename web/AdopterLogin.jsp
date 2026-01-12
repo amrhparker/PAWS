@@ -134,13 +134,13 @@
     <body>
         <div class="navbar">
             <div class="navbar-left">
-                <a href="Home.html">
+                <a href="Home.jsp">
                     <img src="pawsA.png" alt="PAWS Logo">
                 </a>
             </div>
 
             <div class="navbar-right">
-                <a href="Home.html">Home</a>
+                <a href="Home.jsp">Home</a>
                 <a href="AboutUs.html">About</a>        
                 <a href="AdopterSignin.jsp">Sign In</a>
                 <a href="AdopterLogin.jsp">Log In</a>

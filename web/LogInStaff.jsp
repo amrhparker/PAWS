@@ -92,12 +92,12 @@
 <!-- ================= NAVBAR ================= -->
 <div class="navbar">
     <div class="navbar-left">
-        <a href="Home.html">
+        <a href="Home.jsp">
             <img src="pawsS.png" alt="PAWS Staff">
         </a>
 
         <div class="navbar-links">
-            <a href="Home.html">Home</a>
+            <a href="Home.jsp">Home</a>
             <a href="AboutUs.html">About</a>
         </div>
 

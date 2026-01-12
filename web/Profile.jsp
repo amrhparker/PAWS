@@ -141,12 +141,12 @@
     <div class="navbar">
 
     <div class="navbar-left">
-        <a href="Home.html">
+        <a href="Home.jsp">
             <img src="pawsA.png" alt="PAWS Logo">
         </a>
 
         <div class="navbar-links">
-            <a href="Home.html">Home</a>
+            <a href="Home.jsp">Home</a>
             <a href="AboutUs.html">About</a>
             <a href="DashboardA.jsp">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>
@@ -189,8 +189,8 @@
             <p><strong>IC Number:</strong> ${adopter.adoptIC}</p>
             <p><strong>Password:</strong> ********</p>
 
-            <a href="AdopterController?action=editProfile" class="btn"><button class="edit-btn">Edit</button></a>
-            <a href="AdopterController?action=changePassword" class="btn"><button class="edit-btn">Change Password</button></a>
+            <a href="${pageContext.request.contextPath}/AdopterController?action=editProfile" class="btn"><button class="edit-btn">Edit</button></a>
+            <a href="${pageContext.request.contextPath}/AdopterController?action=changePasswordForm" class="btn"><button class="edit-btn">Change Password</button></a>
         </div>
 
     </div>
