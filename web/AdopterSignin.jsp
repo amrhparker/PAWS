@@ -164,7 +164,7 @@
             <div class="navbar-right">
                 <a href="Home.html">Home</a>
                 <a href="AboutUs.html">About</a>
-                <a href="Rehome.html">Rehome</a>
+                <a href="Rehome.jsp">Rehome</a>
                 <a href="AdopterSignin.jsp">Sign In</a>
                 <a href="AdopterLogin.jsp">Log In</a>
             </div>

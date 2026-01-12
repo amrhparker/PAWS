@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%
-    if (session.getAttribute("adopter") == null) {
+    if (session.getAttribute("adopterId") == null) {
         response.sendRedirect("AdopterLogin.jsp");
         return;
     }
@@ -203,7 +203,7 @@
     </div>
 
     <div class="navbar-profile">
-        <a href="Profile.jsp">
+        <a href="AdopterController?action=profile">
             <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
         </a>
         <a href="LogoutServlet" class="logout">LOG OUT</a>
