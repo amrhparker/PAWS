@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAWS Home Page</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+
+</head>
+
+<body>
+
+<!-- NAVIGATION BAR -->
+<div class="navbar">
+    <div class="navbar-left">
+        <a href="Home.html">
+            <img src="PAWS.png" alt="PAWS Logo">
+        </a>
+    </div>
+
+    <div class="navbar-right">
+        <a href="Home.html">Home</a>
+        <a href="AboutUs.html">About</a>
+        <a href="Rehome.jsp">Rehome</a>
+        <a href="AdopterSignin.jsp">Sign In</a>
+        <a href="LogInStaff.jsp">Staff</a>
+    </div>
+</div>
+
+    <!-- HERO SECTION -->
+    <div class="hero">
+        <img src="pawsHome.png">
+        
+        <div class="button-row">
+            <a href="AdopterSignin.jsp"><button class="home-btn">Join Our Adopter Community</button></a>
+            <a href="Rehome.jsp"><button class="home-btn">Rehome Our Pets</button></a>
+            <a href="LogInStaff.jsp"><button class="home-btn">Staff Access</button></a>
+        </div>
+    </div>
+
+    <!-- MISSION SECTION -->
+    <div class="section">
+        <h2>Our Mission</h2>
+        <p>
+            PAWS is committed to rescuing animals, providing them with shelter, care, and a second chance.
+            Every adoption helps us continue our mission of giving hope, love, and forever homes.
+        </p>
+    </div>
+
+    <!-- WHY ADOPT SECTION -->
+    <div class="section light">
+        <h2>Why Adopt From Us?</h2>
+
+        <div class="why-grid">
+            <div class="why-card">
+                <img src="healthypets.jpg">
+                <h3>Healthy & Vaccinated Pets</h3>
+                <p>All animals receive proper medical care, vaccinations, and sterilization before adoption.</p>
+            </div>
+
+            <div class="why-card">
+                <img src="loving.jpg">
+                <h3>Trusted & Loving Shelter</h3>
+                <p>We ensure each pet is cared for with compassion and comfort while waiting for a new home.</p>
+            </div>
+
+            <div class="why-card">
+                <img src="easy.jpg">
+                <h3>Easy Adoption Process</h3>
+                <p>Our step-by-step adoption process is simple, guided, and stress-free.</p>
+            </div>
+        </div>
+    </div>
+    
+        <!-- FEATURED PETS SECTION -->
+    <div class="section">
+        <h2>Our Lovely Pets</h2>
+
+        <div class="pet-grid">
+
+            <div class="pet-card">
+                <img src="sample_pet1.jpg" alt="Pet 1">
+                <h4>Bella • 2 years</h4>
+                <p>A gentle and calm sweetheart who loves cuddles.</p>
+            </div>
+
+            <div class="pet-card">
+                <img src="sample_pet2.jpg" alt="Pet 2">
+                <h4>Milo • 1 year</h4>
+                <p>Playful, energetic, and ready for adventure!</p>
+            </div>
+
+            <div class="pet-card">
+                <img src="sample_pet3.jpg" alt="Pet 3">
+                <h4>Luna • 3 years</h4>
+                <p>Affectionate and friendly with both pets and people.</p>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="footer">
+        © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+    </div>
+
+    <script>
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("logout") === "success") {
+        alert("Logout Successful");
+    }
+    </script>
+
+</body>
+</html>
