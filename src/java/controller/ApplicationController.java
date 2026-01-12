@@ -3,9 +3,11 @@ package controller;
 import dao.ApplicationDao;
 import dao.AdopterDao;
 import dao.RecordDao;
+import dao.PetDao;
 import model.RecordBean;
 import model.ApplicationBean;
 import model.AdopterBean;
+import model.PetBean;
 import util.EmailUtil;
 
 import javax.servlet.ServletException;
@@ -21,12 +23,14 @@ public class ApplicationController extends HttpServlet {
     private ApplicationDao applicationDao;
     private AdopterDao adopterDao;
     private RecordDao recordDao;
+    private PetDao petDao;
 
     @Override
     public void init() {
         applicationDao = new ApplicationDao();
         adopterDao = new AdopterDao();
         recordDao = new RecordDao();
+        petDao = new PetDao();
     }
 
     /* ================= GET ================= */
@@ -92,30 +96,32 @@ public class ApplicationController extends HttpServlet {
             throws SQLException, ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-
         if (session == null || session.getAttribute("adopter") == null) {
             response.sendRedirect("AdopterLogin.jsp?error=loginRequired");
             return;
         }
 
         AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
-        List<ApplicationBean> applications =
-                applicationDao.getApplicationsByAdopter(adopter.getAdoptId());
-        List<RecordBean> records =
-                recordDao.getRecordsByAdopter(adopter.getAdoptId());
-        request.setAttribute("applications", applications);
-        request.setAttribute("records", records);
+
+        request.setAttribute(
+                "applications",
+                applicationDao.getApplicationsByAdopter(adopter.getAdoptId())
+        );
+
+        request.setAttribute(
+                "records",
+                recordDao.getRecordsByAdopter(adopter.getAdoptId())
+        );
+
         request.getRequestDispatcher("DashboardA.jsp").forward(request, response);
     }
 
-    /* ================= VIEW APPLICATION ================= */
+    /* ================= VIEW ================= */
     private void viewApplication(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
 
         int appId = Integer.parseInt(request.getParameter("appId"));
-        ApplicationBean application = applicationDao.getApplicationById(appId);
-
-        request.setAttribute("application", application);
+        request.setAttribute("application", applicationDao.getApplicationById(appId));
         request.getRequestDispatcher("ViewApplication.jsp").forward(request, response);
     }
 
@@ -123,9 +129,7 @@ public class ApplicationController extends HttpServlet {
             throws SQLException, ServletException, IOException {
 
         int appId = Integer.parseInt(request.getParameter("appId"));
-        ApplicationBean application = applicationDao.getApplicationById(appId);
-
-        request.setAttribute("application", application);
+        request.setAttribute("application", applicationDao.getApplicationById(appId));
         request.getRequestDispatcher("SubmittedApplication.jsp").forward(request, response);
     }
 
@@ -139,16 +143,19 @@ public class ApplicationController extends HttpServlet {
             return;
         }
 
-        AdopterBean adopter =
-                adopterDao.getAdopterById(
-                        ((AdopterBean) session.getAttribute("adopter")).getAdoptId()
-                );
+        int petId = Integer.parseInt(request.getParameter("petId"));
+        AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
+        PetBean pet = petDao.getPetById(petId);
 
-        session.setAttribute("adopter", adopter);
+        // ❌ Block if pet already adopted
+        if (petDao.isPetAdopted(petId)) {
+            response.sendRedirect("PetList.jsp?error=petAdopted");
+            return;
+        }
+
         request.setAttribute("adopter", adopter);
-        request.setAttribute("petId",
-                Integer.parseInt(request.getParameter("petId")));
-
+        request.setAttribute("pet", pet);
+        request.setAttribute("petId", petId);
         request.getRequestDispatcher("ApplicationForm.jsp").forward(request, response);
     }
 
@@ -163,10 +170,17 @@ public class ApplicationController extends HttpServlet {
         }
 
         AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
+        int petId = Integer.parseInt(request.getParameter("petId"));
+
+        // ❌ Prevent duplicate application
+        if (applicationDao.hasApplied(adopter.getAdoptId(), petId)) {
+            response.sendRedirect("DashboardA.jsp?petId=" + petId + "&error=alreadyApplied");
+            return;
+        }
 
         ApplicationBean application = new ApplicationBean();
         application.setAdopter(adopter);
-        application.setPetId(Integer.parseInt(request.getParameter("petId")));
+        application.setPetId(petId);
         application.setAppStatus("Pending");
         application.setAppEligibility("Pending");
         application.setHasOwnedPet(request.getParameter("hasOwnedPet"));
@@ -182,44 +196,52 @@ public class ApplicationController extends HttpServlet {
 
     /* ================= UPDATE STATUS (STAFF) ================= */
     private void updateStatus(HttpServletRequest request, HttpServletResponse response)
-        throws SQLException, IOException {
+            throws SQLException, IOException {
 
-    int appId = Integer.parseInt(request.getParameter("appId"));
-    String status = request.getParameter("status");
-    String eligibility = request.getParameter("eligibility");
+        int appId = Integer.parseInt(request.getParameter("appId"));
+        String status = request.getParameter("status");
+        String eligibility = request.getParameter("eligibility");
 
-    // 1️⃣ Update application
-    applicationDao.updateStatus(appId, status, eligibility);
+        int petId = applicationDao.getPetIdByApplication(appId);
 
-    // 2️⃣ If APPROVED → create record + send email
-    if ("Approved".equalsIgnoreCase(status)) {
+        // ❌ Safety check
+        if ("Approved".equalsIgnoreCase(status)
+                && applicationDao.isPetAlreadyApproved(petId)) {
 
-        // CREATE RECORD
-        RecordBean record = new RecordBean();
-        record.setAppId(appId);
-        record.setRecordStatus("Pending");
-        recordDao.insertRecord(record);
-
-        // GET EMAIL INFO
-        String[] emailInfo = applicationDao.getAdopterEmailInfo(appId);
-
-        if (emailInfo != null) {
-            System.out.println("Sending email to: " + emailInfo[0]);
-
-            EmailUtil.sendAdoptionApprovalEmail(
-                emailInfo[0], // adopter email
-                emailInfo[1], // adopter name
-                emailInfo[2]  // pet name
-            );
-        } else {
-            System.out.println("Email info is NULL for appId=" + appId);
+            response.sendRedirect("ApplicationController?action=manage&error=alreadyApproved");
+            return;
         }
+
+        // 1️⃣ Update selected application
+        applicationDao.updateStatus(appId, status, eligibility);
+
+        if ("Approved".equalsIgnoreCase(status)) {
+
+            // 2️⃣ Auto-reject other applications
+            applicationDao.rejectOtherApplications(petId, appId);
+
+            // 3️⃣ Update pet status
+            petDao.updateAdoptionStatus(petId, "Adopted");
+
+            // 4️⃣ Create record
+            RecordBean record = new RecordBean();
+            record.setAppId(appId);
+            record.setRecordStatus("Pending");
+            recordDao.insertRecord(record);
+
+            // 5️⃣ Send email
+            String[] emailInfo = applicationDao.getAdopterEmailInfo(appId);
+            if (emailInfo != null) {
+                EmailUtil.sendAdoptionApprovalEmail(
+                        emailInfo[0],
+                        emailInfo[1],
+                        emailInfo[2]
+                );
+            }
+        }
+
+        response.sendRedirect("ApplicationController?action=manage");
     }
-
-    // 3️⃣ Redirect AFTER everything
-    response.sendRedirect("ApplicationController?action=manage&email=sent");
-}
-
 
     /* ================= DELETE ================= */
     private void deleteApplication(HttpServletRequest request, HttpServletResponse response)

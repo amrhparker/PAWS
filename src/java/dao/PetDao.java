@@ -11,7 +11,6 @@ public class PetDao {
 
     /* ================= CREATE ================= */
     public void addPet(PetBean pet) {
-
         String sql = "INSERT INTO APP.PET " +
                 "(PET_NAME, PET_DESC, PET_SPECIES, PET_GENDER, PET_BREED, PET_AGE, PET_HEALTHSTATUS, PET_ADOPTIONSTATUS) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -37,7 +36,6 @@ public class PetDao {
 
     /* ================= READ ALL ================= */
     public List<PetBean> getAllPets() {
-
         List<PetBean> pets = new ArrayList<>();
         String sql = "SELECT * FROM APP.PET ORDER BY PET_ID";
 
@@ -58,7 +56,6 @@ public class PetDao {
 
     /* ================= READ ONE ================= */
     public PetBean getPetById(int petId) {
-
         String sql = "SELECT * FROM APP.PET WHERE PET_ID = ?";
         PetBean pet = null;
 
@@ -81,7 +78,6 @@ public class PetDao {
 
     /* ================= UPDATE ================= */
     public void updatePet(PetBean pet) {
-
         String sql = "UPDATE APP.PET SET " +
                 "PET_NAME=?, PET_DESC=?, PET_SPECIES=?, PET_GENDER=?, " +
                 "PET_BREED=?, PET_AGE=?, PET_HEALTHSTATUS=?, PET_ADOPTIONSTATUS=? " +
@@ -107,9 +103,24 @@ public class PetDao {
         }
     }
 
+    /* ================= UPDATE ADOPTION STATUS ONLY ================= */
+    public void updateAdoptionStatus(int petId, String status) {
+        String sql = "UPDATE APP.PET SET PET_ADOPTIONSTATUS=? WHERE PET_ID=?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, status);
+            ps.setInt(2, petId);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /* ================= DELETE ================= */
     public void deletePet(int petId) {
-
         String sql = "DELETE FROM APP.PET WHERE PET_ID=?";
 
         try (Connection conn = DBConnection.getConnection();
@@ -125,7 +136,6 @@ public class PetDao {
 
     /* ================= MAPPER ================= */
     private PetBean mapRowToPet(ResultSet rs) throws SQLException {
-
         PetBean pet = new PetBean();
         pet.setPetId(rs.getInt("PET_ID"));
         pet.setPetName(rs.getString("PET_NAME"));
@@ -136,7 +146,29 @@ public class PetDao {
         pet.setPetAge(rs.getInt("PET_AGE"));
         pet.setPetHealthStatus(rs.getString("PET_HEALTHSTATUS"));
         pet.setPetAdoptionStatus(rs.getString("PET_ADOPTIONSTATUS"));
-
         return pet;
     }
+    
+    /* ================= CHECK IF PET IS ADOPTED ================= */
+public boolean isPetAdopted(int petId) {
+    String sql = "SELECT PET_ADOPTIONSTATUS FROM APP.PET WHERE PET_ID = ?";
+    boolean adopted = false;
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, petId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            adopted = "Adopted".equalsIgnoreCase(rs.getString("PET_ADOPTIONSTATUS"));
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return adopted;
+}
+
 }

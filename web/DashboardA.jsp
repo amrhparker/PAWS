@@ -104,9 +104,10 @@
             cursor: pointer;
         }
 
-        .status-pending { color: orange; font-weight: 600; }
-        .status-approved { color: green; font-weight: 600; }
-        .status-completed { color: green; font-weight: 600; }
+        .status-approved { color: green; font-weight: bold; }
+        .status-pending { color: orange; font-weight: bold; }
+        .status-rejected { color: red; font-weight: bold; }
+
     </style>
 </head>
 
@@ -168,8 +169,22 @@
 
                             <p><span class="data-label">Pet:</span> ${app.pet.petName}</p>
 
-                            <p><span class="data-label">Status:</span>
-                                <span class="status-approved">${app.appStatus}</span>
+                            <p>
+                            <span class="data-label">Status:</span>
+                            <c:choose>
+                                <c:when test="${app.appStatus == 'Approved'}">
+                                    <span class="status-approved">${app.appStatus}</span>
+                                </c:when>
+                                <c:when test="${app.appStatus == 'Pending'}">
+                                    <span class="status-pending">${app.appStatus}</span>
+                                </c:when>
+                                <c:when test="${app.appStatus == 'Rejected'}">
+                                    <span class="status-rejected">${app.appStatus}</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span>${app.appStatus}</span>
+                                </c:otherwise>
+                            </c:choose>
                             </p>
 
                             <p><span class="data-label">Date:</span>

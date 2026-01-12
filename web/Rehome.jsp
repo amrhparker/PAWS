@@ -141,7 +141,7 @@
                         <strong>Name:</strong> <%= pet.getPetName()%><br>
                         <strong>Age:</strong> <%= pet.getPetAge()%> years old<br>
                         <strong>Breed:</strong> <%= pet.getPetBreed() != null ? pet.getPetBreed() : "Unknown"%><br>
-                        <a href="PetServlet?action=viewDetails&petId=<%= pet.getPetId()%>" class="more-details">More Details</a>
+                        <a href="PetController?action=viewDetails&petId=<%= pet.getPetId()%>" class="more-details">More Details</a>
                     </div>
                     <%
                         boolean loggedIn = (session != null && session.getAttribute("adopter") != null);

@@ -12,7 +12,7 @@ public AdopterBean getAdopter(String username, String password) {
 
     try (Connection con = DBConnection.getConnection();
          PreparedStatement ps = con.prepareStatement(
-             "SELECT adopt_id, adopt_username, adopt_password FROM ADOPTER WHERE adopt_username=? AND adopt_password=?"
+             "SELECT * FROM ADOPTER WHERE adopt_username=? AND adopt_password=?"
          )) {
 
         ps.setString(1, username);
@@ -22,9 +22,18 @@ public AdopterBean getAdopter(String username, String password) {
 
         if (rs.next()) {
             adopter = new AdopterBean();
-            adopter.setAdoptId(rs.getInt("adopt_id")); 
-            adopter.setAdoptUsername(rs.getString("adopt_username"));
-            adopter.setAdoptPassword(rs.getString("adopt_password"));
+
+            adopter.setAdoptId(rs.getInt("ADOPT_ID"));
+            adopter.setAdoptFName(rs.getString("ADOPT_FNAME"));
+            adopter.setAdoptLName(rs.getString("ADOPT_LNAME"));
+            adopter.setAdoptIC(rs.getString("ADOPT_IC"));
+            adopter.setAdoptPhoneNum(rs.getString("ADOPT_PHONENUM"));
+            adopter.setAdoptEmail(rs.getString("ADOPT_EMAIL"));
+            adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
+            adopter.setAdoptOccupation(rs.getString("ADOPT_OCCUPATION"));
+            adopter.setAdoptIncome(rs.getDouble("ADOPT_INCOME"));
+            adopter.setAdoptUsername(rs.getString("ADOPT_USERNAME"));
+            adopter.setAdoptPassword(rs.getString("ADOPT_PASSWORD"));
         }
 
     } catch (SQLException e) {

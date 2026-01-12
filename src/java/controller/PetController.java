@@ -95,7 +95,7 @@ public class PetController extends HttpServlet {
 
         PetBean pet = extractPetFromRequest(request);
         petDao.addPet(pet);
-        response.sendRedirect("PetServlet");
+        response.sendRedirect("PetController");
     }
 
     /* ================= EDIT (LOAD FORM) ================= */
@@ -117,7 +117,7 @@ public class PetController extends HttpServlet {
         pet.setPetId(Integer.parseInt(request.getParameter("petId")));
 
         petDao.updatePet(pet);
-        response.sendRedirect("PetServlet");
+        response.sendRedirect("PetController");
     }
 
     /* ================= DELETE ================= */
@@ -126,7 +126,7 @@ public class PetController extends HttpServlet {
 
         int petId = Integer.parseInt(request.getParameter("petId"));
         petDao.deletePet(petId);
-        response.sendRedirect("PetServlet");
+        response.sendRedirect("PetController");
     }
 
     /* ================= HELPER ================= */

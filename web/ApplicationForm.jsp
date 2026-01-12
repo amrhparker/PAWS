@@ -96,7 +96,8 @@
 
     <% if (petId > 0) { %>
     <div class="pet-info">
-        <strong>Applying for Pet:</strong> <%= petId %>
+        <strong>Applying for Pet: #<%= petId %></strong> <br>
+        <h2>${pet.petName}</h2> 
     </div>
     <% } %>
 
@@ -118,19 +119,19 @@
                 <input type="text" name="adoptLName" value="${adopter.adoptLName}" readonly />
 
                 <label>Phone Number *</label>
-                <input type="tel" name="adoptPhoneNum" value="<%= phone %>" required>
+                <input type="tel" name="adoptPhoneNum" value="${adopter.adoptPhoneNum}" required>
 
                 <label>IC / Passport *</label>
-                <input type="text" name="adoptIC" value="<%= ic %>" required>
+                <input type="text" name="adoptIC" value="${adopter.adoptIC}" required>
 
                 <label>Address *</label>
-                <textarea name="adoptAddress" required><%= address %></textarea>
+                <textarea name="adoptAddress" required>${adopter.adoptAddress}</textarea>
 
                 <label>Occupation *</label>
-                <input type="text" name="adoptOccupation" value="${adopter.adoptOccupation != null ? adopter.adoptOccupation : ''}" />
+                <input type="text" name="adoptOccupation" value="${adopter.adoptOccupation}" />
 
                 <label>Income (RM) *</label>
-                <input type="number" step="0.01" name="adoptIncome" value="${adopter.adoptIncome != null ? adopter.adoptIncome : ''}" />
+                <input type="number" step="0.01" name="adoptIncome" value="${adopter.adoptIncome}" />
             </div>
 
             <!-- ELIGIBILITY -->

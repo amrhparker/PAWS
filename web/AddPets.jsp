@@ -44,7 +44,7 @@
     <div class="form-card">
         <h2>Add Pets</h2>
 
-        <form action="${pageContext.request.contextPath}/PetServlet" method="post">
+        <form action="${pageContext.request.contextPath}/PetController" method="post">
             <!-- Hidden field to tell servlet which action -->
             <input type="hidden" name="action" value="add">
 

@@ -1,48 +1,59 @@
 package dao;
 
 import model.*;
+import util.DBConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ApplicationDao {
 
-    private final String URL = "jdbc:derby://localhost:1527/PAWSdb";
-    private final String USER = "app";
-    private final String PASS = "app";
+    public boolean hasApplied(int adopterId, int petId) {
+        String sql = "SELECT COUNT(*) FROM APPLICATION WHERE ADOPT_ID=? AND PET_ID=?";
 
-    /* ================= CREATE ================= */
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, adopterId);
+            ps.setInt(2, petId);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1) > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void insertApplication(ApplicationBean app) throws SQLException {
 
         String sql =
             "INSERT INTO APPLICATION " +
-            "(ADOPT_ID, PET_ID, STAFF_ID, " +
-            "APP_STATUS, APP_ELIGIBILITY, " +
+            "(ADOPT_ID, PET_ID, STAFF_ID, APP_STATUS, APP_ELIGIBILITY, " +
             "HAS_OWNED_PET, CARETAKER_INFO, PET_ENVIRONMENT, MEDICAL_READY, ADOPTION_REASON) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "VALUES (?, ?, NULL, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, app.getAdoptId());
+            ps.setInt(1, app.getAdopter().getAdoptId());
             ps.setInt(2, app.getPetId());
-            ps.setObject(3, null, Types.INTEGER); // staff belum assign
-
-            ps.setString(4, app.getAppStatus());
-            ps.setString(5, app.getAppEligibility());
-            ps.setString(6, app.getHasOwnedPet());
-            ps.setString(7, app.getCaretakerInfo());
-            ps.setString(8, app.getPetEnvironment());
-            ps.setString(9, app.getMedicalReady());
-            ps.setString(10, app.getAdoptionReason());
+            ps.setString(3, app.getAppStatus());
+            ps.setString(4, app.getAppEligibility());
+            ps.setString(5, app.getHasOwnedPet());
+            ps.setString(6, app.getCaretakerInfo());
+            ps.setString(7, app.getPetEnvironment());
+            ps.setString(8, app.getMedicalReady());
+            ps.setString(9, app.getAdoptionReason());
 
             ps.executeUpdate();
         }
     }
-
+    
     /* ================= READ BY ADOPTER ================= */
     public List<ApplicationBean> getApplicationsByAdopter(int adoptId) throws SQLException {
-
         List<ApplicationBean> list = new ArrayList<>();
 
         String sql =
@@ -56,8 +67,8 @@ public class ApplicationDao {
             "WHERE a.ADOPT_ID = ? " +
             "ORDER BY a.APP_ID DESC";
 
-        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, adoptId);
             ResultSet rs = ps.executeQuery();
@@ -70,9 +81,8 @@ public class ApplicationDao {
         return list;
     }
 
-    /* ================= READ ALL (STAFF) ================= */
+    /* ================= READ ALL ================= */
     public List<ApplicationBean> getAllApplications() throws SQLException {
-
         List<ApplicationBean> list = new ArrayList<>();
 
         String sql =
@@ -85,8 +95,8 @@ public class ApplicationDao {
             "JOIN PET p ON a.PET_ID = p.PET_ID " +
             "ORDER BY a.APP_DATE DESC";
 
-        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement ps = con.prepareStatement(sql);
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -99,7 +109,6 @@ public class ApplicationDao {
 
     /* ================= READ BY APP ID ================= */
     public ApplicationBean getApplicationById(int appId) throws SQLException {
-
         String sql =
             "SELECT a.*, " +
             "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
@@ -112,8 +121,8 @@ public class ApplicationDao {
 
         ApplicationBean app = null;
 
-        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, appId);
             ResultSet rs = ps.executeQuery();
@@ -128,12 +137,11 @@ public class ApplicationDao {
 
     /* ================= UPDATE STATUS ================= */
     public void updateStatus(int appId, String status, String eligibility) throws SQLException {
-
         String sql =
             "UPDATE APPLICATION SET APP_STATUS=?, APP_ELIGIBILITY=? WHERE APP_ID=?";
 
-        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, status);
             ps.setString(2, eligibility);
@@ -145,11 +153,10 @@ public class ApplicationDao {
 
     /* ================= DELETE ================= */
     public void deleteApplication(int appId) throws SQLException {
-
         String sql = "DELETE FROM APPLICATION WHERE APP_ID=?";
 
-        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, appId);
             ps.executeUpdate();
@@ -158,7 +165,6 @@ public class ApplicationDao {
 
     /* ================= EMAIL INFO ================= */
     public String[] getAdopterEmailInfo(int appId) {
-
         String sql =
             "SELECT ad.ADOPT_EMAIL, ad.ADOPT_FNAME, ad.ADOPT_LNAME, p.PET_NAME " +
             "FROM APPLICATION a " +
@@ -166,14 +172,14 @@ public class ApplicationDao {
             "JOIN PET p ON a.PET_ID = p.PET_ID " +
             "WHERE a.APP_ID = ?";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, appId);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return new String[] {
+                return new String[]{
                     rs.getString("ADOPT_EMAIL"),
                     rs.getString("ADOPT_FNAME") + " " + rs.getString("ADOPT_LNAME"),
                     rs.getString("PET_NAME")
@@ -187,9 +193,68 @@ public class ApplicationDao {
         return null;
     }
 
+    /* ================= NEW METHODS FOR APPROVAL ================= */
+
+    // Check if a pet already has an approved application
+    public boolean isPetAlreadyApproved(int petId) {
+        boolean approved = false;
+        String sql = "SELECT COUNT(*) FROM APPLICATION WHERE PET_ID = ? AND APP_STATUS = 'Approved'";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, petId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                approved = rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return approved;
+    }
+
+    // Reject all other applications for the same pet
+    public void rejectOtherApplications(int petId, int approvedAppId) {
+        String sql = "UPDATE APPLICATION SET APP_STATUS='Rejected', APP_ELIGIBILITY='N/A' " +
+                     "WHERE PET_ID = ? AND APP_ID <> ? AND APP_STATUS='Pending'";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, petId);
+            ps.setInt(2, approvedAppId);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Get pet ID from application ID
+    public int getPetIdByApplication(int appId) {
+        int petId = -1;
+        String sql = "SELECT PET_ID FROM APPLICATION WHERE APP_ID=?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, appId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                petId = rs.getInt("PET_ID");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return petId;
+    }
+
     /* ================= HELPER ================= */
     private ApplicationBean mapApplication(ResultSet rs) throws SQLException {
-
         ApplicationBean app = new ApplicationBean();
 
         app.setAppId(rs.getInt("APP_ID"));
