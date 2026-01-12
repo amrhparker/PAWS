@@ -183,6 +183,7 @@
             <th>Pet</th>
             <th>Date</th>
             <th>Status</th>
+            <th>Approved By</th>
             <th>Action</th>
         </tr>
 
@@ -202,6 +203,10 @@
                     <span class="status ${a.appStatus}">
                         ${a.appStatus}
                     </span>
+                </td>
+                
+                <td>
+                    ${a.staffName}
                 </td>
 
                 <td>
@@ -242,7 +247,7 @@
 
         <c:if test="${empty applications}">
             <tr>
-                <td colspan="6" class="empty">
+                <td colspan="7" class="empty">
                     No adoption applications found
                 </td>
             </tr>

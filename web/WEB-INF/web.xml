@@ -9,11 +9,18 @@
         <servlet-name>AdopterController</servlet-name>
         <servlet-class>controller.AdopterController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TestServlet</servlet-name>
+        <servlet-class>controller.TestServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportController</servlet-name>
+        <servlet-class>controller.ReportController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdopterController</servlet-name>
         <url-pattern>/AdopterController</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>ApplicationController</servlet-name>
         <servlet-class>controller.ApplicationController</servlet-class>
@@ -22,7 +29,6 @@
         <servlet-name>ApplicationController</servlet-name>
         <url-pattern>/ApplicationController</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>controller.LoginServlet</servlet-class>
@@ -31,7 +37,6 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>controller.LogoutServlet</servlet-class>
@@ -40,7 +45,6 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>PetController</servlet-name>
         <servlet-class>controller.PetController</servlet-class>
@@ -49,7 +53,6 @@
         <servlet-name>PetController</servlet-name>
         <url-pattern>/PetController</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>RecordController</servlet-name>
         <servlet-class>controller.RecordController</servlet-class>
@@ -58,7 +61,6 @@
         <servlet-name>RecordController</servlet-name>
         <url-pattern>/RecordController</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>controller.RegisterServlet</servlet-class>
@@ -67,16 +69,6 @@
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
     </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>ReportController</servlet-name>
-        <servlet-class>controller.ReportController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ReportController</servlet-name>
-        <url-pattern>/ReportController</url-pattern>
-    </servlet-mapping>
-    
     <servlet>
         <servlet-name>StaffController</servlet-name>
         <servlet-class>controller.StaffController</servlet-class>
@@ -85,7 +77,14 @@
         <servlet-name>StaffController</servlet-name>
         <url-pattern>/StaffController</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/TestServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportController</servlet-name>
+        <url-pattern>/ReportController</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

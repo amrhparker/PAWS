@@ -1,9 +1,6 @@
-<%-- 
-    Document   : ManageReports
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%
     if (session.getAttribute("staff") == null) {
@@ -11,150 +8,137 @@
         return;
     }
 %>
-
-<%
-    /*
-     FLOW:
-     1. User buka ManageReports.jsp
-     2. Kalau "reports" belum ada → redirect Controller
-     3. Controller fetch data → forward balik JSP
-     4. JSP display data
-    */
-    if (request.getAttribute("reports") == null) {
-        response.sendRedirect("ReportController?action=list");
-        return;
-    }
-%>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Adoption Reports</title>
+    <title>Reports</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        body{
-            font-family:'Poppins', sans-serif;
-            background:#f6f7fb;
-            margin:0;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f7f9fb;
         }
 
-        .content{
-            width:90%;
-            margin:40px auto;
+        /* PAGE TITLE */
+        .page-title {
+            width: 95%;
+            margin: 20px auto;
+            font-size: 28px;
+            font-weight: 600;
         }
 
-        h2{
-            margin-bottom:18px;
-            font-weight:600;
+        /* FILTER BAR */
+        .filter-bar {
+            width: 95%;
+            margin: 10px auto 20px auto;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
-        /* FILTER */
-        .filter-bar{
-            margin-bottom:20px;
+        .filter-bar select,
+        .filter-bar input,
+        .filter-bar button {
+            padding: 6px 10px;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .filter-bar form{
-            display:flex;
-            gap:10px;
-            align-items:center;
+        .filter-bar button {
+            background: #5ecf9b;
+            border: none;
+            color: white;
+            border-radius: 20px;
+            padding: 6px 18px;
+            cursor: pointer;
         }
 
-        .filter-bar input{
-            padding:8px 12px;
-            border-radius:8px;
-            border:1px solid #ddd;
-            font-size:14px;
+        .filter-bar button:hover {
+            background: #4abf8a;
         }
 
-        .filter-bar button{
-            padding:8px 18px;
-            border:none;
-            border-radius:8px;
-            background:#4a90e2;
-            color:white;
-            font-size:14px;
-            cursor:pointer;
+        /* REPORT TABLE */
+        .report-table {
+            width: 95%;
+            margin: 0 auto 40px auto;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
         }
 
-        .filter-bar button:hover{
-            background:#357bd8;
+        .report-table thead {
+            background: #5ecf9b;
+            color: white;
         }
 
-        /* CARD */
-        .report-card{
-            background:white;
-            border-radius:14px;
-            padding:18px 22px;
-            margin-bottom:14px;
-            box-shadow:0 6px 16px rgba(0,0,0,0.08);
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
+        .report-table th {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
         }
 
-        .report-info{
-            display:flex;
-            gap:25px;
-            font-size:15px;
+        .report-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
         }
 
-        .label{
-            font-weight:500;
-            color:#444;
+        .report-table tr:hover {
+            background-color: #f7fdfb;
         }
 
-        .actions a{
-            text-decoration:none;
-            padding:8px 16px;
-            border-radius:8px;
-            font-size:14px;
-            font-weight:500;
-            margin-left:8px;
+        /* STATUS TAG */
+        .tag {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
         }
 
-        .view-btn{
-            background:#0d6efd;
-            color:white;
+        .pending { background: #fff3cd; color: #856404; }
+        .approved { background: #d4edda; color: #155724; }
+        .rejected { background: #f8d7da; color: #721c24; }
+        .completed { background: #d1ecf1; color: #0c5460; }
+
+        /* VIEW BUTTON */
+        .view-btn {
+            padding: 6px 16px;
+            background: #5ecf9b;
+            color: white;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
         }
 
-        .delete-btn{
-            background:#dc3545;
-            color:white;
-        }
-
-        .view-btn:hover{ background:#0b5ed7; }
-        .delete-btn:hover{ background:#bb2d3b; }
-
-        .empty{
-            background:white;
-            padding:30px;
-            border-radius:14px;
-            text-align:center;
-            color:gray;
-            box-shadow:0 6px 16px rgba(0,0,0,0.06);
+        .view-btn:hover {
+            background: #4abf8a;
         }
     </style>
 </head>
 
 <body>
 
-<!-- ===== NAVBAR (KEKAL ORIGINAL) ===== -->
+<!-- NAVBAR -->
 <div class="navbar">
     <div class="navbar-left">
-        <a href="Home.html">
-            <img src="pawsS.png" alt="PAWS Staff">
+        <a href="StaffDashboard.jsp">
+            <img src="pawsS.png">
         </a>
 
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
             <a href="ManageRecords.jsp">Records</a>
-            <a href="ManageReports.jsp" class="active">Reports</a>
+            <a href="ReportController" class="active">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
-            <a href="ActivityLog.jsp">Logs</a>
         </div>
     </div>
 
@@ -163,62 +147,94 @@
     </div>
 </div>
 
-<!-- ===== CONTENT ===== -->
-<div class="content">
+<!-- TITLE -->
+<div class="page-title">Adoption Reports</div>
 
-    <h2>Adoption Reports</h2>
+<!-- FILTER -->
+<form class="filter-bar"
+      action="${pageContext.request.contextPath}/ReportController"
+      method="post">
 
-    <!-- FILTER -->
-    <div class="filter-bar">
-        <form action="ReportController" method="get">
-            <input type="hidden" name="action" value="list">
+    <select name="reportType" required>
+        <option value="">-- Select Report --</option>
+        <option value="Pending Applications">Pending Applications</option>
+        <option value="Approved Applications">Approved Applications</option>
+        <option value="Rejected Applications">Rejected Applications</option>
+        <option value="Pending Adoptions">Pending Adoptions</option>
+        <option value="Completed Adoptions">Completed Adoptions</option>
+    </select>
 
-            <input type="text" name="recordId" placeholder="Record ID">
-            <input type="date" name="reportDate">
+    From:
+    <input type="date" name="fromDate">
 
-            <button type="submit">Filter</button>
-        </form>
-    </div>
+    To:
+    <input type="date" name="toDate">
 
-    <!-- REPORT LIST -->
-    <c:forEach var="r" items="${reports}">
-        <div class="report-card">
+    <select name="petType">
+        <option value="ALL">All Pets</option>
+        <option value="Cat">Cat</option>
+        <option value="Dog">Dog</option>
+    </select>
 
-            <div class="report-info">
-                <div>
-                    <span class="label">Report:</span> ${r.reportId}
-                </div>
-                <div>
-                    <span class="label">Record:</span> ${r.recordId}
-                </div>
-                <div>
-                    <span class="label">Date:</span> ${r.reportDate}
-                </div>
-            </div>
+    <button type="submit">Generate Report</button>
+</form>
 
-            <div class="actions">
-                <a class="view-btn"
-                   href="ViewReports.jsp?reportId=${r.reportId}">
-                   View
-                </a>
+<!-- REPORT LIST -->
+<table class="report-table">
+    <thead>
+        <tr>
+            <th>Report ID</th>
+            <th>Report Type</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
 
-                <a class="delete-btn"
-                   href="ReportController?action=delete&reportId=${r.reportId}"
-                   onclick="return confirm('Delete this report?');">
-                   Delete
-                </a>
-            </div>
+        <c:forEach var="r" items="${reports}">
+            <tr>
+                <td><b>Report ${r.reportId}</b></td>
 
-        </div>
-    </c:forEach>
+                <td>
+                    <c:choose>
+                        <c:when test="${fn:contains(r.reportType,'Pending')}">
+                            <span class="tag pending">${r.reportType}</span>
+                        </c:when>
+                        <c:when test="${fn:contains(r.reportType,'Approved')}">
+                            <span class="tag approved">${r.reportType}</span>
+                        </c:when>
+                        <c:when test="${fn:contains(r.reportType,'Rejected')}">
+                            <span class="tag rejected">${r.reportType}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="tag completed">${r.reportType}</span>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
 
-    <c:if test="${empty reports}">
-        <div class="empty">
-            No adoption reports found
-        </div>
-    </c:if>
+                <td>${r.reportDate}</td>
+                <td>${r.totalCount}</td>
 
-</div>
+                <td>
+                    <a class="view-btn"
+                       href="${pageContext.request.contextPath}/ReportController?action=view&reportId=${r.reportId}">
+                        View
+                    </a>
+                </td>
+            </tr>
+        </c:forEach>
+
+        <c:if test="${empty reports}">
+            <tr>
+                <td colspan="5" style="text-align:center; padding:20px;">
+                    No reports generated yet.
+                </td>
+            </tr>
+        </c:if>
+
+    </tbody>
+</table>
 
 </body>
 </html>

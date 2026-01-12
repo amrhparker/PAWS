@@ -11,6 +11,7 @@ public class ApplicationBean implements Serializable{
     private int adoptId;
     private int petId;
     private int staffId;
+    private String staffName;
 
     private AdopterBean adopter;
     private PetBean pet;
@@ -80,6 +81,14 @@ public class ApplicationBean implements Serializable{
 
     public void setStaffId(int staffId) {
         this.staffId = staffId;
+    }
+    
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
     }
 
     public AdopterBean getAdopter() {
