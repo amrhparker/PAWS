@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%
-    if (session.getAttribute("adoptId") == null) {
+    if (session.getAttribute("adopterId") == null) {
         response.sendRedirect("AdopterLogin.jsp");
         return;
     }
@@ -126,12 +126,12 @@
 
 <div class="navbar">
     <div class="navbar-left">
-        <a href="Home.html">
+        <a href="Home.jsp">
             <img src="pawsA.png" alt="PAWS">
         </a>
 
         <div class="navbar-links">
-            <a href="Home.html">Home</a>
+            <a href="Home.jsp">Home</a>
             <a href="AboutUs.html">About</a>
             <a href="ApplicationController?action=dashboardA" class="active">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>

@@ -150,7 +150,7 @@
 <!-- ===== NAVBAR ===== -->
 <div class="navbar">
     <div class="navbar-left">
-        <a href="Home.html">
+        <a href="Home.jsp">
             <img src="pawsS.png" alt="PAWS Staff">
         </a>
 
