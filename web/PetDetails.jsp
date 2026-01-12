@@ -197,7 +197,7 @@
         <div class="details-container">
             <div class="pet-image-box">
                 <div class="pet-image-frame">
-                    <img src="cat1.jpg" alt="Pet Image">
+                    <img src="images/${petImage}" alt="${pet.petName}">
                 </div>
                 <div class="pet-name">${pet.petName}</div>
             </div>

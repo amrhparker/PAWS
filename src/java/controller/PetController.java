@@ -68,17 +68,36 @@ public class PetController extends HttpServlet {
         }
     }
     
-    /* ================= VIEW PET DETAILS ================= */
     private void viewPetDetails(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
 
-        int petId = Integer.parseInt(request.getParameter("petId"));
-        PetBean pet = petDao.getPetById(petId);
+    int petId = Integer.parseInt(request.getParameter("petId"));
+    PetBean pet = petDao.getPetById(petId);
 
-        request.setAttribute("pet", pet);
-        request.getRequestDispatcher("PetDetails.jsp").forward(request, response);
+    String petImage = generateRandomPetImage(pet);
+
+    request.setAttribute("pet", pet);
+    request.setAttribute("petImage", petImage);
+    request.getRequestDispatcher("PetDetails.jsp").forward(request, response);
+}
+
+/* ================= RANDOM IMAGE HELPER ================= */
+private String generateRandomPetImage(PetBean pet) {
+
+    int imageCount = 10;
+    String image = "default.jpg";
+
+    if (pet != null && pet.getPetSpecies() != null) {
+        int randomIndex = (int) (Math.random() * imageCount) + 1;
+
+        if ("cat".equalsIgnoreCase(pet.getPetSpecies())) {
+            image = "cat" + randomIndex + ".jpg";
+        } else if ("dog".equalsIgnoreCase(pet.getPetSpecies())) {
+            image = "dog" + randomIndex + ".jpg";
+        }
     }
-
+    return image;
+}
 
     /* ================= LIST ================= */
     private void listPets(HttpServletRequest request, HttpServletResponse response)

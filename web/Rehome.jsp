@@ -9,175 +9,183 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Rehome Pet</title>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rehome Pet</title>
 
-        <style>
-            h2 {
-                text-align: center;
-                margin-top: 40px;
-                font-size: 28px;
-                font-weight: bold;
-            }
+    <style>
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 28px;
+            font-weight: bold;
+        }
 
-            .pets-container {
-                display: flex;
-                justify-content: center;
-                gap: 40px;
-                padding: 40px 20px;
-                flex-wrap: wrap;
-            }
+        .pets-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+        }
 
-            .pet-card {
-                width: 220px;
-                text-align: center;
-            }
+        .pet-card {
+            width: 220px;
+            text-align: center;
+        }
 
-            .pet-img-box {
-                border: 3px solid black;
-                padding: 10px;
-                border-radius: 15px;
-            }
+        .pet-img-box {
+            border: 3px solid black;
+            padding: 10px;
+            border-radius: 15px;
+        }
 
-            .pet-img-box img {
-                width: 100%;
-                height: 230px;
-                object-fit: cover;
-                border-radius: 10px;
-            }
+        .pet-img-box img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
 
-            .pet-info {
-                background: #f2dfd1;
-                padding: 15px;
-                border-radius: 15px;
-                margin-top: 10px;
-                font-size: 14px;
-            }
+        .pet-info {
+            background: #f2dfd1;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
 
-            .no-pet{
-                background: #f2dfd1;
-                padding: 15px;
-                border-radius: 15px;
-                margin-top: 10px;
-                font-size: 20px;
-                text-align: center;
-                margin: 20px auto;
-                width: 20%;
-            }
+        .no-pet {
+            background: #f2dfd1;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 20px;
+            text-align: center;
+            margin: 20px auto;
+            width: 20%;
+        }
 
-            .more-details {
-                display: block;
-                margin-top: 8px;
-                color: black;
-                font-weight: bold;
-            }
+        .more-details {
+            display: block;
+            margin-top: 8px;
+            color: black;
+            font-weight: bold;
+        }
 
-            .rehoming-btn {
-                margin-top: 10px;
-                padding: 10px 25px;
-                border-radius: 20px;
-                border: none;
-                cursor: pointer;
-                font-weight: bold;
-                background: #4CAF50;
-                color: white;
-                transition: all 0.3s;
-            }
+        .rehoming-btn {
+            margin-top: 10px;
+            padding: 10px 25px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            background: #4CAF50;
+            color: white;
+        }
 
-            .rehoming-btn:hover {
-                background: #45a049;
-                transform: translateY(-3px);
-            }
-        </style>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
+        .rehoming-btn:hover {
+            background: #45a049;
+            transform: translateY(-3px);
+        }
+    </style>
 
-        <div class="main-content">
-            <div class="navbar">
-                <div class="navbar-left">
-                    <a href="Home.html">
-                        <img src="PAWS.png" alt="PAWS Logo">
-                    </a>
-                </div>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
 
-                <div class="navbar-right">
-                    <a href="Home.html">Home</a>
-                    <a href="AboutUs.jsp">About</a>
-                    <a href="DashboardA.jsp">Dashboard</a>
-                    <a href="Rehome.jsp">Rehome Pet</a>
-                </div>
-            </div>
+<body>
 
-            <h2>Meet Our Pets</h2>
-
-            <div class="pets-container">
-                <%
-                    PetDao petDao = new PetDao();
-                    List<PetBean> pets = petDao.getAllPets();
-
-                    if (pets != null && !pets.isEmpty()) {
-                        for (PetBean pet : pets) {
-                            // Determine image based on species and ID
-                            String imageName = "default.jpg";
-                            if (pet.getPetSpecies() != null) {
-                                if ("cat".equalsIgnoreCase(pet.getPetSpecies())) {
-                                    imageName = "cat" + (pet.getPetId() % 2 + 1) + ".jpg";
-                                } else if ("dog".equalsIgnoreCase(pet.getPetSpecies())) {
-                                    imageName = "dog" + (pet.getPetId() % 2 + 1) + ".jpg";
-                                }
-                            }
-                %>
-
-                <div class="pet-card">
-                    <div class="pet-img-box">
-                        <!-- UNCOMMENT THIS LINE TO SHOW IMAGES -->
-                        <img src="images/<%= imageName%>" alt="<%= pet.getPetName()%>">
-                    </div>
-                    <div class="pet-info">
-                        <strong>Name:</strong> <%= pet.getPetName()%><br>
-                        <strong>Age:</strong> <%= pet.getPetAge()%> years old<br>
-                        <strong>Breed:</strong> <%= pet.getPetBreed() != null ? pet.getPetBreed() : "Unknown"%><br>
-                        <a href="PetController?action=viewDetails&petId=<%= pet.getPetId()%>" class="more-details">More Details</a>
-                    </div>
-                    <%
-                        boolean loggedIn = (session != null && session.getAttribute("adopter") != null);
-                    %>
-
-                    <% if (loggedIn) { %>
-                    <form action="ApplicationController" method="get">
-                        <input type="hidden" name="action" value="form">
-                        <input type="hidden" name="petId" value="<%= pet.getPetId() %>">
-                        <button type="submit" class="rehoming-btn">Rehome 🐾</button>
-                    </form>
-                    <% } else { %>
-                        <a href="AdopterLogin.jsp">
-                        <button type="button" class="rehoming-btn">Login to Rehome 🐾</button>
-                        </a>
-                    <% } %>
-
-                </div>
-
-                <%
-                    }
-                } else {
-                %>
-
-                <div class="no-pet">
-                    Fortunately all the pets have their own home now!
-                </div>
-
-                <%
-                    }
-                %>
-            </div>
-        </div>
-        <div class="footer">
-            © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+<div class="main-content">
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="Home.html">
+                <img src="PAWS.png" alt="PAWS Logo">
+            </a>
         </div>
 
-    </body>
+        <div class="navbar-right">
+            <a href="Home.html">Home</a>
+            <a href="AboutUs.jsp">About</a>
+            <a href="DashboardA.jsp">Dashboard</a>
+            <a href="Rehome.jsp">Rehome Pet</a>
+        </div>
+    </div>
+
+    <h2>Meet Our Pets</h2>
+
+    <div class="pets-container">
+        <%
+            PetDao petDao = new PetDao();
+            List<PetBean> pets = petDao.getAllPets();
+
+            if (pets != null && !pets.isEmpty()) {
+                for (PetBean pet : pets) {
+
+                    // ✅ RANDOM IMAGE BASED ON SPECIES
+                    int imageCount = 10; // you have 10 cat & 10 dog images
+                    String imageName = "default.jpg";
+
+                    if (pet.getPetSpecies() != null) {
+                        int randomIndex = (int) (Math.random() * imageCount) + 1;
+
+                        if ("cat".equalsIgnoreCase(pet.getPetSpecies())) {
+                            imageName = "cat" + randomIndex + ".jpg";
+                        } else if ("dog".equalsIgnoreCase(pet.getPetSpecies())) {
+                            imageName = "dog" + randomIndex + ".jpg";
+                        }
+                    }
+        %>
+
+        <div class="pet-card">
+            <div class="pet-img-box">
+                <img src="images/<%= imageName %>" alt="<%= pet.getPetName() %>">
+            </div>
+
+            <div class="pet-info">
+                <strong>Name:</strong> <%= pet.getPetName() %><br>
+                <strong>Age:</strong> <%= pet.getPetAge() %> years old<br>
+                <strong>Breed:</strong> <%= pet.getPetBreed() != null ? pet.getPetBreed() : "Unknown" %><br>
+                <a href="PetController?action=viewDetails&petId=<%= pet.getPetId() %>" class="more-details">
+                    More Details
+                </a>
+            </div>
+
+            <%
+                boolean loggedIn = (session != null && session.getAttribute("adopter") != null);
+            %>
+
+            <% if (loggedIn) { %>
+                <form action="ApplicationController" method="get">
+                    <input type="hidden" name="action" value="form">
+                    <input type="hidden" name="petId" value="<%= pet.getPetId() %>">
+                    <button type="submit" class="rehoming-btn">Rehome 🐾</button>
+                </form>
+            <% } else { %>
+                <a href="AdopterLogin.jsp">
+                    <button type="button" class="rehoming-btn">Login to Rehome 🐾</button>
+                </a>
+            <% } %>
+        </div>
+
+        <%
+                }
+            } else {
+        %>
+
+        <div class="no-pet">
+            Fortunately all the pets have their own home now!
+        </div>
+
+        <%
+            }
+        %>
+    </div>
+</div>
+
+<div class="footer">
+    © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+</div>
+
+</body>
 </html>
