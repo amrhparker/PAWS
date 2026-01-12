@@ -17,6 +17,12 @@ public class RecordBean implements Serializable {
     private int appId;
     private ApplicationBean application;
     private Date recordDate;
+    private String recordStatus;
+    private String adopterName;
+    private String adopterPhone;
+    private String adopterAddress;
+    private String petName;
+
     public RecordBean() {
     }
 
@@ -60,4 +66,47 @@ public class RecordBean implements Serializable {
     public void setRecordDate(Date recordDate) {
         this.recordDate = recordDate;
     }
+    
+    public String getRecordStatus() {
+        return recordStatus;
+    }
+
+    public void setRecordStatus(String recordStatus) {
+        this.recordStatus = recordStatus;
+    }
+    
+    public String getAdopterName() { 
+        return adopterName; 
+    }
+
+    public void setAdopterName(String adopterName) { 
+        this.adopterName = adopterName; 
+    }
+
+
+    public String getAdopterPhone() { 
+        return adopterPhone; 
+    }
+
+    public void setAdopterPhone(String adopterPhone) { 
+        this.adopterPhone = adopterPhone; 
+    }
+
+    public String getAdopterAddress() {
+        return adopterAddress; 
+    }
+
+    public void setAdopterAddress(String adopterAddress) { 
+        this.adopterAddress = adopterAddress;
+    }
+
+    public String getPetName() { 
+        return petName; 
+    }
+
+    public void setPetName(String petName) { 
+        this.petName = petName; 
+    }
+
+
 }

@@ -13,18 +13,20 @@ public class ApplicationDao {
 
     /* ================= CREATE ================= */
     public void insertApplication(ApplicationBean app) throws SQLException {
-        String sql = "INSERT INTO APPLICATION "
-                   + "(ADOPT_ID, PET_ID, STAFF_ID, "
-                   + "APP_STATUS, APP_ELIGIBILITY, "
-                   + "HAS_OWNED_PET, CARETAKER_INFO, PET_ENVIRONMENT, MEDICAL_READY, ADOPTION_REASON) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        String sql =
+            "INSERT INTO APPLICATION " +
+            "(ADOPT_ID, PET_ID, STAFF_ID, " +
+            "APP_STATUS, APP_ELIGIBILITY, " +
+            "HAS_OWNED_PET, CARETAKER_INFO, PET_ENVIRONMENT, MEDICAL_READY, ADOPTION_REASON) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, app.getAdoptId());
             ps.setInt(2, app.getPetId());
-            ps.setObject(3, null, Types.INTEGER); // staff not assigned yet
+            ps.setObject(3, null, Types.INTEGER); // staff belum assign
 
             ps.setString(4, app.getAppStatus());
             ps.setString(5, app.getAppEligibility());
@@ -40,15 +42,19 @@ public class ApplicationDao {
 
     /* ================= READ BY ADOPTER ================= */
     public List<ApplicationBean> getApplicationsByAdopter(int adoptId) throws SQLException {
+
         List<ApplicationBean> list = new ArrayList<>();
-        String sql = "SELECT a.*, "
-                   + "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, "
-                   + "p.PET_ID, p.PET_NAME,p.PET_DESC, p.PET_SPECIES,p.PET_GENDER, p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS "
-                   + "FROM APPLICATION a "
-                   + "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID "
-                   + "JOIN PET p ON a.PET_ID = p.PET_ID "
-                   + "WHERE a.ADOPT_ID = ? "
-                   + "ORDER BY a.APP_ID DESC";
+
+        String sql =
+            "SELECT a.*, " +
+            "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
+            "p.PET_ID, p.PET_NAME, p.PET_DESC, p.PET_SPECIES, p.PET_GENDER, " +
+            "p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS " +
+            "FROM APPLICATION a " +
+            "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +
+            "JOIN PET p ON a.PET_ID = p.PET_ID " +
+            "WHERE a.ADOPT_ID = ? " +
+            "ORDER BY a.APP_ID DESC";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -60,19 +66,24 @@ public class ApplicationDao {
                 list.add(mapApplication(rs));
             }
         }
+
         return list;
     }
 
     /* ================= READ ALL (STAFF) ================= */
     public List<ApplicationBean> getAllApplications() throws SQLException {
+
         List<ApplicationBean> list = new ArrayList<>();
-        String sql = "SELECT a.*, "
-                   + "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, "
-                   + "p.PET_ID, p.PET_NAME,p.PET_DESC, p.PET_SPECIES,p.PET_GENDER, p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS "
-                   + "FROM APPLICATION a "
-                   + "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID "
-                   + "JOIN PET p ON a.PET_ID = p.PET_ID "
-                   + "ORDER BY a.APP_DATE DESC";
+
+        String sql =
+            "SELECT a.*, " +
+            "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
+            "p.PET_ID, p.PET_NAME, p.PET_DESC, p.PET_SPECIES, p.PET_GENDER, " +
+            "p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS " +
+            "FROM APPLICATION a " +
+            "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +
+            "JOIN PET p ON a.PET_ID = p.PET_ID " +
+            "ORDER BY a.APP_DATE DESC";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql);
@@ -82,20 +93,25 @@ public class ApplicationDao {
                 list.add(mapApplication(rs));
             }
         }
+
         return list;
     }
 
     /* ================= READ BY APP ID ================= */
     public ApplicationBean getApplicationById(int appId) throws SQLException {
-        String sql = "SELECT a.*, "
-                   + "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, "
-                   + "p.PET_ID, p.PET_NAME,p.PET_DESC, p.PET_SPECIES,p.PET_GENDER, p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS "
-                   + "FROM APPLICATION a "
-                   + "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID "
-                   + "JOIN PET p ON a.PET_ID = p.PET_ID "
-                   + "WHERE a.APP_ID = ?";
+
+        String sql =
+            "SELECT a.*, " +
+            "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
+            "p.PET_ID, p.PET_NAME, p.PET_DESC, p.PET_SPECIES, p.PET_GENDER, " +
+            "p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS " +
+            "FROM APPLICATION a " +
+            "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +
+            "JOIN PET p ON a.PET_ID = p.PET_ID " +
+            "WHERE a.APP_ID = ?";
 
         ApplicationBean app = null;
+
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -106,25 +122,32 @@ public class ApplicationDao {
                 app = mapApplication(rs);
             }
         }
+
         return app;
     }
 
     /* ================= UPDATE STATUS ================= */
     public void updateStatus(int appId, String status, String eligibility) throws SQLException {
-        String sql = "UPDATE APPLICATION SET APP_STATUS=?, APP_ELIGIBILITY=? WHERE APP_ID=?";
+
+        String sql =
+            "UPDATE APPLICATION SET APP_STATUS=?, APP_ELIGIBILITY=? WHERE APP_ID=?";
+
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, status);
             ps.setString(2, eligibility);
             ps.setInt(3, appId);
+
             ps.executeUpdate();
         }
     }
 
     /* ================= DELETE ================= */
     public void deleteApplication(int appId) throws SQLException {
+
         String sql = "DELETE FROM APPLICATION WHERE APP_ID=?";
+
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -133,48 +156,79 @@ public class ApplicationDao {
         }
     }
 
+    /* ================= EMAIL INFO ================= */
+    public String[] getAdopterEmailInfo(int appId) {
+
+        String sql =
+            "SELECT ad.ADOPT_EMAIL, ad.ADOPT_FNAME, ad.ADOPT_LNAME, p.PET_NAME " +
+            "FROM APPLICATION a " +
+            "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +
+            "JOIN PET p ON a.PET_ID = p.PET_ID " +
+            "WHERE a.APP_ID = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, appId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new String[] {
+                    rs.getString("ADOPT_EMAIL"),
+                    rs.getString("ADOPT_FNAME") + " " + rs.getString("ADOPT_LNAME"),
+                    rs.getString("PET_NAME")
+                };
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     /* ================= HELPER ================= */
     private ApplicationBean mapApplication(ResultSet rs) throws SQLException {
-    ApplicationBean app = new ApplicationBean();
 
-    app.setAppId(rs.getInt("APP_ID"));
-    app.setAdoptId(rs.getInt("ADOPT_ID"));
-    app.setPetId(rs.getInt("PET_ID"));
-    app.setStaffId(rs.getInt("STAFF_ID"));
+        ApplicationBean app = new ApplicationBean();
 
-    app.setAppDate(rs.getDate("APP_DATE"));
-    app.setAppStatus(rs.getString("APP_STATUS"));
-    app.setAppEligibility(rs.getString("APP_ELIGIBILITY"));
-    app.setHasOwnedPet(rs.getString("HAS_OWNED_PET"));
-    app.setCaretakerInfo(rs.getString("CARETAKER_INFO"));
-    app.setPetEnvironment(rs.getString("PET_ENVIRONMENT"));
-    app.setMedicalReady(rs.getString("MEDICAL_READY"));
-    app.setAdoptionReason(rs.getString("ADOPTION_REASON"));
+        app.setAppId(rs.getInt("APP_ID"));
+        app.setAdoptId(rs.getInt("ADOPT_ID"));
+        app.setPetId(rs.getInt("PET_ID"));
+        app.setStaffId(rs.getInt("STAFF_ID"));
 
-    // ===== Adopter =====
-    AdopterBean adopter = new AdopterBean();
-    adopter.setAdoptId(rs.getInt("ADOPT_ID"));
-    adopter.setAdoptFName(rs.getString("ADOPT_FNAME"));
-    adopter.setAdoptLName(rs.getString("ADOPT_LNAME"));
-    adopter.setAdoptPhoneNum(rs.getString("ADOPT_PHONENUM"));
-    adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
-    app.setAdopter(adopter);
+        app.setAppDate(rs.getDate("APP_DATE"));
+        app.setAppStatus(rs.getString("APP_STATUS"));
+        app.setAppEligibility(rs.getString("APP_ELIGIBILITY"));
+        app.setHasOwnedPet(rs.getString("HAS_OWNED_PET"));
+        app.setCaretakerInfo(rs.getString("CARETAKER_INFO"));
+        app.setPetEnvironment(rs.getString("PET_ENVIRONMENT"));
+        app.setMedicalReady(rs.getString("MEDICAL_READY"));
+        app.setAdoptionReason(rs.getString("ADOPTION_REASON"));
 
-    // ===== Pet =====
-    PetBean pet = new PetBean();
-    pet.setPetId(rs.getInt("PET_ID"));
-    pet.setPetName(rs.getString("PET_NAME"));
-    pet.setPetDesc(rs.getString("PET_DESC"));
-    pet.setPetSpecies(rs.getString("PET_SPECIES"));
-    pet.setPetGender(rs.getString("PET_GENDER"));
-    pet.setPetBreed(rs.getString("PET_BREED"));
-    pet.setPetAge(rs.getInt("PET_AGE"));
-    pet.setPetHealthStatus(rs.getString("PET_HEALTHSTATUS"));
-    pet.setPetAdoptionStatus(rs.getString("PET_ADOPTIONSTATUS"));
+        // ===== Adopter =====
+        AdopterBean adopter = new AdopterBean();
+        adopter.setAdoptId(rs.getInt("ADOPT_ID"));
+        adopter.setAdoptFName(rs.getString("ADOPT_FNAME"));
+        adopter.setAdoptLName(rs.getString("ADOPT_LNAME"));
+        adopter.setAdoptPhoneNum(rs.getString("ADOPT_PHONENUM"));
+        adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
+        app.setAdopter(adopter);
 
-    app.setPet(pet);
+        // ===== Pet =====
+        PetBean pet = new PetBean();
+        pet.setPetId(rs.getInt("PET_ID"));
+        pet.setPetName(rs.getString("PET_NAME"));
+        pet.setPetDesc(rs.getString("PET_DESC"));
+        pet.setPetSpecies(rs.getString("PET_SPECIES"));
+        pet.setPetGender(rs.getString("PET_GENDER"));
+        pet.setPetBreed(rs.getString("PET_BREED"));
+        pet.setPetAge(rs.getInt("PET_AGE"));
+        pet.setPetHealthStatus(rs.getString("PET_HEALTHSTATUS"));
+        pet.setPetAdoptionStatus(rs.getString("PET_ADOPTIONSTATUS"));
 
-    return app;
-}
+        app.setPet(pet);
 
+        return app;
+    }
 }

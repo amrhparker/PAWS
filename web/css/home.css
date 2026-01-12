@@ -1,7 +1,7 @@
 
 .hero{
     text-align: center;
-    padding: 120px 20px 60px 20px;
+    padding: 90px 20px 60px 20px;
 }
 
 .hero img{
@@ -25,8 +25,9 @@
 }
 
 .why-card img{
-    height: 80px;
+    height: 250px;
     margin-bottom: 15px;
+    border-radius: 15px;
 }
 
 .pet-grid{

@@ -136,6 +136,11 @@
 </head>
 
 <body>
+<c:if test="${param.email eq 'sent'}">
+    <script>
+        alert("✅ Email successfully sent to adopter!");
+    </script>
+</c:if>
 
 <!-- ===== NAVBAR (KEKAL PAWS STYLE) ===== -->
 <div class="navbar">
