@@ -7,6 +7,7 @@ import dao.PetDao;
 import model.RecordBean;
 import model.ApplicationBean;
 import model.AdopterBean;
+import model.StaffBean;
 import model.PetBean;
 import util.EmailUtil;
 
@@ -197,6 +198,16 @@ public class ApplicationController extends HttpServlet {
     /* ================= UPDATE STATUS (STAFF) ================= */
     private void updateStatus(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
+        
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("staff") == null) {
+            response.sendRedirect("LogInStaff.jsp");
+            return;
+    }
+
+    // ✅ GET STAFF FROM SESSION
+    StaffBean staff = (StaffBean) session.getAttribute("staff");
+    int staffId = staff.getStaffId();
 
         int appId = Integer.parseInt(request.getParameter("appId"));
         String status = request.getParameter("status");
@@ -204,7 +215,7 @@ public class ApplicationController extends HttpServlet {
 
         int petId = applicationDao.getPetIdByApplication(appId);
 
-        // ❌ Safety check
+        // Safety check
         if ("Approved".equalsIgnoreCase(status)
                 && applicationDao.isPetAlreadyApproved(petId)) {
 
@@ -213,7 +224,7 @@ public class ApplicationController extends HttpServlet {
         }
 
         // 1️⃣ Update selected application
-        applicationDao.updateStatus(appId, status, eligibility);
+        applicationDao.updateStatus(appId, status, eligibility, staffId);
 
         if ("Approved".equalsIgnoreCase(status)) {
 
@@ -226,6 +237,7 @@ public class ApplicationController extends HttpServlet {
             // 4️⃣ Create record
             RecordBean record = new RecordBean();
             record.setAppId(appId);
+            record.setStaffId(staffId);
             record.setRecordStatus("Pending");
             recordDao.insertRecord(record);
 

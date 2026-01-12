@@ -136,20 +136,26 @@ public class ApplicationDao {
     }
 
     /* ================= UPDATE STATUS ================= */
-    public void updateStatus(int appId, String status, String eligibility) throws SQLException {
-        String sql =
-            "UPDATE APPLICATION SET APP_STATUS=?, APP_ELIGIBILITY=? WHERE APP_ID=?";
+    public void updateStatus(int appId, String status, String eligibility, int staffId)
+        throws SQLException {
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+    String sql =
+        "UPDATE APPLICATION " +
+        "SET APP_STATUS=?, APP_ELIGIBILITY=?, STAFF_ID=? " +
+        "WHERE APP_ID=?";
 
-            ps.setString(1, status);
-            ps.setString(2, eligibility);
-            ps.setInt(3, appId);
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.executeUpdate();
-        }
+        ps.setString(1, status);
+        ps.setString(2, eligibility);
+        ps.setInt(3, staffId);
+        ps.setInt(4, appId);
+
+        ps.executeUpdate();
     }
+}
+
 
     /* ================= DELETE ================= */
     public void deleteApplication(int appId) throws SQLException {
