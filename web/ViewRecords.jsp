@@ -183,22 +183,22 @@
 
         <div class="field">
             <div class="label">Adopter Name</div>
-            <div class="value">${record.adopterName}</div>
+            <div class="value">${record.application.adopter.adoptFName} ${record.application.adopter.adoptLName}</div>
         </div>
 
         <div class="field">
             <div class="label">Pet Name</div>
-            <div class="value">${record.petName}</div>
+            <div class="value">${record.application.pet.petName}</div>
         </div>
 
         <div class="field">
             <div class="label">Contact Number</div>
-            <div class="value">${record.adopterPhone}</div>
+            <div class="value">${record.application.adopter.adoptPhoneNum}</div>
         </div>
 
         <div class="field">
             <div class="label">Home Address</div>
-            <div class="value">${record.adopterAddress}</div>
+            <div class="value">${record.application.adopter.adoptAddress}</div>
         </div>
 
         <div class="field">
