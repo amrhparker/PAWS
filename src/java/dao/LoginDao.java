@@ -57,6 +57,7 @@ public AdopterBean getAdopter(String username, String password) {
 
             if (rs.next()) {
                 staff = new StaffBean();
+                staff.setStaffId(rs.getInt("staff_id"));
                 staff.setStaffUsername(rs.getString("staff_username"));
                 staff.setStaffPassword(rs.getString("staff_password"));
             }

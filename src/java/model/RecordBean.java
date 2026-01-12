@@ -15,6 +15,7 @@ public class RecordBean implements Serializable {
     
     private int recordId;
     private int appId;
+    private int staffId;
     private ApplicationBean application;
     private Date recordDate;
     private String recordStatus;
@@ -22,13 +23,15 @@ public class RecordBean implements Serializable {
     private String adopterPhone;
     private String adopterAddress;
     private String petName;
+    private StaffBean staff;
 
     public RecordBean() {
     }
 
-    public RecordBean(int recordId, int appId, Date recordDate) {
+    public RecordBean(int recordId, int appId, Date recordDate, int staffId) {
         this.recordId = recordId;
         this.appId = appId;
+        this.staffId = staffId;
         this.recordDate = recordDate;
     }
 
@@ -56,6 +59,24 @@ public class RecordBean implements Serializable {
         this.application = application;
         if (application != null) {
             this.appId = application.getAppId(); // keep FK in sync
+        }
+    }
+    
+    public int getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(int staffId) {
+        this.staffId = staffId;
+    }
+    public StaffBean getStaff() {
+        return staff;
+    }
+
+    public void setStaff(StaffBean staff) {
+        this.staff = staff;
+        if (staff != null) {
+            this.staffId = staff.getStaffId(); // keep FK in sync
         }
     }
 

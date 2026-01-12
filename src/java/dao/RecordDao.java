@@ -17,13 +17,14 @@ public class RecordDao {
     //INSERT
     public void insertRecord(RecordBean record) {
 
-        String sql = "INSERT INTO RECORD (APP_ID, RECORD_DATE, RECORD_STATUS) VALUES (?, CURRENT_DATE, ?)";
+        String sql = "INSERT INTO RECORD (APP_ID, STAFF_ID, RECORD_DATE, RECORD_STATUS) VALUES (?, ?, CURRENT_DATE, ?)";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, record.getAppId());
-            ps.setString(2, record.getRecordStatus());
+            ps.setInt(2, record.getStaffId());
+            ps.setString(3, record.getRecordStatus());
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -173,14 +174,15 @@ public List<RecordBean> getRecordsByAdopter(int adoptId) {
     }
 
 //update record bila adoption complete
-    public void completeRecord(int recordId) {
+    public void completeRecord(int recordId, int staffId) {
 
-        String sql = "UPDATE RECORD SET RECORD_STATUS = 'Completed' WHERE RECORD_ID = ?";
+        String sql = "UPDATE RECORD SET RECORD_STATUS = 'Completed', STAFF_ID=?" + "WHERE RECORD_ID = ?";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, recordId);
+            ps.setInt(1, staffId);
+            ps.setInt(2, recordId);
             ps.executeUpdate();
 
         } catch (SQLException e) {
