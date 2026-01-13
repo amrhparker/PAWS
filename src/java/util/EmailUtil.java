@@ -53,7 +53,7 @@ public class EmailUtil {
                 + "PAWS Pet Adoption Centre\n"
                 + "Lot 123, Jalan Haiwan Prihatin,\n"
                 + "40150 Shah Alam, Selangor\n\n"
-                + "🕘 Operating Hours:\n"
+                + "Operating Hours:\n"
                 + "Monday – Friday, 10:00 AM – 5:00 PM\n\n" +
 
                 "Please bring the following documents:\n"
