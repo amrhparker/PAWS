@@ -104,18 +104,26 @@
 
 <div class="main-content">
     <div class="navbar">
-        <div class="navbar-left">
-            <a href="Home.jsp">
-                <img src="PAWS.png" alt="PAWS Logo">
-            </a>
-        </div>
+            <div class="navbar-left">
+        <a href="Home.jsp">
+            <img src="pawsA.png" alt="PAWS">
+        </a>
 
-        <div class="navbar-right">
+        <div class="navbar-links">
             <a href="Home.jsp">Home</a>
-            <a href="AboutUs.jsp">About</a>
-            <a href="DashboardA.jsp">Dashboard</a>
+            <a href="AboutUs.html">About</a>
+            <a href="ApplicationController?action=dashboardA" class="active">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>
         </div>
+    </div>
+
+    <div class="navbar-profile">
+        <a href="AdopterController?action=profile">
+            <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
+        </a>
+        <a href="LogoutServlet" class="logout">LOG OUT</a>
+    </div>
+</div>
     </div>
 
     <h2>Meet Our Pets</h2>

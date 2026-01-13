@@ -174,25 +174,26 @@
         </c:if>
         <div class="navbar">
 
-            <div class="navbar-left">
-                <a href="Home.jsp">
-                    <img src="pawsA.png" alt="PAWS Logo">
-                </a>
+    <div class="navbar-left">
+        <a href="Home.jsp">
+            <img src="pawsA.png" alt="PAWS">
+        </a>
 
-                <div class="navbar-links">
-                    <a href="Home.jsp">Home</a>
-                    <a href="AboutUs.html">About</a>
-                    <a href="AdopterController?action=dashboard">Dashboard</a>
-                    <a href="Rehome.jsp">Rehome Pet</a>
-                </div>
-            </div>
+        <div class="navbar-links">
+            <a href="Home.jsp">Home</a>
+            <a href="AboutUs.html">About</a>
+            <a href="ApplicationController?action=dashboardA" class="active">Dashboard</a>
+            <a href="Rehome.jsp">Rehome Pet</a>
+        </div>
+    </div>
 
-            <div class="navbar-profile">
-                <a href="Profile.jsp">
-                    <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
-                </a>
-                <a href="AdopterController?action=logout" class="logout">LOG OUT</a>
-            </div>
+    <div class="navbar-profile">
+        <a href="AdopterController?action=profile">
+            <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
+        </a>
+        <a href="LogoutServlet" class="logout">LOG OUT</a>
+    </div>
+</div>
 
         </div>
 
