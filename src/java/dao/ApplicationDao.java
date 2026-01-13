@@ -304,15 +304,20 @@ public class ApplicationDao {
         app.setPet(pet);
 
         // ===== Staff (for display) =====
-        String staffFname = rs.getString("STAFF_FNAME");
-        String staffLname = rs.getString("STAFF_LNAME");
+        // ===== Staff (optional, for staff view only) =====
+        try {
+            String staffFname = rs.getString("STAFF_FNAME");
+            String staffLname = rs.getString("STAFF_LNAME");
 
-        if (staffFname != null) {
-            app.setStaffName(staffFname + " " + staffLname);
-        } else {
-            app.setStaffName("Not assigned");
-        }
-
+            if (staffFname != null) {
+                app.setStaffName(staffFname + " " + staffLname);
+            } else {
+                app.setStaffName("Not assigned");
+            }
+            } catch (SQLException e) {
+            // Column STAFF_FNAME not selected (e.g. adopter dashboard)
+            app.setStaffName(null);
+            }
         return app;
     }
 }
