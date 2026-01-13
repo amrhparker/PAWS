@@ -24,23 +24,23 @@
     }
 
     .content-box {
-        width: 70%;
-        margin: 40px auto;
-        background: #fff;
+        width: 40%;
+        margin: 0px auto 40px;
+        background: #ede0ca;
         padding: 30px;
         border-radius: 20px;
         box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
 
-    h2 { margin-top:0; }
-
     .info-row { margin-bottom: 15px; }
+    .info-row p{ margin-bottom: 15px; }
     .label { font-weight:bold; }
 
     .btn-container {
         margin-top: 30px;
         display:flex;
         gap:20px;
+        justify-content: flex-end;
     }
 
     .back-btn {
@@ -88,36 +88,43 @@
 </div>
 </div>
 
-<!-- ================= CONTENT ================= -->
-<div class="content-box" id="recordBox">
+<div class="page-header">
     <h2>Adoption Record Details</h2>
+</div>
+
+<div class="content-box" id="recordBox">
 
     <div class="info-row">
-        <span class="label">Adopter Name:</span>
+        <span class="label">𖤓 Adopter Name:</span>
         ${record.application.adopter.adoptFName}
         ${record.application.adopter.adoptLName}
     </div>
 
     <div class="info-row">
-        <span class="label">Pet Name:</span>
+        <span class="label">𖤓 Pet Name:</span>
         ${record.application.pet.petName}
     </div>
 
     <div class="info-row">
-        <span class="label">Adoption Date:</span>
-        ${record.application.appDate}
+        <span class="label">𖤓 Adoption Date:</span>
+        ${record.recordDate}
     </div>
 
     <div class="info-row">
-        <span class="label">Contact Number:</span>
+        <span class="label">𖤓 Contact Number:</span>
         ${record.application.adopter.adoptPhoneNum}
     </div>
 
     <div class="info-row">
-        <span class="label">Home Address:</span>
+        <span class="label">𖤓 Address:</span>
         ${record.application.adopter.adoptAddress}
     </div>
 
+    <div class="info-row">
+        <span class="label">𖤓 Record Status:</span>
+        ${record.recordStatus}
+    </div>    
+    
     <div class="btn-container">
         <a href="ApplicationController?action=dashboardA">
             <button class="back-btn">Back</button>
@@ -125,9 +132,8 @@
     </div>
 </div>
 
-<!-- ================= FOOTER ================= -->
 <div class="footer">
-    © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+    © 2025 PAWS Pet Adoption Welfare System
 </div>
 
 </body>

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : Rehome
-    Created on : Jan 10, 2026, 1:45:15 PM
-    Author     : amira
---%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="dao.PetDao, model.PetBean, java.util.List" %>
 <%
@@ -13,7 +7,6 @@
     }
 %>
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />

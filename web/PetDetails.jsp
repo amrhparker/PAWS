@@ -6,7 +6,15 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
+<%@ page import="dao.PetDao, model.PetBean, java.util.List" %>
+
+<%
+    if (session.getAttribute("adopterId") == null) {
+        response.sendRedirect("AdopterLogin.jsp");
+        return;
+    }
+%>
+
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -41,6 +49,18 @@
             .nav-right {
                 display: flex;
                 align-items: center;
+            }
+            
+            .page-header2 {
+                position: relative;         
+                width: 60%;                 
+                margin: 20px auto 5px;     
+                text-align: center;          
+            }
+            
+            .page-header2 h2 {
+                font-size: 28px;
+                font-weight: 600;
             }
 
             .profile-container {
@@ -80,6 +100,7 @@
                 align-items: flex-start;
                 gap: 40px;
                 padding: 50px 50px;
+                margin: 0px 210px;
             }
 
             .pet-image-box {
@@ -127,11 +148,10 @@
             .rehoming-section {
                 display: flex;
                 justify-content: flex-end;
-                padding: 30px 60px 60px;
             }
 
             .rehome-btn {
-                padding: 12px 35px;
+                padding: 12px 25px;
                 border-radius: 20px;
                 border: none;
                 cursor: pointer;
@@ -193,7 +213,11 @@
                 <a href="Rehome.jsp">Rehome Pet</a>
             </div>
         </div>
-
+        
+<div class="page-header2">
+    <h2>Pet Details</h2>
+</div>
+        
         <div class="details-container">
             <div class="pet-image-box">
                 <div class="pet-image-frame">
@@ -203,32 +227,44 @@
             </div>
 
                 <div class="pet-details-box">
-                    <p><strong>Age:</strong> ${pet.petAge} years old</p>
-                    <p><strong>Breed:</strong> ${pet.petBreed}</p>
-                    <p><strong>Gender:</strong> ${pet.petGender}</p>
-                    <p><strong>Species:</strong> ${pet.petSpecies}</p>
-                    <p><strong>Health Status:</strong> ${pet.petHealthStatus}</p>
-                    <p><strong>Adoption Status:</strong> ${pet.petAdoptionStatus}</p>
-                </div>
-        </div>
+                    <p><strong>𖤓 Age:</strong> ${pet.petAge} years old</p>
+                    <p><strong>𖤓 Breed:</strong> ${pet.petBreed}</p>
+                    <p><strong>𖤓 Gender:</strong> ${pet.petGender}</p>
+                    <p><strong>𖤓 Species:</strong> ${pet.petSpecies}</p>
+                    <p><strong>𖤓 Health Status:</strong> ${pet.petHealthStatus}</p>
+                    <p><strong>🐾 Adoption Status:</strong> ${pet.petAdoptionStatus}</p>
+                   
+ <div class="rehoming-section">
 
-        <div class="rehoming-section">
-            <c:if test="${not empty pet.petId}">
-                <form action="AdopterController" method="post" style="display: inline;">
-                    <input type="hidden" name="action" value="applyForAdoption">
+    <c:if test="${not empty pet}">
+        <c:choose>
+            <c:when test="${not empty sessionScope.adopter}">
+                <form action="ApplicationController" method="get">
+                    <input type="hidden" name="action" value="form">
                     <input type="hidden" name="petId" value="${pet.petId}">
                     <button type="submit" class="rehome-btn">Apply for Adoption</button>
                 </form>
-            </c:if>
+            </c:when>
 
-            <!-- Show message if pet data is not loaded -->
-            <c:if test="${empty pet}">
-                <p>Pet information not available.</p>
-            </c:if>
+            <c:otherwise>
+                <a href="AdopterLogin.jsp">
+                    <button type="button" class="rehome-btn">Login to Rehome 🐾</button>
+                </a>
+            </c:otherwise>
+        </c:choose>
+    </c:if>
+
+    <c:if test="${empty pet}">
+        <p>Pet information not available.</p>
+    </c:if>
+
+</div>
+            
+                </div>              
         </div>
 
         <div class="footer">
-            © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+            © 2025 PAWS Pet Adoption Welfare System
         </div>
 
     </body>

@@ -342,10 +342,10 @@ body {
 }
 
 .page-header {
-    position: relative;         /* needed for absolute positioning of button */
-    width: 60%;                 /* or your container width */
-    margin: 20px auto 35px;     /* center container horizontally */
-    text-align: center;          /* centers the h2 */
+    position: relative;         
+    width: 60%;                 
+    margin: 20px auto 35px;     
+    text-align: center;          
 }
 
 .page-header h2 {

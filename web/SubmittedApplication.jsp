@@ -25,23 +25,22 @@
     }
 
     .content-box {
-        width: 70%;
-        margin: 40px auto;
-        background: #fff;
-        padding: 30px;
+        width: 40%;
+        margin: 0px auto 40px;
+        background: #ede0ca;
+        padding: 35px;
         border-radius: 20px;
         box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
-
-    h2 { margin-top:0; }
-
     .info-row { margin-bottom: 15px; }
+    .info-row p{ margin-bottom: 15px; }
     .label { font-weight:bold; }
 
     .btn-container {
         margin-top: 30px;
         display:flex;
         gap:20px;
+        justify-content: flex-end;
     }
 
     .back-btn {
@@ -86,34 +85,62 @@
 <c:if test="${empty application}">
     <c:redirect url="ApplicationController?action=dashboardA"/>
 </c:if>
+
+<div class="page-header">
+    <h2>Submitted Application Details</h2>
+</div>
     
 <div class="content-box">
-    <h2>Submitted Application Details</h2>
 
     <div class="info-row">
         <p>
-            <span class="label">Applicant Name:</span>
+            <span class="label">𖤓 Applicant Name:</span>
             ${application.adopter.adoptFName}
             ${application.adopter.adoptLName}
         </p>
 
         <p>
-            <span class="label">Pet Name:</span>
+            <span class="label">𖤓 Pet Name:</span>
             ${application.pet.petName}
         </p>
 
         <p>
-            <span class="label">Status:</span>
+            <span class="label">𖤓 Status:</span>
             ${application.appStatus}
         </p>
 
         <p>
-            <span class="label">Eligibility:</span>
+            <span class="label">𖤓 Have you owned a pet before?</span><br>
+            ➛ ${application.hasOwnedPet}
+        </p>
+        
+        <p>
+            <span class="label">𖤓 Who will be responsible for feeding, grooming, vet visits?</span><br>
+            ➛ ${application.caretakerInfo}
+        </p>
+        
+        <p>
+            <span class="label">𖤓 Where the pet will be kept at?</span><br>
+            ➛ ${application.petEnvironment}
+        </p>
+        
+        <p>
+            <span class="label">𖤓 Medical Expenses Ready?</span><br>
+            ➛ ${application.medicalReady}
+        </p>
+        
+        <p>
+            <span class="label">𖤓 Adoption Reason:</span>
+            ${application.adoptionReason}
+        </p>
+        
+        <p>
+            <span class="label">𖤓 Eligibility:</span>
             ${application.appEligibility}
         </p>
-
+        
         <p>
-            <span class="label">Date Submitted:</span>
+            <span class="label">📅 Date Submitted:</span>
             <fmt:formatDate value="${application.appDate}" pattern="dd MMM yyyy"/>
         </p>
     </div>

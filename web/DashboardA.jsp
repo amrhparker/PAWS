@@ -33,7 +33,7 @@
 
         .dashboard-container {
             display: flex;
-            padding: 40px 50px;
+            padding: 20px 80px;
             gap: 40px;
         }
 
@@ -44,7 +44,7 @@
         .section-title {
             font-size: 22px;
             font-weight: 600;
-            margin: 25px 0 15px;
+            margin: 5px 0 15px;
         }
 
         .card-grid {
@@ -54,7 +54,8 @@
         }
 
         .data-card {
-            background: white;
+            margin-bottom: 25px;
+            background: #ede0ca;
             border-radius: 18px;
             padding: 18px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -107,6 +108,7 @@
         .status-approved { color: green; font-weight: bold; }
         .status-pending { color: orange; font-weight: bold; }
         .status-rejected { color: red; font-weight: bold; }
+        .status-completed { color: #5170ff; font-weight: bold; }
 
     </style>
 </head>
@@ -215,6 +217,8 @@
                     <c:forEach var="r" items="${records}">
                         <a href="RecordController?action=viewAdopter&recordId=${r.recordId}"
                            class="data-card">
+                            
+                            <strong>( ${r.recordId} )</strong>
 
                             <p><span class="data-label">Adopter:</span>
                                 ${r.adopterName}

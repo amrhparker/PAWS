@@ -79,6 +79,7 @@
             }
 
             .profile-left {
+                background: #d0e6c7;
                 width: 260px;
                 padding: 20px;
                 border: 1px solid #ccc;
@@ -93,6 +94,7 @@
             }
 
             .profile-info {
+                background: #d0e6c7;
                 width: 550px;
                 padding: 25px;
                 border: 1px solid #ccc;
