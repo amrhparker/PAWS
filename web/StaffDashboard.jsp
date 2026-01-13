@@ -35,16 +35,17 @@
         <a href="Home.jsp">
             <img src="pawsS.png" alt="PAWS Staff">
         </a>
+        <div class="navbar-links">
+            <a href="StaffDashboard.jsp">Dashboard</a>
+            <a href="ManagePets.jsp">Pets</a>
+            <a href="ManageApplications.jsp">Applications</a>
+            <a href="ManageRecords.jsp">Records</a>
+            <a href="ReportController">Reports</a>
+        </div>
     </div>
 
-    <div class="navbar-links">
-        <a href="StaffDashboard.jsp">Dashboard</a>
-        <a href="PetController">Pets</a>
-        <a href="RecordController?action=list">Records</a>
-        <a href="ManageReports.jsp">Reports</a>
-        <a href="ManageApplications.jsp">Applications</a>
-        <a href="ActivityLog.jsp">Logs</a>
-        <a href="LogoutServlet" class="logout">LOG OUT</a>
+    <div class="navbar-right">
+        <a href="LogoutServlet" class="logout">Log Out</a>
     </div>
 </div>
 
@@ -60,6 +61,13 @@
             <p class="sub">Add, see, edit, or remove pets in our system</p>
         </a>
     </div>
+    
+    <div class="manage-card">
+        <a href="ManageApplications.jsp">
+            <h3>Manage Applications</h3>
+            <p class="sub">View adoption applications submitted by customers</p>
+        </a>
+    </div>    
 
     <div class="manage-card">
         <a href="RecordController?action=list">
@@ -69,16 +77,9 @@
     </div>
 
     <div class="manage-card">
-        <a href="ManageReports.jsp">
+        <a href="ReportController">
             <h3>Manage Reports</h3>
             <p class="sub">View reports throughout the year</p>
-        </a>
-    </div>
-
-    <div class="manage-card">
-        <a href="ManageApplications.jsp">
-            <h3>Manage Applications</h3>
-            <p class="sub">View adoption applications submitted by customers</p>
         </a>
     </div>
 

@@ -190,6 +190,10 @@
                             <p><span class="data-label">Date:</span>
                                 <fmt:formatDate value="${app.appDate}" pattern="dd MMM yyyy"/>
                             </p>
+                            
+                            <p><span class="data-label">Approved By:</span>
+                                ${app.staffName}
+                            </p>
                         </a>
                     </c:forEach>
                 </c:when>

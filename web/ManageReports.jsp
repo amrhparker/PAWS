@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reports</title>
+    <title>Manage Reports</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -48,7 +48,7 @@
         }
 
         .filter-bar button {
-            background: #5ecf9b;
+            background: #ff66c4;
             border: none;
             color: white;
             border-radius: 20px;
@@ -72,7 +72,7 @@
         }
 
         .report-table thead {
-            background: #5ecf9b;
+            background: #b4c0f6;
             color: white;
         }
 
@@ -89,9 +89,6 @@
             font-size: 14px;
         }
 
-        .report-table tr:hover {
-            background-color: #f7fdfb;
-        }
 
         /* STATUS TAG */
         .tag {
@@ -110,7 +107,7 @@
         /* VIEW BUTTON */
         .view-btn {
             padding: 6px 16px;
-            background: #5ecf9b;
+            background: #ff66c4;
             color: white;
             border-radius: 20px;
             text-decoration: none;
@@ -121,29 +118,37 @@
         .view-btn:hover {
             background: #4abf8a;
         }
+
+        .delete-btn {
+            padding: 6px 16px;
+            margin-left: 10px;
+            background: red;
+            color: white;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .delete-btn:hover {
+            background: #4abf8a;
+        }
     </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
     <div class="navbar-left">
-
-        <a href="StaffDashboard.jsp">
-            <img src="pawsS.png">
-
         <a href="Home.jsp">
             <img src="pawsS.png" alt="PAWS Staff">
-
         </a>
-
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
-            <a href="ManageRecords.jsp">Records</a>
-            <a href="ReportController" class="active">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
+            <a href="ManageRecords.jsp">Records</a>
+            <a href="ReportController">Reports</a>
         </div>
     </div>
 
@@ -152,8 +157,9 @@
     </div>
 </div>
 
-<!-- TITLE -->
-<div class="page-title">Adoption Reports</div>
+<div class="page-header">
+    <h2>Adoption Reports</h2>
+</div>
 
 <!-- FILTER -->
 <form class="filter-bar"
@@ -225,6 +231,12 @@
                     <a class="view-btn"
                        href="${pageContext.request.contextPath}/ReportController?action=view&reportId=${r.reportId}">
                         View
+                    </a>
+
+                    <a class="delete-btn"
+                        href="ReportController?action=delete&reportId=${r.reportId}"
+                        onclick="return confirm('Are you sure you want to delete this report?');">
+                        Delete
                     </a>
                 </td>
             </tr>

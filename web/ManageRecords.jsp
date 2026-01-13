@@ -31,7 +31,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Adoption Records</title>
+    <title>Manage Records</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -44,18 +44,13 @@
         }
 
         .content{
-            width:90%;
-            margin:40px auto;
-        }
-
-        h2{
-            margin-bottom:25px;
-            font-weight:600;
+            width:80%;
+            margin:10px auto;
         }
 
         .record-card{
-            background:white;
-            border-radius:14px;
+            background:#b4c0f6;;
+            border-radius:15px;
             padding:22px 28px;
             margin-bottom:18px;
             box-shadow:0 8px 20px rgba(0,0,0,0.08);
@@ -69,28 +64,35 @@
             font-weight:500;
         }
 
-        .actions a{
-            text-decoration:none;
-            padding:9px 16px;
-            border-radius:8px;
-            font-size:14px;
-            font-weight:500;
-            margin-left:10px;
-            display:inline-block;
+        .view-btn {
+            padding: 6px 16px;
+            background: #ff66c4;
+            color: white;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
         }
 
-        .view-btn{
-            background:#0d6efd;
-            color:white;
+        .view-btn:hover {
+            background: #4abf8a;
         }
 
-        .delete-btn{
-            background:#dc3545;
-            color:white;
+        .delete-btn {
+            padding: 6px 16px;
+            margin-left: 10px;
+            background: red;
+            color: white;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
         }
 
-        .view-btn:hover{ background:#0b5ed7; }
-        .delete-btn:hover{ background:#bb2d3b; }
+        .delete-btn:hover {
+            background: #4abf8a;
+        }
+
 
         .empty{
             background:white;
@@ -105,20 +107,17 @@
 
 <body>
 
-<!-- ===== NAVBAR ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.jsp">
             <img src="pawsS.png" alt="PAWS Staff">
         </a>
-
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
-            <a href="ManageRecords.jsp" class="active">Records</a>
-            <a href="ManageReports.jsp">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
-            <a href="ActivityLog.jsp">Logs</a>
+            <a href="ManageRecords.jsp">Records</a>
+            <a href="ReportController">Reports</a>
         </div>
     </div>
 
@@ -127,10 +126,11 @@
     </div>
 </div>
 
-<!-- ===== CONTENT ===== -->
-<div class="content">
-
+<div class="page-header">
     <h2>Adoption Records</h2>
+</div>
+    
+<div class="content">
 
     <c:forEach var="r" items="${records}">
         <div class="record-card">

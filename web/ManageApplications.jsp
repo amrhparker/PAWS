@@ -34,7 +34,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Manage Adoption Applications</title>
+    <title>Manage Applications</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -48,7 +48,7 @@
 
         .container{
             width:90%;
-            margin:40px auto;
+            margin:20px auto;
         }
 
         h2{
@@ -66,7 +66,7 @@
         }
 
         th{
-            background:#f2f3f7;
+            background:#b4c0f6;
             padding:16px;
             text-align:left;
             font-size:15px;
@@ -105,18 +105,18 @@
             display:flex;
             gap:8px;
         }
-
+        
         .btn{
-            padding:7px 14px;
-            border-radius:6px;
-            font-size:13px;
-            border:none;
-            cursor:pointer;
-            font-weight:500;
+            padding: 6px 16px;
+            color: white;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
         }
 
         .btn-view{
-            background:#0d6efd;
+            background:#ff66c4;
             color:white;
         }
 
@@ -131,6 +131,7 @@
         }
 
         .btn:hover{
+            background: #4abf8a;
             opacity:0.9;
         }
 
@@ -145,24 +146,21 @@
 <body>
 <c:if test="${param.email eq 'sent'}">
     <script>
-        alert("✅ Email successfully sent to adopter!");
+        alert("Email successfully sent to adopter!");
     </script>
 </c:if>
 
-<!-- ===== NAVBAR (KEKAL PAWS STYLE) ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.jsp">
             <img src="pawsS.png" alt="PAWS Staff">
         </a>
-
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
+            <a href="ManageApplications.jsp">Applications</a>
             <a href="ManageRecords.jsp">Records</a>
-            <a href="ManageReports.jsp">Reports</a>
-            <a href="ManageApplications.jsp" class="active">Applications</a>
-            <a href="ActivityLog.jsp">Logs</a>
+            <a href="ReportController">Reports</a>
         </div>
     </div>
 
@@ -171,10 +169,11 @@
     </div>
 </div>
 
-<!-- ===== CONTENT ===== -->
+<div class="page-header">
+    <h2>Adoption Applications</h2>
+</div>
+    
 <div class="container">
-
-    <h2>Manage Adoption Applications</h2>
 
     <table>
         <tr>
@@ -189,7 +188,7 @@
 
         <c:forEach var="a" items="${applications}">
             <tr>
-                <td>APP${a.appId}</td>
+                <td>APP#${a.appId}</td>
 
                 <td>
                     ${a.adopter.adoptFName} ${a.adopter.adoptLName}

@@ -39,7 +39,17 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
                .forward(request, response);
         return;
     }
+    
+    // ================= DELETE REPORT =================
+    if ("delete".equals(action)) {
+        int reportId = Integer.parseInt(request.getParameter("reportId"));
 
+        dao.deleteReport(reportId);  // call your DAO delete method
+
+        response.sendRedirect("ReportController"); // back to listing
+        return;
+    }
+    
         // ================= DEFAULT: LIST REPORTS =================
         List<ReportBean> reports = dao.getAllReports();
         request.setAttribute("reports", reports);

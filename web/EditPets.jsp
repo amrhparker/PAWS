@@ -18,7 +18,6 @@
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.jsp">
@@ -30,7 +29,6 @@
             <a href="ManageRecords.jsp">Records</a>
             <a href="ManageReports.jsp">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
-            <a href="ActivityLog.jsp">Logs</a>
         </div>
     </div>
 
@@ -44,7 +42,7 @@
     <div class="form-card">
         <h2>Edit Pet Details</h2>
 
-        <form action="${pageContext.request.contextPath}/PetServlet" method="post">
+        <form action="${pageContext.request.contextPath}/PetController" method="post">
             <!-- Hidden fields to indicate action and which pet -->
             <input type="hidden" name="action" value="edit">
             <input type="hidden" name="petId" value="${pet.petId}">
@@ -89,7 +87,16 @@
             <input type="text" name="petHealthStatus" value="${pet.petHealthStatus}">
 
             <label>Adoption Status</label>
-            <input type="text" name="petAdoptionStatus" value="${pet.petAdoptionStatus}">
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="petAdoptionStatus" value="Available" 
+                        <c:if test="${pet.petAdoptionStatus == 'Available'}">checked</c:if> > Available
+                </label>
+                <label>
+                    <input type="radio" name="petAdoptionStatus" value="Adopted" 
+                        <c:if test="${pet.petAdoptionStatus == 'Adopted'}">checked</c:if> > Adopted
+                </label>
+            </div>
 
             <button type="submit" class="bttn">Update Pet</button>
         </form>

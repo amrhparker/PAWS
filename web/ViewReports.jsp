@@ -94,23 +94,16 @@
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
     <div class="navbar-left">
-
-        <a href="StaffDashboard.jsp">
-            <img src="pawsS.png">
-
         <a href="Home.jsp">
             <img src="pawsS.png" alt="PAWS Staff">
-
         </a>
-
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
             <a href="ManageRecords.jsp">Records</a>
-            <a href="ReportController" class="active">Reports</a>
+            <a href="ManageReports.jsp">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
         </div>
     </div>
@@ -135,13 +128,13 @@
 
     <!-- RECORD DETAILS -->
     <div class="section">
-        <h2>Adoption / Application Details</h2>
+        <h2>${report.reportType} Details</h2>
 
         <table>
             <thead>
                 <tr>
                     <th>Record ID</th>
-                    <th>Status</th>
+                    <th>Record Status</th>
                     <th>Record Date</th>
                     <th>Application Date</th>
                     <th>Adopter</th>

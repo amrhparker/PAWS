@@ -60,10 +60,12 @@ public class ApplicationDao {
             "SELECT a.*, " +
             "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
             "p.PET_ID, p.PET_NAME, p.PET_DESC, p.PET_SPECIES, p.PET_GENDER, " +
-            "p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS " +
+            "p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS, " +
+            "s.STAFF_FNAME, s.STAFF_LNAME " +
             "FROM APPLICATION a " +
             "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +
             "JOIN PET p ON a.PET_ID = p.PET_ID " +
+            "LEFT JOIN STAFF s ON a.STAFF_ID = s.STAFF_ID " +
             "WHERE a.ADOPT_ID = ? " +
             "ORDER BY a.APP_ID DESC";
 
@@ -116,10 +118,12 @@ public class ApplicationDao {
             "SELECT a.*, " +
             "ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, ad.ADOPT_ADDRESS, " +
             "p.PET_ID, p.PET_NAME, p.PET_DESC, p.PET_SPECIES, p.PET_GENDER, " +
-            "p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS " +
+            "p.PET_BREED, p.PET_AGE, p.PET_HEALTHSTATUS, p.PET_ADOPTIONSTATUS, " +
+            "s.STAFF_FNAME, s.STAFF_LNAME " +
             "FROM APPLICATION a " +
             "JOIN ADOPTER ad ON a.ADOPT_ID = ad.ADOPT_ID " +
             "JOIN PET p ON a.PET_ID = p.PET_ID " +
+            "LEFT JOIN STAFF s ON a.STAFF_ID = s.STAFF_ID " +
             "WHERE a.APP_ID = ?";
 
         ApplicationBean app = null;

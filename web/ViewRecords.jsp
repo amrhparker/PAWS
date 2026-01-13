@@ -147,20 +147,17 @@
 
 <body>
 
-<!-- ===== NAVBAR ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.jsp">
             <img src="pawsS.png" alt="PAWS Staff">
         </a>
-
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
-            <a href="ManageRecords.jsp" class="active">Records</a>
+            <a href="ManageRecords.jsp">Records</a>
             <a href="ManageReports.jsp">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
-            <a href="ActivityLog.jsp">Logs</a>
         </div>
     </div>
 

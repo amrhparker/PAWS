@@ -113,18 +113,17 @@
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
     <div class="navbar-left">
-        <a href="Home.jsp"><img src="pawsS.png" alt="PAWS Staff"></a>
-
+        <a href="Home.jsp">
+            <img src="pawsS.png" alt="PAWS Staff">
+        </a>
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
             <a href="ManageRecords.jsp">Records</a>
             <a href="ManageReports.jsp">Reports</a>
-            <a href="ApplicationController?action=manage" class="active">Applications</a>
-            <a href="ActivityLog.jsp">Logs</a>
+            <a href="ManageApplications.jsp">Applications</a>
         </div>
     </div>
 
@@ -140,6 +139,7 @@
     <div class="info">
         <p><b>Application ID:</b> #${application.appId}</p>
         <p><b>Status:</b> ${application.appStatus}</p>
+        <p><b>Approved By:</b> ${application.staffName}</p>
     </div>
 
     <div class="row">

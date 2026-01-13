@@ -284,6 +284,7 @@ body {
 
 /* ===== PET INFO STACK ===== */
 .info-stack {
+    align-items: center;
     display: flex;
     flex-direction: column;
     gap: 25px; /* space between cards */
@@ -298,7 +299,8 @@ body {
     padding: 20px;
     box-shadow: 0 8px 18px rgba(0,0,0,0.15);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    width: 100%; /* full width of stack container */
+    width: 70%; /* full width of stack container */
+    margin-top: 15px;
 }
 
 .info-card:hover {
@@ -307,6 +309,7 @@ body {
 }
 
 .info-card h3 {
+    color: white;
     font-size: 24px;
     margin-bottom: 12px;
 }
@@ -323,35 +326,41 @@ body {
     gap: 12px;
 }
 
-/* Button inside card */
 .bttn {
-    padding: 15px 15px;
+    padding: 6px 16px;
     background: #ff66c4;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
     color: white;
-    cursor: pointer;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
 }
 
 .bttn:hover{
-    background:#e046ad;
+    background:#4abf8a;
     transform: translateY(-5px);
 }
 
-/* ===== PAGE HEADER ===== */
 .page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    margin: 20px auto 30px;
+    position: relative;         /* needed for absolute positioning of button */
+    width: 60%;                 /* or your container width */
+    margin: 20px auto 35px;     /* center container horizontally */
+    text-align: center;          /* centers the h2 */
 }
 
 .page-header h2 {
     font-size: 28px;
     font-weight: 600;
+    margin: 0;
 }
+
+.page-header .bttn {
+    position: absolute;         
+    right: 0;                   
+}
+
+
+
 
 
 

@@ -3,15 +3,13 @@ package dao;
 import model.RecordBean;
 import model.ReportBean;
 
+import util.DBConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReportDao {
-
-    private final String URL = "jdbc:derby://localhost:1527/PAWSdb";
-    private final String USER = "app";
-    private final String PASS = "app";
 
     // ================= GET RECORDS WITH FILTER =================
     public List<RecordBean> getRecordsByFilter(
@@ -79,8 +77,8 @@ public class ReportDao {
         sql.append("AND p.PET_SPECIES = ? ");
     }
 
-    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-         PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+    try (Connection conn = DBConnection.getConnection();
+     PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
         int index = 1;
 
@@ -127,12 +125,11 @@ public class ReportDao {
         String insertRR =
             "INSERT INTO REPORT_RECORD (REPORT_ID, RECORD_ID) VALUES (?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+        try (Connection conn = DBConnection.getConnection()) {
 
             conn.setAutoCommit(false);
 
-            PreparedStatement ps = conn.prepareStatement(
-                insertReport, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = conn.prepareStatement(insertReport, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, reportType);
             ps.setInt(2, records.size());
             ps.executeUpdate();
@@ -167,7 +164,7 @@ public class ReportDao {
             "SELECT REPORT_ID, REPORT_TYPE, REPORT_DATE, TOTAL_COUNT " +
             "FROM REPORT ORDER BY REPORT_ID DESC";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -204,7 +201,7 @@ public List<RecordBean> getReportDetails(int reportId) {
         "JOIN PET p ON a.PET_ID = p.PET_ID " +
         "WHERE rr.REPORT_ID = ?";
 
-    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+    try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setInt(1, reportId);
@@ -254,7 +251,7 @@ public ReportBean getReportById(int reportId) {
         "SELECT REPORT_ID, REPORT_TYPE, REPORT_DATE, TOTAL_COUNT " +
         "FROM REPORT WHERE REPORT_ID = ?";
 
-    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+    try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setInt(1, reportId);
@@ -273,6 +270,37 @@ public ReportBean getReportById(int reportId) {
     }
 
     return report;
+}
+
+public void deleteReport(int reportId) {
+
+    String deleteReportRecord =
+        "DELETE FROM REPORT_RECORD WHERE REPORT_ID = ?";
+
+    String deleteReport =
+        "DELETE FROM REPORT WHERE REPORT_ID = ?";
+
+    try (Connection conn = DBConnection.getConnection()) {
+
+        conn.setAutoCommit(false);
+
+        try (PreparedStatement ps1 =
+                 conn.prepareStatement(deleteReportRecord)) {
+            ps1.setInt(1, reportId);
+            ps1.executeUpdate();
+        }
+
+        try (PreparedStatement ps2 =
+                 conn.prepareStatement(deleteReport)) {
+            ps2.setInt(1, reportId);
+            ps2.executeUpdate();
+        }
+
+        conn.commit();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
 }
 
 }

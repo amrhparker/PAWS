@@ -8,7 +8,7 @@
     }
 %>
 <c:if test="${empty petList}">
-    <c:redirect url="PetServlet"/>
+    <c:redirect url="PetController"/>
 </c:if>
 
 <!DOCTYPE html>
@@ -26,21 +26,22 @@
         <a href="Home.jsp">
             <img src="pawsS.png" alt="PAWS Staff">
         </a>
+        <div class="navbar-links">
+            <a href="StaffDashboard.jsp">Dashboard</a>
+            <a href="ManagePets.jsp">Pets</a>
+            <a href="ManageRecords.jsp">Records</a>
+            <a href="ManageReports.jsp">Reports</a>
+            <a href="ManageApplications.jsp">Applications</a>
+        </div>
     </div>
 
-    <div class="navbar-links">
-        <a href="StaffDashboard.jsp">Dashboard</a>
-        <a href="ManagePets.jsp">Pets</a>
-        <a href="ManageRecords.jsp">Records</a>
-        <a href="ManageReports.jsp">Reports</a>
-        <a href="ManageApplications.jsp">Applications</a>
-        <a href="ActivityLog.jsp">Logs</a>
-        <a href="LogoutServlet" class="logout">LOG OUT</a>
+    <div class="navbar-right">
+        <a href="LogoutServlet" class="logout">Log Out</a>
     </div>
 </div>
 
 <div class="page-header">
-    <h2>Pets Management</h2>
+    <h2>Pets Management</h2><br>
     <a href="AddPets.jsp" class="bttn">Add Pets</a>
 </div>
 
@@ -63,8 +64,8 @@
             <p><strong>Adoption Status:</strong> ${pet.petAdoptionStatus}</p>
 
             <div class="card-actions">
-                <a href="PetServlet?action=edit&petId=${pet.petId}" class="bttn">Edit</a>
-                <a href="PetServlet?action=delete&petId=${pet.petId}"
+                <a href="PetController?action=edit&petId=${pet.petId}" class="bttn">Edit</a>
+                <a href="PetController?action=delete&petId=${pet.petId}"
                    class="bttn"
                    onclick="return confirm('Are you sure you want to delete this pet?');">
                     Delete

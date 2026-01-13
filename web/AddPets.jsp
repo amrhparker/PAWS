@@ -17,8 +17,7 @@
 </head>
 
 <body>
-
-<!-- ================= NAVBAR ================= -->
+    
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.jsp">
@@ -30,7 +29,6 @@
             <a href="ManageRecords.jsp">Records</a>
             <a href="ManageReports.jsp">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
-            <a href="ActivityLog.jsp">Logs</a>
         </div>
     </div>
 
