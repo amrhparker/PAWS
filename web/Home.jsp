@@ -1,5 +1,10 @@
-<%@ page import="dao.PetDao, model.PetBean, java.util.List, java.util.Random" %>
+<%@ page import="dao.PetDao, model.PetBean, model.AdopterBean, model.StaffBean, java.util.List, java.util.Random" %>
+<%
+    AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
+    StaffBean staff = (StaffBean) session.getAttribute("staff");
+%>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,24 +19,72 @@
 
 <body>
 
-<!-- NAVIGATION BAR -->
-<div class="navbar">
-    <div class="navbar-left">
-        <a href="Home.jsp">
-            <img src="PAWS.png" alt="PAWS Logo">
-        </a>
+<% if (adopter != null) { %>
+
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="Home.jsp">
+                <img src="pawsA.png" alt="PAWS">
+            </a>
+
+            <div class="navbar-links">
+                <a href="Home.jsp" class="active">Home</a>
+                <a href="AboutUs.jsp">About Us</a>
+                <a href="ApplicationController?action=dashboardA">Dashboard</a>
+                <a href="Rehome.jsp">Rehome Pet</a>
+            </div>
+        </div>
+
+        <div class="navbar-profile">
+            <a href="AdopterController?action=profile">
+                <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
+            </a>
+            <a href="LogoutServlet" class="logout">LOG OUT</a>
+        </div>
     </div>
 
-    <div class="navbar-right">
-        <a href="Home.jsp">Home</a>
-        <a href="AboutUs.html">About</a>
-        <a href="Rehome.jsp">Rehome</a>
-        <a href="AdopterSignin.jsp">Adopter</a>
-        <a href="LogInStaff.jsp">Staff</a>
-    </div>
-</div>
+<% } else if (staff != null) { %>
 
-    <!-- HERO SECTION -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="Home.jsp">
+                <img src="pawsS.png" alt="PAWS Staff">
+            </a>
+
+            <div class="navbar-links">
+                <a href="StaffDashboard.jsp">Dashboard</a>
+                <a href="ManagePets.jsp">Pets</a>
+                <a href="ManageApplications.jsp">Applications</a>
+                <a href="ManageRecords.jsp">Records</a>
+                <a href="ReportController">Reports</a>
+            </div>
+        </div>
+
+        <div class="navbar-right">
+            <a href="LogoutServlet" class="logout">Log Out</a>
+        </div>
+    </div>
+
+<% } else { %>
+
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="Home.jsp">
+                <img src="PAWS.png" alt="PAWS Logo">
+            </a>
+        </div>
+
+        <div class="navbar-right">
+            <a href="Home.jsp" class="active">Home</a>
+            <a href="AboutUs.jsp">About Us</a>
+            <a href="Rehome.jsp">Rehome</a>
+            <a href="AdopterSignin.jsp">Adopter</a>
+            <a href="LogInStaff.jsp">Staff</a>
+        </div>
+    </div>
+
+<% } %>
+
     <div class="hero">
         <img src="pawsHome.png">
         
@@ -42,7 +95,6 @@
         </div>
     </div>
 
-    <!-- MISSION SECTION -->
     <div class="section mission-section">
         <div class="line"></div>
     <h2>Our Mission</h2>
@@ -53,8 +105,6 @@
     <div class="line"></div>
     </div>
 
-
-    <!-- WHY ADOPT SECTION -->
     <div class="section light">
         <h2>Why Adopt From Us?</h2>
 
@@ -79,8 +129,7 @@
         </div>
     </div>
     
-        <!-- FEATURED PETS SECTION -->
-<div class="section">
+    <div class="section">
     <h2>Our Lovely Pets</h2>
 
     <div class="pet-grid">
@@ -91,7 +140,7 @@
 
             if (pets != null && !pets.isEmpty()) {
 
-                int limit = Math.min(pets.size(), 3); // show only 3 pets on home
+                int limit = Math.min(pets.size(), 4); 
 
                 for (int i = 0; i < limit; i++) {
                     PetBean pet = pets.get(i);

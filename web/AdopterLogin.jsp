@@ -1,9 +1,3 @@
-<%-- 
-    Document   : AdopterLogin
-    Created on : Jan 4, 2026, 3:55:13 PM
-    Author     : amira
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -72,7 +66,7 @@
             }
 
             #heading{
-                font-size:28px;        /* smaller */
+                font-size:28px;        
                 margin-bottom:18px;
                 font-weight:bold;
                 text-align:center;
@@ -114,14 +108,14 @@
             .btn{
                 display:block;
                 margin:10px auto 0;
-                padding:9px 20px;       /* smaller button */
+                padding:9px 20px;       
                 border:none;
                 border-radius:8px;
                 background:#ff66c4;
                 color:white;
                 font-size:15px;
                 cursor:pointer;
-                width:110px;           /* smaller */
+                width:110px;         
                 text-align:center;
             }
             .btn:hover{
@@ -141,7 +135,7 @@
 
             <div class="navbar-right">
                 <a href="Home.jsp">Home</a>
-                <a href="AboutUs.html">About</a>        
+                <a href="AboutUs.jsp">About Us</a>        
                 <a href="AdopterSignin.jsp">Sign In</a>
                 <a href="AdopterLogin.jsp">Log In</a>
             </div>
@@ -165,7 +159,7 @@
             </form>
         </div>
         <div class="footer">
-            © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+            © 2025 PAWS Pet Adoption Welfare System
         </div>
     </body>
 </html>

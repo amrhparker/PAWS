@@ -1,8 +1,3 @@
-<%-- 
-    Document   : Profile
-    Created on : Jan 5, 2026, 6:36:54 PM
-    Author     : amira
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -78,26 +73,31 @@
     }
 
     .profile-left {
+        margin-top: 20px;
         background: #d0e6c7;
         width: 260px;
         padding: 20px;
         border: 1px solid #ccc;
         text-align: center;
         border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
     }
 
     .profile-left img {
+        margin-top: 100px;
         width: 120px;
         height: 120px;
         border-radius: 50%;
     }
 
     .profile-info {
+        margin-top: 20px;
         background: #d0e6c7;
         width: 550px;
         padding: 25px;
         border: 1px solid #ccc;
         border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
     }
 
     .profile-info p {
@@ -105,18 +105,23 @@
     }
 
     .edit-btn {
-        display: block;
-        width: 120px;
-        margin: 30px auto 0;
-        padding: 10px;
-        border: none;
+        margin-top: 20px;
+        margin-right: 10px;
+        padding: 10px 25px;
         border-radius: 20px;
+        border: none;
         cursor: pointer;
-        font-size: 16px;
+        background: #4CAF50;
+        color: white;
+        font-size: 15px;
+        justify-content: flex-end;
     }
-    .btn{
-        text-decoration: none;
+
+    .edit-btn:hover {
+        background: #45a049;
+        transform: translateY(-3px);
     }
+    
     @media (max-width: 700px) {
         .container {
             flex-direction: column;
@@ -149,7 +154,7 @@
 
         <div class="navbar-links">
             <a href="Home.jsp">Home</a>
-            <a href="AboutUs.html">About</a>
+            <a href="AboutUs.jsp">About Us</a>
             <a href="ApplicationController?action=dashboardA" class="active">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>
         </div>
@@ -165,17 +170,6 @@
 
     </div>
 
-    <c:if test="${not empty successMessage}">
-        <div class="message success-message">
-            ${successMessage}
-        </div>
-    </c:if>
-
-    <c:if test="${not empty errorMessage}">
-        <div class="message error-message">
-            ${errorMessage}
-        </div>
-    </c:if>
     
     <div class="container">
 
@@ -185,22 +179,56 @@
         </div>
 
         <div class="profile-info">
-            <p><strong>Email:</strong> ${adopter.adoptEmail}</p>
-            <p><strong>Username:</strong> ${adopter.adoptUsername}</p>
-            <p><strong>Phone Number:</strong> ${adopter.adoptPhoneNum}</p>
-            <p><strong>Address:</strong> ${adopter.adoptAddress}</p>
+
+            <p><strong>Name:</strong> ${adopter.adoptFName} ${adopter.adoptLName}</p>
             <p><strong>IC Number:</strong> ${adopter.adoptIC}</p>
+            <p><strong>Phone Number:</strong> ${adopter.adoptPhoneNum}</p>
+            <p><strong>Email:</strong> ${adopter.adoptEmail}</p>
+            <p><strong>Address:</strong> ${adopter.adoptAddress}</p>
+            <p><strong>Occupation:</strong>
+                <c:out value="${adopter.adoptOccupation}" default="-" />
+            </p>
+            <p><strong>Income:</strong>
+                <c:choose>
+                <c:when test="${adopter.adoptIncome > 0}">
+                    RM ${adopter.adoptIncome}
+                </c:when>
+                <c:otherwise>-</c:otherwise>
+                </c:choose>
+            </p>
+            <p><strong>Username:</strong> ${adopter.adoptUsername}</p>
             <p><strong>Password:</strong> ********</p>
 
-            <a href="${pageContext.request.contextPath}/AdopterController?action=editProfile" class="btn"><button class="edit-btn">Edit</button></a>
-            <a href="${pageContext.request.contextPath}/AdopterController?action=changePasswordForm" class="btn"><button class="edit-btn">Change Password</button></a>
+        <div class="btn-group">
+            <a href="AdopterController?action=editProfile">
+                <button class="edit-btn">Edit</button>
+            </a>
+
+            <a href="AdopterController?action=changePasswordForm">
+                <button class="edit-btn">Change Password</button>
+            </a>
         </div>
+
+        </div>
+
 
     </div>
 
     <div class="footer">
-        © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+        © 2025 PAWS Pet Adoption Welfare System
     </div>
-    
+        
+    <c:if test="${not empty successMessage}">
+    <script>
+        alert("${successMessage}");
+    </script>
+    </c:if>
+
+    <c:if test="${not empty errorMessage}">
+    <script>
+        alert("${errorMessage}");
+    </script>
+    </c:if>
+
 </body>
 </html>

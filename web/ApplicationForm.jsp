@@ -16,7 +16,6 @@
 
     AdopterBean adopter = (AdopterBean) request.getAttribute("adopter");
 
-    // petId MUST come from attribute (forward), not parameter
     Integer petIdObj = (Integer) request.getAttribute("petId");
     int petId = petIdObj != null ? petIdObj : 0;
 
@@ -28,7 +27,6 @@
     String ic = adopter.getAdoptIC() != null ? adopter.getAdoptIC() : "";
     String address = adopter.getAdoptAddress() != null ? adopter.getAdoptAddress() : "";
 
-    // Editable adopter fields (EMPTY first time, filled later)
     String occupation = adopter.getAdoptOccupation() != null ? adopter.getAdoptOccupation() : "";
     String income = adopter.getAdoptIncome() > 0 ? String.valueOf(adopter.getAdoptIncome()) : "";
 %>
@@ -76,7 +74,7 @@
 
         <div class="navbar-links">
             <a href="Home.jsp">Home</a>
-            <a href="AboutUs.html">About</a>
+            <a href="AboutUs.jsp">About Us</a>
             <a href="ApplicationController?action=dashboardA" class="active">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>
         </div>
@@ -109,7 +107,6 @@
 
         <div class="form-wrapper">
 
-            <!-- PERSONAL DETAILS -->
             <div class="form-section">
                 <h2>Personal Details *</h2>
 
@@ -135,7 +132,6 @@
                 <input type="number" step="0.01" name="adoptIncome" value="${adopter.adoptIncome}" />
             </div>
 
-            <!-- ELIGIBILITY -->
             <div class="form-section">
                 <h2>Eligibility Review</h2>
 

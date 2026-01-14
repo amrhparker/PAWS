@@ -1,18 +1,9 @@
-<%-- 
-    Document   : PetDetails
-    Created on : Jan 5, 2026, 7:23:05 PM
-    Author     : amira
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="dao.PetDao, model.PetBean, java.util.List" %>
+<%@ page import="dao.PetDao, model.PetBean, model.AdopterBean, java.util.List" %>
 
 <%
-    if (session.getAttribute("adopterId") == null) {
-        response.sendRedirect("AdopterLogin.jsp");
-        return;
-    }
+    AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
 %>
 
 <html lang="en">
@@ -55,7 +46,8 @@
                 position: relative;         
                 width: 60%;                 
                 margin: 20px auto 5px;     
-                text-align: center;          
+                text-align: center; 
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
             }
             
             .page-header2 h2 {
@@ -119,12 +111,14 @@
                 height: 300px;
                 object-fit: cover;
                 border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
             }
 
             .pet-name {
                 font-size: 20px;
                 font-weight: bold;
-                margin-top: 10px;
+                margin-top: 20px;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
             }
 
             .pet-details-box {
@@ -133,6 +127,7 @@
                 padding: 35px;
                 border-radius: 20px;
                 font-size: 16px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
             }
 
             .pet-details-box p {
@@ -197,75 +192,103 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
 
-    <body>
+<body>
 
-        <div class="navbar">
-            <div class="navbar-left">
-                <a href="Home.jsp">
-                    <img src="pawsA.png" alt="PAWS Logo">
-                </a>
-            </div>
+<% if (adopter != null) { %>
 
-            <div class="navbar-right">
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="Home.jsp">
+                <img src="pawsA.png" alt="PAWS">
+            </a>
+
+            <div class="navbar-links">
                 <a href="Home.jsp">Home</a>
-                <a href="AboutUs.html">About</a>
-                <a href="AdopterController?action=dashboard">Dashboard</a>
-                <a href="Rehome.jsp">Rehome Pet</a>
+                <a href="AboutUs.jsp">About Us</a>
+                <a href="ApplicationController?action=dashboardA">Dashboard</a>
+                <a href="Rehome.jsp" class="active">Rehome Pet</a>
             </div>
         </div>
+
+        <div class="navbar-profile">
+            <a href="AdopterController?action=profile">
+                <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
+            </a>
+            <a href="LogoutServlet" class="logout">LOG OUT</a>
+        </div>
+    </div>
+
+<% } else { %>
+
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="Home.jsp">
+                <img src="PAWS.png" alt="PAWS Logo">
+            </a>
+        </div>
+
+        <div class="navbar-right">
+            <a href="Home.jsp">Home</a>
+            <a href="AboutUs.jsp">About Us</a>
+            <a href="Rehome.jsp" class="active">Rehome</a>
+            <a href="AdopterSignin.jsp">Adopter</a>
+            <a href="LogInStaff.jsp">Staff</a>
+        </div>
+    </div>
+
+<% } %>
         
 <div class="page-header2">
     <h2>Pet Details</h2>
 </div>
         
-        <div class="details-container">
-            <div class="pet-image-box">
-                <div class="pet-image-frame">
-                    <img src="images/${petImage}" alt="${pet.petName}">
-                </div>
-                <div class="pet-name">${pet.petName}</div>
-            </div>
+<div class="details-container">
+    <div class="pet-image-box">
+        <div class="pet-image-frame">
+            <img src="images/${petImage}" alt="${pet.petName}">
+        </div>
+        <div class="pet-name">${pet.petName}</div>
+    </div>
 
-                <div class="pet-details-box">
-                    <p><strong>𖤓 Age:</strong> ${pet.petAge} years old</p>
-                    <p><strong>𖤓 Breed:</strong> ${pet.petBreed}</p>
-                    <p><strong>𖤓 Gender:</strong> ${pet.petGender}</p>
-                    <p><strong>𖤓 Species:</strong> ${pet.petSpecies}</p>
-                    <p><strong>𖤓 Health Status:</strong> ${pet.petHealthStatus}</p>
-                    <p><strong>🐾 Adoption Status:</strong> ${pet.petAdoptionStatus}</p>
+        <div class="pet-details-box">
+            <p><strong>𖤓 Age:</strong> ${pet.petAge} years old</p>
+            <p><strong>𖤓 Breed:</strong> ${pet.petBreed}</p>
+            <p><strong>𖤓 Gender:</strong> ${pet.petGender}</p>
+            <p><strong>𖤓 Species:</strong> ${pet.petSpecies}</p>
+            <p><strong>𖤓 Health Status:</strong> ${pet.petHealthStatus}</p>
+            <p><strong>🐾 Adoption Status:</strong> ${pet.petAdoptionStatus}</p>
                    
- <div class="rehoming-section">
+            <div class="rehoming-section">
 
-    <c:if test="${not empty pet}">
-        <c:choose>
-            <c:when test="${not empty sessionScope.adopter}">
-                <form action="ApplicationController" method="get">
-                    <input type="hidden" name="action" value="form">
-                    <input type="hidden" name="petId" value="${pet.petId}">
-                    <button type="submit" class="rehome-btn">Apply for Adoption</button>
-                </form>
-            </c:when>
+                <c:if test="${not empty pet}">
+                <c:choose>
+                    <c:when test="${not empty sessionScope.adopter}">
+                        <form action="ApplicationController" method="get">
+                            <input type="hidden" name="action" value="form">
+                            <input type="hidden" name="petId" value="${pet.petId}">
+                            <button type="submit" class="rehome-btn">Apply for Adoption</button>
+                        </form>
+                    </c:when>
+                <c:otherwise>
+                    <a href="AdopterLogin.jsp">
+                        <button type="button" class="rehome-btn">Login to Rehome 🐾</button>
+                    </a>
+                </c:otherwise>
+                </c:choose>
+                </c:if>
 
-            <c:otherwise>
-                <a href="AdopterLogin.jsp">
-                    <button type="button" class="rehome-btn">Login to Rehome 🐾</button>
-                </a>
-            </c:otherwise>
-        </c:choose>
-    </c:if>
+                <c:if test="${empty pet}">
+                    <p>Pet information not available.</p>
+                </c:if>
 
-    <c:if test="${empty pet}">
-        <p>Pet information not available.</p>
-    </c:if>
-
-</div>
+            </div>
             
-                </div>              
-        </div>
+        </div>              
+</div>
 
-        <div class="footer">
-            © 2025 PAWS Pet Adoption Welfare System
-        </div>
+    <div class="footer">
+        © 2025 PAWS Pet Adoption Welfare System
+    </div>
 
-    </body>
+</body>
 </html>

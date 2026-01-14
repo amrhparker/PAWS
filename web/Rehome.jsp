@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="dao.PetDao, model.PetBean, java.util.List" %>
+<%@ page import="dao.PetDao, model.PetBean, model.AdopterBean, java.util.List" %>
+
 <%
-    if (session.getAttribute("adopterId") == null) {
-        response.sendRedirect("AdopterLogin.jsp");
-        return;
-    }
+    AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
 %>
 
 <html lang="en">
@@ -19,6 +17,7 @@
             margin-top: 40px;
             font-size: 28px;
             font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
         }
 
         .pets-container {
@@ -96,27 +95,51 @@
 <body>
 
 <div class="main-content">
-    <div class="navbar">
-            <div class="navbar-left">
-        <a href="Home.jsp">
-            <img src="pawsA.png" alt="PAWS">
-        </a>
 
-        <div class="navbar-links">
-            <a href="Home.jsp">Home</a>
-            <a href="AboutUs.html">About</a>
-            <a href="ApplicationController?action=dashboardA" class="active">Dashboard</a>
-            <a href="Rehome.jsp">Rehome Pet</a>
+<% if (adopter != null) { %>
+
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="Home.jsp">
+                <img src="pawsA.png" alt="PAWS">
+            </a>
+
+            <div class="navbar-links">
+                <a href="Home.jsp">Home</a>
+                <a href="AboutUs.jsp">About Us</a>
+                <a href="ApplicationController?action=dashboardA">Dashboard</a>
+                <a href="Rehome.jsp" class="active">Rehome Pet</a>
+            </div>
+        </div>
+
+        <div class="navbar-profile">
+            <a href="AdopterController?action=profile">
+                <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
+            </a>
+            <a href="LogoutServlet" class="logout">LOG OUT</a>
         </div>
     </div>
 
-    <div class="navbar-profile">
-        <a href="AdopterController?action=profile">
-            <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
-        </a>
-        <a href="LogoutServlet" class="logout">LOG OUT</a>
+<% } else { %>
+
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="Home.jsp">
+                <img src="PAWS.png" alt="PAWS Logo">
+            </a>
+        </div>
+
+        <div class="navbar-right">
+            <a href="Home.jsp">Home</a>
+            <a href="AboutUs.jso">About Us</a>
+            <a href="Rehome.jsp" class="active">Rehome</a>
+            <a href="AdopterSignin.jsp">Adopter</a>
+            <a href="LogInStaff.jsp">Staff</a>
+        </div>
     </div>
-</div>
+
+<% } %>
+
     </div>
 
     <h2>Meet Our Pets</h2>
@@ -129,8 +152,7 @@
             if (pets != null && !pets.isEmpty()) {
                 for (PetBean pet : pets) {
 
-                    // ✅ RANDOM IMAGE BASED ON SPECIES
-                    int imageCount = 10; // you have 10 cat & 10 dog images
+                    int imageCount = 10; 
                     String imageName = "default.jpg";
 
                     if (pet.getPetSpecies() != null) {
@@ -191,8 +213,21 @@
 </div>
 
 <div class="footer">
-    © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+    © 2025 PAWS Pet Adoption Welfare System
 </div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("error") === "petAdopted") {
+        alert("Sorry, this pet has already been adopted.");
+    }
+
+    if (params.get("error") === "alreadyApplied") {
+        alert("You have already submitted an application for this pet.");
+    }
+</script>
+
 
 </body>
 </html>

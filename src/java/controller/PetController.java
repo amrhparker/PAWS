@@ -4,7 +4,6 @@ import dao.PetDao;
 import model.PetBean;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;

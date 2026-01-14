@@ -288,9 +288,10 @@ public class AdopterController extends HttpServlet {
             boolean success = adopterDao.updateAdopter(adopter);
 
             if (success) {
-                // Update session attributes
+                
                 session.setAttribute("username", username);
                 session.setAttribute("fullName", fname + " " + lname);
+                session.setAttribute("adopter", adopter);
 
                 log("Profile updated successfully for adopter ID: " + adopterId);
                 request.setAttribute("successMessage", "Profile updated successfully!");

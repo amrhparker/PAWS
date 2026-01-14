@@ -1,9 +1,3 @@
-<%-- 
-    Document   : AdopterSignin
-    Created on : Jan 4, 2026, 3:34:55 PM
-    Author     : amira
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -85,7 +79,6 @@
                 color:#848484;
             }
 
-            /* PAGE TITLE */
             #heading{
                 font-size:25px;
                 margin:40px auto 30px auto;
@@ -157,13 +150,13 @@
         <div class="navbar">
             <div class="navbar-left">
                 <a href="Home.jsp">
-                    <img src="PAWS.png" alt="PAWS Logo">
+                    <img src="pawsA.png" alt="PAWS Logo">
                 </a>
             </div>
 
             <div class="navbar-right">
                 <a href="Home.jsp">Home</a>
-                <a href="AboutUs.html">About</a>
+                <a href="AboutUs.jsp">About Us</a>
                 <a href="Rehome.jsp">Rehome</a>
                 <a href="AdopterSignin.jsp">Sign In</a>
                 <a href="AdopterLogin.jsp">Log In</a>
@@ -172,7 +165,6 @@
 
         <div id="heading">Adopter Sign In</div>
 
-        <!-- Display error or success messages -->
         <div style="max-width: 1100px; width: 80%; margin: 0 auto 20px auto;">
             <%
                 String errorMessage = (String) request.getAttribute("errorMessage");
@@ -252,7 +244,7 @@
         </div>
                     
         <div class="footer">
-            © 2025 PAWS Pet Adoption Welfare System -- All Rights Reserved
+            © 2025 PAWS Pet Adoption Welfare System
         </div>
     </body>
 </html>

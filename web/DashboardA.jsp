@@ -1,9 +1,3 @@
-<%-- 
-    Document   : DashboardA
-    Created on : Jan 4, 2026
-    Author     : amira
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -30,6 +24,11 @@
             margin: 0;
             background: #f8f8f8;
         }
+        
+        h3{
+            color:#237176;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
+        }
 
         .dashboard-container {
             display: flex;
@@ -45,12 +44,13 @@
             font-size: 22px;
             font-weight: 600;
             margin: 5px 0 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
         }
 
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
         }
 
         .data-card {
@@ -105,10 +105,10 @@
             cursor: pointer;
         }
 
-        .status-approved { color: green; font-weight: bold; }
-        .status-pending { color: orange; font-weight: bold; }
-        .status-rejected { color: red; font-weight: bold; }
-        .status-completed { color: #5170ff; font-weight: bold; }
+        .status-approved { color: #37b139; font-weight: bold; }
+        .status-pending { color: #d252ff; font-weight: bold; text-shadow: 1px 1px 2px rgba(255,255,255,0.6);}
+        .status-rejected { color: red; font-weight: bold; text-shadow: 1px 1px 2px rgba(255,255,255,0.6);}
+        .status-completed { color: #5170ff; font-weight: bold; text-shadow: 1px 1px 2px rgba(255,255,255,0.6);}
 
     </style>
 </head>
@@ -134,7 +134,7 @@
 
         <div class="navbar-links">
             <a href="Home.jsp">Home</a>
-            <a href="AboutUs.html">About</a>
+            <a href="AboutUs.jsp">About Us</a>
             <a href="ApplicationController?action=dashboardA" class="active">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>
         </div>
@@ -148,12 +148,10 @@
     </div>
 </div>
 
-<!-- ===== CONTENT ===== -->
 <div class="dashboard-container">
 
     <div class="left-section">
 
-        <!-- ================= SUBMITTED APPLICATIONS ================= -->
         <div class="section-title">Submitted Applications</div>
 
         <div class="card-grid">
@@ -163,13 +161,11 @@
                         <a href="ApplicationController?action=viewAdopter&appId=${app.appId}"
                            class="data-card">
 
-                            <strong>( ${app.appId} )</strong>
+                         <h3>#${app.appId} ${app.pet.petName}</h3>
 
                             <p><span class="data-label">Applicant:</span>
                                 ${app.adopter.adoptFName} ${app.adopter.adoptLName}
                             </p>
-
-                            <p><span class="data-label">Pet:</span> ${app.pet.petName}</p>
 
                             <p>
                             <span class="data-label">Status:</span>
@@ -208,7 +204,6 @@
             </c:choose>
         </div>
 
-        <!-- ================= ADOPTION RECORDS ================= -->
         <div class="section-title">Adoption Records</div>
 
         <div class="card-grid">
@@ -218,14 +213,10 @@
                         <a href="RecordController?action=viewAdopter&recordId=${r.recordId}"
                            class="data-card">
                             
-                            <strong>( ${r.recordId} )</strong>
+                            <h3>#${r.recordId} ${r.petName}</h3>
 
                             <p><span class="data-label">Adopter:</span>
                                 ${r.adopterName}
-                            </p>
-
-                            <p><span class="data-label">Pet:</span>
-                                ${r.petName}
                             </p>
 
                             <p><span class="data-label">Status:</span>
@@ -256,13 +247,13 @@
     <div class="right-section">
         <img src="rehome.png" alt="Rehome">
         <a href="Rehome.jsp">
-            <button class="rehome-btn">Rehome Our Pet ➜</button>
+            <button class="rehome-btn"><strong>Rehome Our Pet ➜</strong></button>
         </a>
     </div>
 </div>
 
 <div class="footer">
-    © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+    © 2025 PAWS Pet Adoption Welfare System
 </div>
 
 </body>

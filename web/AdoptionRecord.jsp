@@ -29,11 +29,14 @@
         background: #ede0ca;
         padding: 30px;
         border-radius: 20px;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
     }
 
-    .info-row { margin-bottom: 15px; }
-    .info-row p{ margin-bottom: 15px; }
+    .info-row { 
+        margin-bottom: 15px; 
+        margin-top: 10px;
+    }
+
     .label { font-weight:bold; }
 
     .btn-container {
@@ -73,7 +76,7 @@
 
         <div class="navbar-links">
             <a href="Home.jsp">Home</a>
-            <a href="AboutUs.html">About</a>
+            <a href="AboutUs.jsp">About Us</a>
             <a href="ApplicationController?action=dashboardA" class="active">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>
         </div>

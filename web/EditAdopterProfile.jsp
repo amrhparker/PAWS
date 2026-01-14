@@ -85,9 +85,11 @@
                 border: 1px solid #ccc;
                 text-align: center;
                 border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
             }
 
             .profile-left img {
+                margin-top: 220px;
                 width: 120px;
                 height: 120px;
                 border-radius: 50%;
@@ -99,6 +101,7 @@
                 padding: 25px;
                 border: 1px solid #ccc;
                 border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
             }
 
             .profile-info label {
@@ -115,23 +118,22 @@
                 border: 1px solid #ccc;
             }
 
-            .btn {
-                display: inline-block;
-                width: 120px;
-                margin: 20px 10px 0;
-                padding: 10px;
-                border: none;
+            .edit-btn {
+                margin-top: 20px;
+                margin-right: 10px;
+                padding: 10px 25px;
                 border-radius: 20px;
+                border: none;
                 cursor: pointer;
-                font-size: 16px;
-                color: black;
-                text-align: center;
-                background-color: #f0f0f0;
-            }
-            
-            .btn:hover {
-                background: #999;
+                background: #4CAF50;
                 color: white;
+                font-size: 15px;
+                justify-content: flex-end;
+            }
+
+            .edit-btn:hover {
+                background: #45a049;
+                transform: translateY(-3px);
             }
             a{
                 text-decoration: none;
@@ -183,7 +185,7 @@
 
         <div class="navbar-links">
             <a href="Home.jsp">Home</a>
-            <a href="AboutUs.html">About</a>
+            <a href="AboutUs.jsp">About Us</a>
             <a href="ApplicationController?action=dashboardA" class="active">Dashboard</a>
             <a href="Rehome.jsp">Rehome Pet</a>
         </div>
@@ -207,7 +209,7 @@
                 <!-- Change Password button centered below -->
                 <div class="change-password-container">
                     <a href="AdopterController?action=changePassword">
-                        <button type="button" class="btn change-password-btn">Change Password</button>
+                        <button type="button" class="edit-btn">Change Password</button>
                     </a>
                 </div>
             </div>
@@ -217,44 +219,51 @@
                     <input type="hidden" name="action" value="updateProfile">
 
                     <div class="form-row">
-                        <div class="form-group">
-                            <label for="fname">First Name:</label>
-                            <input type="text" id="fname" name="fname" value="${adopter.adoptFName}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="lname">Last Name:</label>
-                            <input type="text" id="lname" name="lname" value="${adopter.adoptLName}" required>
-                        </div>
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" name="fname" value="${adopter.adoptFName}" required>
                     </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" name="lname" value="${adopter.adoptLName}" required>
+                    </div>
+                    </div>
+                    
+                        <label>IC Number</label>
+                        <input type="text" name="ic" value="${adopter.adoptIC}" required>
+                        
+                        <label>Phone Number</label>
+                        <input type="text" name="phone" value="${adopter.adoptPhoneNum}" required>
 
-                    <label for="ic">IC Number:</label>
-                    <input type="text" id="ic" name="ic" value="${adopter.adoptIC}" required>
+                        <label>Email</label>
+                        <input type="email" name="email" value="${adopter.adoptEmail}" required>
 
-                    <label for="phone">Phone Number:</label>
-                    <input type="text" id="phone" name="phone" value="${adopter.adoptPhoneNum}" required>
+                        <label>Address</label>
+                        <input type="text" name="address" value="${adopter.adoptAddress}" required>
 
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" value="${adopter.adoptEmail}" required>
+                        <label>Occupation</label>
+                        <input type="text" name="occupation" value="${adopter.adoptOccupation}">
 
-                    <label for="address">Address:</label>
-                    <input type="text" id="address" name="address" value="${adopter.adoptAddress}" required>
+                        <label>Income</label>
+                        <input type="number" step="0.01" name="income" value="${adopter.adoptIncome}">
 
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" value="${adopter.adoptUsername}" required>
+                        <label>Username</label>
+                        <input type="text" name="username" value="${adopter.adoptUsername}" required>
 
                     <div class="btn-group">
-                        <button type="submit" class="btn">Save</button>
+                        <button type="submit" class="edit-btn">Save</button>
                         <a href="AdopterController?action=profile">
-                            <button type="button" class="btn">Cancel</button>
+                            <button type="button" class="edit-btn">Cancel</button>
                         </a>
                     </div>
+
                 </form>
             </div>
 
         </div>
 
         <div class="footer">
-            © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+            © 2025 PAWS Pet Adoption Welfare System
         </div>
 
     </body>

@@ -150,7 +150,13 @@ public class ApplicationController extends HttpServlet {
 
         // ❌ Block if pet already adopted
         if (petDao.isPetAdopted(petId)) {
-            response.sendRedirect("PetList.jsp?error=petAdopted");
+            response.sendRedirect("Rehome.jsp?error=petAdopted");
+            return;
+        }
+        
+        // ❌ Block if adopter already applied
+        if (applicationDao.hasApplied(adopter.getAdoptId(), petId)) {
+            response.sendRedirect("Rehome.jsp?error=alreadyApplied");
             return;
         }
 
@@ -175,7 +181,7 @@ public class ApplicationController extends HttpServlet {
 
         // ❌ Prevent duplicate application
         if (applicationDao.hasApplied(adopter.getAdoptId(), petId)) {
-            response.sendRedirect("DashboardA.jsp?petId=" + petId + "&error=alreadyApplied");
+            response.sendRedirect("Rehome.jsp?error=alreadyApplied");
             return;
         }
 
