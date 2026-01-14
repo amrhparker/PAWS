@@ -58,7 +58,7 @@
 
             <p><strong>Species:</strong> ${pet.petSpecies}</p>
             <p><strong>Breed:</strong> ${pet.petBreed}</p>
-            <p><strong>Age:</strong> ${pet.petAge} year(s)</p>
+            <p><strong>Age:</strong> ${pet.petAge} years old</p>
             <p><strong>Gender:</strong> ${pet.petGender}</p>
             <p><strong>Health Status:</strong> ${pet.petHealthStatus}</p>
             <p><strong>Adoption Status:</strong> ${pet.petAdoptionStatus}</p>
@@ -75,6 +75,8 @@
     </c:forEach>
 
 </div>
-
+<div class="footer">
+    © 2025 PAWS Pet Adoption Welfare System
+</div>
 </body>
 </html>

@@ -14,17 +14,6 @@
 %>
 
 <%
-    /*
-     FLOW (SAMA MACAM RECORDS & REPORTS):
-
-     1. User RUN ManageApplications.jsp
-     2. JSP check → ada data "applications" atau belum
-     3. Kalau belum → redirect ApplicationController
-     4. Controller ambil data DAO
-     5. Controller forward balik ke JSP
-     6. JSP DISPLAY DATA
-    */
-
     if (request.getAttribute("applications") == null) {
         response.sendRedirect("ApplicationController?action=manage");
         return;
@@ -106,12 +95,13 @@
             gap:8px;
         }
         
-        .btn{
+        .btnn{
             padding: 6px 16px;
+            text-decoration: none;
+            font-size: 15px;
             color: white;
             border-radius: 20px;
             text-decoration: none;
-            font-size: 16px;
             font-weight: 500;
         }
 
@@ -211,7 +201,7 @@
                 <td>
                     <div class="actions">
 
-        <button class="btn btn-view"
+        <button class="btnn btn-view"
             onclick="location.href='ApplicationController?action=view&appId=${a.appId}'">
             View
         </button>
@@ -225,7 +215,7 @@
                 <input type="hidden" name="appId" value="${a.appId}">
                 <input type="hidden" name="status" value="Approved">
                 <input type="hidden" name="eligibility" value="Approved">
-                <button type="submit" class="btn btn-approve">Approve</button>
+                <button type="submit" class="btnn btn-approve">Approve</button>
             </form>
 
             <!-- REJECT FORM -->
@@ -234,7 +224,7 @@
                 <input type="hidden" name="appId" value="${a.appId}">
                 <input type="hidden" name="status" value="Rejected">
                 <input type="hidden" name="eligibility" value="Rejected">
-                <button type="submit" class="btn btn-reject">Reject</button>
+                <button type="submit" class="btnn btn-reject">Reject</button>
             </form>
 
         </c:if>
