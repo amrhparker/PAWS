@@ -80,7 +80,6 @@ public class PetController extends HttpServlet {
     request.getRequestDispatcher("PetDetails.jsp").forward(request, response);
 }
 
-/* ================= RANDOM IMAGE HELPER ================= */
 private String generateRandomPetImage(PetBean pet) {
 
     int imageCount = 10;
@@ -98,7 +97,7 @@ private String generateRandomPetImage(PetBean pet) {
     return image;
 }
 
-    /* ================= LIST ================= */
+    // Display
     private void listPets(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -107,7 +106,7 @@ private String generateRandomPetImage(PetBean pet) {
         request.getRequestDispatcher("ManagePets.jsp").forward(request, response);
     }
 
-    /* ================= ADD ================= */
+    // Create
     private void addPet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
@@ -116,7 +115,6 @@ private String generateRandomPetImage(PetBean pet) {
         response.sendRedirect("PetController");
     }
 
-    /* ================= EDIT (LOAD FORM) ================= */
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -127,7 +125,7 @@ private String generateRandomPetImage(PetBean pet) {
         request.getRequestDispatcher("EditPets.jsp").forward(request, response);
     }
 
-    /* ================= UPDATE ================= */
+    // Update
     private void updatePet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
@@ -138,7 +136,7 @@ private String generateRandomPetImage(PetBean pet) {
         response.sendRedirect("PetController");
     }
 
-    /* ================= DELETE ================= */
+    // Delete
     private void deletePet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
@@ -147,7 +145,6 @@ private String generateRandomPetImage(PetBean pet) {
         response.sendRedirect("PetController");
     }
 
-    /* ================= HELPER ================= */
     private PetBean extractPetFromRequest(HttpServletRequest request) {
 
         PetBean pet = new PetBean();

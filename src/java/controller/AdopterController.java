@@ -8,7 +8,6 @@ import model.ApplicationBean;
 import model.RecordBean;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -26,7 +25,7 @@ public class AdopterController extends HttpServlet {
             adopterDao = new AdopterDao();
             applicationDao = new ApplicationDao();
             recordDao = new RecordDao();
-            log("AdopterController initialized successfully"); // Using servlet log
+            log("AdopterController initialized successfully"); 
         } catch (Exception e) {
             log("Failed to initialize AdopterController: " + e.getMessage(), e);
             throw new ServletException("Failed to initialize controller", e);
@@ -95,7 +94,6 @@ public class AdopterController extends HttpServlet {
         }
     }
 
-    // =========== PRIVATE METHODS ===========
     private boolean isAuthenticated(HttpSession session) {
         return session != null && session.getAttribute("adopterId") != null;
     }
@@ -124,7 +122,7 @@ public class AdopterController extends HttpServlet {
 
             request.getRequestDispatcher("DashboardA.jsp").forward(request, response);
         } catch (SQLException e) {
-            // Using servlet log
+            
             log("Database error loading dashboard for adopter: " + adopterId, e);
             throw e;
         }
@@ -211,7 +209,6 @@ public class AdopterController extends HttpServlet {
 
         int adopterId = getAdopterId(session);
 
-        // Validate required parameters
         String[] requiredFields = {"fname", "lname", "ic", "phone", "email", "address", "username"};
         for (String field : requiredFields) {
             if (request.getParameter(field) == null || request.getParameter(field).trim().isEmpty()) {
@@ -248,7 +245,7 @@ public class AdopterController extends HttpServlet {
                 return;
             }
 
-            // Check username uniqueness (if changed)
+            // Check username uniqueness 
             if (!username.equals(adopter.getAdoptUsername())) {
                 if (adopterDao.checkUsernameExists(username)) {
                     request.setAttribute("errorMessage", "Username already exists. Please choose another.");
@@ -257,7 +254,6 @@ public class AdopterController extends HttpServlet {
                 }
             }
 
-            // Parse and validate income
             double income = 0.0;
             if (incomeStr != null && !incomeStr.trim().isEmpty()) {
                 try {
@@ -355,13 +351,11 @@ public class AdopterController extends HttpServlet {
         }
 
         try {
-            // DEBUG: Add logging to see what's happening
-            System.out.println("=== DEBUG PASSWORD CHANGE ===");
+            System.out.println("***DEBUG PASSWORD CHANGE***");
             System.out.println("Adopter ID: " + adopterId);
             System.out.println("Current password entered: '" + currentPassword + "'");
             System.out.println("Length of entered password: " + currentPassword.length());
 
-            // First, try getting the adopter by ID
             AdopterBean adopterById = adopterDao.getAdopterById(adopterId);
 
             if (adopterById == null) {
@@ -379,21 +373,20 @@ public class AdopterController extends HttpServlet {
             boolean directMatch = currentPassword.equals(adopterById.getAdoptPassword());
             System.out.println("Direct comparison result: " + directMatch);
 
-            // Now try using validateAdopter method
             String username = adopterById.getAdoptUsername();
             System.out.println("Trying validateAdopter with username: '" + username + "'");
             AdopterBean validatedAdopter = adopterDao.validateAdopter(username, currentPassword);
 
             System.out.println("ValidateAdopter returned: " + (validatedAdopter != null ? "Adopter found" : "null"));
 
-            // Use the validateAdopter method to check current password
+            // Check current password
             if (validatedAdopter == null) {
                 request.setAttribute("errorMessage", "Current password is incorrect");
                 request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
                 return;
             }
 
-            // Update the password
+            // Update password
             adopterById.setAdoptPassword(newPassword);
             boolean success = adopterDao.updateAdopter(adopterById);
 
@@ -412,7 +405,7 @@ public class AdopterController extends HttpServlet {
             request.getRequestDispatcher("ChangeAdopterPassword.jsp").forward(request, response);
         }
     }
-    // =========== HELPER METHODS ===========
+
     private void forwardToEditProfileWithData(HttpServletRequest request,
             HttpServletResponse response,
             int adopterId)
@@ -432,7 +425,7 @@ public class AdopterController extends HttpServlet {
             Exception e,
             String context)
             throws ServletException, IOException {
-        // Log to server console
+
         System.err.println("ERROR in AdopterController: " + context);
         e.printStackTrace();
 

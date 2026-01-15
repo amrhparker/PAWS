@@ -4,13 +4,8 @@ import dao.RegisterDao;
 import model.AdopterBean;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.sql.SQLException;
-/**
- *
- * @author amira
- */
+
 public class RegisterServlet extends HttpServlet {
 
     private RegisterDao registerDao;
@@ -24,7 +19,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Redirect GET requests to registration page
+        
         response.sendRedirect("AdopterSignin.jsp");
     }
 
@@ -54,7 +49,6 @@ public class RegisterServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        // Trim inputs
         if (fname != null) {
             fname = fname.trim();
         }
@@ -86,7 +80,6 @@ public class RegisterServlet extends HttpServlet {
             password = password.trim();
         }
 
-        // Basic validation
         if (fname == null || fname.isEmpty()
                 || lname == null || lname.isEmpty()
                 || ic == null || ic.isEmpty()
@@ -129,7 +122,6 @@ public class RegisterServlet extends HttpServlet {
                 return;
             }
 
-            // Parse income
             Double income = null;
             if (incomeStr != null && !incomeStr.trim().isEmpty()) {
                 try {
@@ -277,45 +269,15 @@ public class RegisterServlet extends HttpServlet {
         }
     }
     
-    // Helper method to check if string is null or empty
+    // Check if string is null or empty
     private boolean isEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }
 
-    // Helper method to validate email format
+    // Validate email format
     private boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
         return email != null && email.matches(emailRegex);
     }
 
-    
-    // Optional: Method to handle AJAX validation requests
-/*    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String type = request.getParameter("type");
-        String value = request.getParameter("value");
-
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        try {
-            boolean exists = false;
-            String message = "";
-
-            if("username".equals(type)){
-                exists = registerDao.checkUsernameExists(value);
-                message = exists ? "Username already exists" : "Username available";
-            }else if ("ic".equals(type)) {
-                exists = registerDao.checkICExists(value);
-                message = exists ? "IC already registered" : "IC available";
-            }
-
-            String json = String.format("{\"exists\": %b, \"message\": \"%s\"}", exists, message);
-            response.getWriter().write(json);
-
-        } catch (Exception e) {
-            response.getWriter().write("{\"error\": \"Validation error\"}");
-        }
-    }*/
 }

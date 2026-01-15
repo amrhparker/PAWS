@@ -17,7 +17,6 @@ public class RecordController extends HttpServlet {
         dao = new RecordDao();
     }
 
-    /* ================= GET ================= */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -28,11 +27,11 @@ public class RecordController extends HttpServlet {
             listRecords(request, response);
 
         } else if (action.equals("view")) {
-            // ===== STAFF VIEW =====
+            // Staff's
             viewRecord(request, response);
 
         } else if (action.equals("viewAdopter")) {
-            // ===== ADOPTER VIEW =====
+            // Adopter's
             viewRecordAdopter(request, response);
 
         } else if (action.equals("delete")) {
@@ -46,7 +45,6 @@ public class RecordController extends HttpServlet {
         }
     }
 
-    /* ================= POST ================= */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -60,9 +58,8 @@ public class RecordController extends HttpServlet {
         }
     }
 
-    /* ================= METHODS ================= */
 
-    // ===== CREATE =====
+    // Create
     private void insertRecord(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
@@ -73,7 +70,7 @@ public class RecordController extends HttpServlet {
         response.sendRedirect("RecordController?action=list");
     }
 
-    // ===== READ ALL (STAFF) =====
+    // Display
     private void listRecords(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -82,7 +79,7 @@ public class RecordController extends HttpServlet {
         request.getRequestDispatcher("ManageRecords.jsp").forward(request, response);
     }
 
-    // ===== READ BY ID (STAFF VIEW) =====
+    // Display by ID for Staff
     private void viewRecord(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -93,7 +90,7 @@ public class RecordController extends HttpServlet {
         request.getRequestDispatcher("ViewRecords.jsp").forward(request, response);
     }
 
-    // ===== READ BY ID (ADOPTER VIEW) =====
+    // Display by ID for Adopter
     private void viewRecordAdopter(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -104,7 +101,7 @@ public class RecordController extends HttpServlet {
         request.getRequestDispatcher("AdoptionRecord.jsp").forward(request, response);
     }
 
-    // ===== DELETE =====
+    // Delete
     private void deleteRecord(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
@@ -113,7 +110,7 @@ public class RecordController extends HttpServlet {
         response.sendRedirect("RecordController?action=list");
     }
 
-    // ===== UPDATE STATUS =====
+    // Update Record Status
     private void completeRecord(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 

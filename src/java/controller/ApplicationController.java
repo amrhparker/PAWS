@@ -12,7 +12,6 @@ import model.PetBean;
 import util.EmailUtil;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import java.io.IOException;
@@ -34,7 +33,6 @@ public class ApplicationController extends HttpServlet {
         petDao = new PetDao();
     }
 
-    /* ================= GET ================= */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -69,7 +67,6 @@ public class ApplicationController extends HttpServlet {
         }
     }
 
-    /* ================= POST ================= */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -92,7 +89,6 @@ public class ApplicationController extends HttpServlet {
         }
     }
 
-    /* ================= DASHBOARD (ADOPTER) ================= */
     private void showAdopterDashboard(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
 
@@ -117,7 +113,6 @@ public class ApplicationController extends HttpServlet {
         request.getRequestDispatcher("DashboardA.jsp").forward(request, response);
     }
 
-    /* ================= VIEW ================= */
     private void viewApplication(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
 
@@ -134,7 +129,6 @@ public class ApplicationController extends HttpServlet {
         request.getRequestDispatcher("SubmittedApplication.jsp").forward(request, response);
     }
 
-    /* ================= SHOW FORM ================= */
     private void showApplicationForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
 
@@ -148,13 +142,11 @@ public class ApplicationController extends HttpServlet {
         AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
         PetBean pet = petDao.getPetById(petId);
 
-        // ❌ Block if pet already adopted
         if (petDao.isPetAdopted(petId)) {
             response.sendRedirect("Rehome.jsp?error=petAdopted");
             return;
         }
         
-        // ❌ Block if adopter already applied
         if (applicationDao.hasApplied(adopter.getAdoptId(), petId)) {
             response.sendRedirect("Rehome.jsp?error=alreadyApplied");
             return;
@@ -166,7 +158,7 @@ public class ApplicationController extends HttpServlet {
         request.getRequestDispatcher("ApplicationForm.jsp").forward(request, response);
     }
 
-    /* ================= INSERT APPLICATION ================= */
+    // Create
     private void insertApplication(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
 
@@ -179,7 +171,7 @@ public class ApplicationController extends HttpServlet {
         AdopterBean adopter = (AdopterBean) session.getAttribute("adopter");
         int petId = Integer.parseInt(request.getParameter("petId"));
 
-        // ❌ Prevent duplicate application
+        // Duplication Check
         if (applicationDao.hasApplied(adopter.getAdoptId(), petId)) {
             response.sendRedirect("Rehome.jsp?error=alreadyApplied");
             return;
@@ -201,7 +193,7 @@ public class ApplicationController extends HttpServlet {
         response.sendRedirect("ApplicationController?action=dashboardA");
     }
 
-    /* ================= UPDATE STATUS (STAFF) ================= */
+    // Update Application Status
     private void updateStatus(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         
@@ -211,7 +203,6 @@ public class ApplicationController extends HttpServlet {
             return;
     }
 
-    // ✅ GET STAFF FROM SESSION
     StaffBean staff = (StaffBean) session.getAttribute("staff");
     int staffId = staff.getStaffId();
 
@@ -221,7 +212,6 @@ public class ApplicationController extends HttpServlet {
 
         int petId = applicationDao.getPetIdByApplication(appId);
 
-        // Safety check
         if ("Approved".equalsIgnoreCase(status)
                 && applicationDao.isPetAlreadyApproved(petId)) {
 
@@ -229,25 +219,21 @@ public class ApplicationController extends HttpServlet {
             return;
         }
 
-        // 1️⃣ Update selected application
         applicationDao.updateStatus(appId, status, eligibility, staffId);
 
         if ("Approved".equalsIgnoreCase(status)) {
 
-            // 2️⃣ Auto-reject other applications
             applicationDao.rejectOtherApplications(petId, appId);
 
-            // 3️⃣ Update pet status
             petDao.updateAdoptionStatus(petId, "Adopted");
 
-            // 4️⃣ Create record
+            // Create Record
             RecordBean record = new RecordBean();
             record.setAppId(appId);
             record.setStaffId(staffId);
             record.setRecordStatus("Pending");
             recordDao.insertRecord(record);
 
-            // 5️⃣ Send email
             String[] emailInfo = applicationDao.getAdopterEmailInfo(appId);
             if (emailInfo != null) {
                 EmailUtil.sendAdoptionApprovalEmail(
@@ -261,7 +247,7 @@ public class ApplicationController extends HttpServlet {
         response.sendRedirect("ApplicationController?action=manage");
     }
 
-    /* ================= DELETE ================= */
+    // Delete
     private void deleteApplication(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
 
@@ -271,7 +257,7 @@ public class ApplicationController extends HttpServlet {
         response.sendRedirect("ApplicationController?action=dashboardA");
     }
 
-    /* ================= MANAGE ================= */
+    // Manage
     private void manageApplications(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
 

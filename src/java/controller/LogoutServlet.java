@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 public class LogoutServlet extends HttpServlet {
@@ -17,7 +16,6 @@ public class LogoutServlet extends HttpServlet {
             session.invalidate();
         }
 
-        // Redirect to login page after logout
         response.sendRedirect("Home.jsp?logout=success");
     }
 

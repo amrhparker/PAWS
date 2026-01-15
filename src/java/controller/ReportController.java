@@ -24,7 +24,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
 
     String action = request.getParameter("action");
 
-    // ================= VIEW REPORT DETAILS =================
+    // View
     if ("view".equals(action)) {
 
         int reportId = Integer.parseInt(request.getParameter("reportId"));
@@ -40,17 +40,16 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         return;
     }
     
-    // ================= DELETE REPORT =================
+    // Delete
     if ("delete".equals(action)) {
         int reportId = Integer.parseInt(request.getParameter("reportId"));
 
-        dao.deleteReport(reportId);  // call your DAO delete method
+        dao.deleteReport(reportId);  
 
-        response.sendRedirect("ReportController"); // back to listing
+        response.sendRedirect("ReportController"); 
         return;
     }
     
-        // ================= DEFAULT: LIST REPORTS =================
         List<ReportBean> reports = dao.getAllReports();
         request.setAttribute("reports", reports);
 
