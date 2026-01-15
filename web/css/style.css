@@ -523,6 +523,52 @@ body {
 
 #popupTitle { color: #edb4f6; }
 
+.modal-overlay {
+    position: fixed;              /* 🔴 MOST IMPORTANT */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    display: none;                /* hidden by default */
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;                /* above navbar & footer */
+}
+
+.modal-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    width: 360px;
+    text-align: center;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.modal-box h3 {
+    margin-bottom: 10px;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.bttn.cancel {
+    background: #ccc;
+}
+
+.bttn.danger {
+    background: #e74c3c;
+    color: #fff;
+}
+
+
 
 
 

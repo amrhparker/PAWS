@@ -64,7 +64,7 @@
         </a>
         <div class="navbar-links">
             <a href="StaffDashboard.jsp" class="active">Dashboard</a>
-            <a href="ManagePets.jsp">Pets</a>
+            <a href="PetController?action=staffList">Pets</a>
             <a href="ManageApplications.jsp">Applications</a>
             <a href="ManageRecords.jsp">Records</a>
             <a href="ReportController">Reports</a>
@@ -83,7 +83,7 @@
 <div class="manage-grid">
 
     <div class="manage-card">
-        <a href="PetController">
+        <a href="PetController?action=staffList">
             <img src="managepets.jpg" alt="Manage Pets" class="card-img">
             <h3>Manage Pets</h3>
             <p class="sub">Add, view, edit, or remove pets in our system</p>

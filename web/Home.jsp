@@ -53,7 +53,7 @@
 
             <div class="navbar-links">
                 <a href="StaffDashboard.jsp">Dashboard</a>
-                <a href="ManagePets.jsp">Pets</a>
+                <a href="PetController?action=staffList">Pets</a>
                 <a href="ManageApplications.jsp">Applications</a>
                 <a href="ManageRecords.jsp">Records</a>
                 <a href="ReportController">Reports</a>

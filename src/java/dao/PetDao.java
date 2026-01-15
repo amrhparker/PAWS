@@ -36,6 +36,27 @@ public class PetDao {
 
     public List<PetBean> getAllPets() {
         List<PetBean> pets = new ArrayList<>();
+        String sql = "SELECT * FROM APP.PET " +
+                     "WHERE PET_ADOPTIONSTATUS <> 'Archived' " +
+                     "ORDER BY PET_ID";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                pets.add(mapRowToPet(rs));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pets;
+    }
+    
+    public List<PetBean> getAllPetsStaff() {
+        List<PetBean> pets = new ArrayList<>();
         String sql = "SELECT * FROM APP.PET ORDER BY PET_ID";
 
         try (Connection conn = DBConnection.getConnection();
@@ -118,19 +139,42 @@ public class PetDao {
     }
 
     // Delete
-    public void deletePet(int petId) {
-        String sql = "DELETE FROM APP.PET WHERE PET_ID=?";
+    public String deletePet(int petId) {
+
+    if (hasApplication(petId)) {
+
+        String archiveSql =
+            "UPDATE APP.PET SET PET_ADOPTIONSTATUS = 'Archived' WHERE PET_ID = ?";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(archiveSql)) {
 
             ps.setInt(1, petId);
             ps.executeUpdate();
+            return "archived";
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    } else {
+
+        String deleteSql = "DELETE FROM APP.PET WHERE PET_ID = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(deleteSql)) {
+
+            ps.setInt(1, petId);
+            ps.executeUpdate();
+            return "deleted";
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    return "error";
+}
 
     private PetBean mapRowToPet(ResultSet rs) throws SQLException {
         PetBean pet = new PetBean();
@@ -166,5 +210,28 @@ public class PetDao {
 
         return adopted;
     }
+    
+    public boolean hasApplication(int petId) {
+
+    String sql = "SELECT COUNT(*) FROM APP.APPLICATION WHERE PET_ID = ?";
+    boolean exists = false;
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, petId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            exists = rs.getInt(1) > 0;
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return exists;
+}
+
 
 }

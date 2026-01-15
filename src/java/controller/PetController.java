@@ -28,22 +28,28 @@ public class PetController extends HttpServlet {
         }
 
         switch (action) {
-            case "viewDetails":
-                viewPetDetails(request, response);
-                break;
 
-            case "edit":
-                showEditForm(request, response);
-                break;
+        case "staffList":
+            listPetsStaff(request, response);
+            break;
 
-            case "delete":
-                deletePet(request, response);
-                break;
+        case "viewDetails":
+            viewPetDetails(request, response);
+            break;
 
-            default:
-                listPets(request, response);
-                break;
+        case "edit":
+            showEditForm(request, response);
+            break;
+
+        case "delete":
+            deletePet(request, response);
+            break;
+
+        default:
+            listPets(request, response); // adopter / public
+            break;
         }
+
     }
 
     @Override
@@ -105,7 +111,14 @@ private String generateRandomPetImage(PetBean pet) {
         request.setAttribute("petList", petList);
         request.getRequestDispatcher("ManagePets.jsp").forward(request, response);
     }
+    // Display for Staff
+    private void listPetsStaff(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
+        List<PetBean> petList = petDao.getAllPetsStaff();
+        request.setAttribute("petList", petList);
+        request.getRequestDispatcher("ManagePets.jsp").forward(request, response);
+    }
     // Create
     private void addPet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -138,12 +151,15 @@ private String generateRandomPetImage(PetBean pet) {
 
     // Delete
     private void deletePet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+        throws IOException {
 
-        int petId = Integer.parseInt(request.getParameter("petId"));
-        petDao.deletePet(petId);
-        response.sendRedirect("PetController");
-    }
+    int petId = Integer.parseInt(request.getParameter("petId"));
+
+    String result = petDao.deletePet(petId);
+
+    response.sendRedirect("PetController?action=staffList&msg=" + result);
+
+}
 
     private PetBean extractPetFromRequest(HttpServletRequest request) {
 

@@ -20,6 +20,25 @@
 </head>
 
 <body>
+    
+<c:if test="${param.msg == 'deleted'}">
+    <script>
+        alert('Pet deleted successfully.');
+    </script>
+</c:if>
+
+<c:if test="${param.msg == 'archived'}">
+    <script>
+        alert('Pet has existing applications and was archived.');
+    </script>
+</c:if>
+
+<c:if test="${param.msg == 'error'}">
+    <script>
+        alert('An error occurred. Please try again.');
+    </script>
+</c:if>
+
 
 <div class="navbar">
     <div class="navbar-left">
@@ -28,10 +47,10 @@
         </a>
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
-            <a href="ManagePets.jsp">Pets</a>
+            <a href="PetController?action=staffList">Pets</a>
             <a href="ManageApplications.jsp">Applications</a>
             <a href="ManageRecords.jsp">Records</a>
-            <a href="ManageReports.jsp">Reports</a>
+            <a href="ReportController">Reports</a>
         </div>
     </div>
 
@@ -47,10 +66,6 @@
 
 <div class="info-stack">
 
-    <c:if test="${empty petList}">
-        <p style="text-align:center;">No pets available.</p>
-    </c:if>
-
     <c:forEach var="pet" items="${petList}">
         <div class="info-card">
 
@@ -65,11 +80,11 @@
 
             <div class="card-actions">
                 <a href="PetController?action=edit&petId=${pet.petId}" class="bttn">Edit</a>
-                <a href="PetController?action=delete&petId=${pet.petId}"
-                   class="bttn"
-                   onclick="return confirm('Are you sure you want to delete this pet?');">
+                <a href="javascript:void(0);" class="bttn danger"
+                    onclick="openDeleteModal(${pet.petId});">
                     Delete
                 </a>
+
             </div>
         </div>
     </c:forEach>
@@ -78,5 +93,33 @@
 <div class="footer">
     © 2025 PAWS Pet Adoption Welfare System
 </div>
+    
+<div id="deleteModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+        <h3>Confirm Deletion</h3>
+        <p>Are you sure you want to delete this pet?</p>
+
+        <div class="modal-actions">
+            <button class="bttn cancel" onclick="closeDeleteModal()">Cancel</button>
+            <a id="confirmDeleteBtn" class="bttn danger">Yes, Delete</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openDeleteModal(petId) {
+        const modal = document.getElementById("deleteModal");
+        const confirmBtn = document.getElementById("confirmDeleteBtn");
+
+        confirmBtn.href = "PetController?action=delete&petId=" + petId;
+        modal.style.display = "flex";   
+    }
+
+    function closeDeleteModal() {
+        document.getElementById("deleteModal").style.display = "none";
+    }
+</script>
+
+    
 </body>
 </html>
