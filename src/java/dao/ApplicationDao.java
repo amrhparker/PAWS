@@ -52,7 +52,6 @@ public class ApplicationDao {
         }
     }
     
-    /* ================= READ BY ADOPTER ================= */
     public List<ApplicationBean> getApplicationsByAdopter(int adoptId) throws SQLException {
         List<ApplicationBean> list = new ArrayList<>();
 
@@ -83,7 +82,6 @@ public class ApplicationDao {
         return list;
     }
 
-    /* ================= READ ALL ================= */
     public List<ApplicationBean> getAllApplications() throws SQLException {
         List<ApplicationBean> list = new ArrayList<>();
 
@@ -112,7 +110,6 @@ public class ApplicationDao {
         return list;
     }
 
-    /* ================= READ BY APP ID ================= */
     public ApplicationBean getApplicationById(int appId) throws SQLException {
         String sql =
             "SELECT a.*, " +
@@ -142,7 +139,6 @@ public class ApplicationDao {
         return app;
     }
 
-    /* ================= UPDATE STATUS ================= */
     public void updateStatus(int appId, String status, String eligibility, int staffId)
         throws SQLException {
 
@@ -163,8 +159,6 @@ public class ApplicationDao {
     }
 }
 
-
-    /* ================= DELETE ================= */
     public void deleteApplication(int appId) throws SQLException {
         String sql = "DELETE FROM APPLICATION WHERE APP_ID=?";
 
@@ -176,7 +170,6 @@ public class ApplicationDao {
         }
     }
 
-    /* ================= EMAIL INFO ================= */
     public String[] getAdopterEmailInfo(int appId) {
         String sql =
             "SELECT ad.ADOPT_EMAIL, ad.ADOPT_FNAME, ad.ADOPT_LNAME, p.PET_NAME " +
@@ -206,9 +199,7 @@ public class ApplicationDao {
         return null;
     }
 
-    /* ================= NEW METHODS FOR APPROVAL ================= */
 
-    // Check if a pet already has an approved application
     public boolean isPetAlreadyApproved(int petId) {
         boolean approved = false;
         String sql = "SELECT COUNT(*) FROM APPLICATION WHERE PET_ID = ? AND APP_STATUS = 'Approved'";
@@ -228,7 +219,6 @@ public class ApplicationDao {
         return approved;
     }
 
-    // Reject all other applications for the same pet
     public void rejectOtherApplications(int petId, int approvedAppId) {
         String sql = "UPDATE APPLICATION SET APP_STATUS='Rejected', APP_ELIGIBILITY='N/A' " +
                      "WHERE PET_ID = ? AND APP_ID <> ? AND APP_STATUS='Pending'";
@@ -245,7 +235,6 @@ public class ApplicationDao {
         }
     }
 
-    // Get pet ID from application ID
     public int getPetIdByApplication(int appId) {
         int petId = -1;
         String sql = "SELECT PET_ID FROM APPLICATION WHERE APP_ID=?";
@@ -266,7 +255,6 @@ public class ApplicationDao {
         return petId;
     }
 
-    /* ================= HELPER ================= */
     private ApplicationBean mapApplication(ResultSet rs) throws SQLException {
         ApplicationBean app = new ApplicationBean();
 
@@ -284,7 +272,7 @@ public class ApplicationDao {
         app.setMedicalReady(rs.getString("MEDICAL_READY"));
         app.setAdoptionReason(rs.getString("ADOPTION_REASON"));
 
-        // ===== Adopter =====
+        // Adopter 
         AdopterBean adopter = new AdopterBean();
         adopter.setAdoptId(rs.getInt("ADOPT_ID"));
         adopter.setAdoptFName(rs.getString("ADOPT_FNAME"));
@@ -293,7 +281,7 @@ public class ApplicationDao {
         adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
         app.setAdopter(adopter);
 
-        // ===== Pet =====
+        // Pet
         PetBean pet = new PetBean();
         pet.setPetId(rs.getInt("PET_ID"));
         pet.setPetName(rs.getString("PET_NAME"));
@@ -307,8 +295,7 @@ public class ApplicationDao {
 
         app.setPet(pet);
 
-        // ===== Staff (for display) =====
-        // ===== Staff (optional, for staff view only) =====
+
         try {
             String staffFname = rs.getString("STAFF_FNAME");
             String staffLname = rs.getString("STAFF_LNAME");
@@ -319,7 +306,7 @@ public class ApplicationDao {
                 app.setStaffName("Not assigned");
             }
             } catch (SQLException e) {
-            // Column STAFF_FNAME not selected (e.g. adopter dashboard)
+            
             app.setStaffName(null);
             }
         return app;

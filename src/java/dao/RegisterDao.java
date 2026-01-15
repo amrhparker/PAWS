@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dao;
 
 import model.AdopterBean;
 import java.sql.*;
 import util.DBConnection;
 
-/**
- *
- * @author amira
- */
+
 public class RegisterDao {
 
     private boolean hasNewColumns(Connection con) throws SQLException {
@@ -25,7 +18,6 @@ public class RegisterDao {
         }
     }
 
-    //check if username exists first
     public boolean checkUsernameExists(String username) {
         boolean exists = false;
 
@@ -49,13 +41,13 @@ public class RegisterDao {
         return exists;
     }
 
-    //then, register new adopter
+    // Register new adopter
     public boolean registerAdopter(AdopterBean adopter) {
         boolean success = false;
 
         String sql;
         try (Connection con = DBConnection.getConnection()) {
-            // Check if table has new columns
+            
             boolean hasNewColumns = hasNewColumns(con);
 
             if (hasNewColumns) {
@@ -64,7 +56,7 @@ public class RegisterDao {
                         + "adopt_username, adopt_password) "
                         + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             } else {
-                // Fallback to old structure if columns don't exist
+                
                 sql = "INSERT INTO ADOPTER (adopt_fname, adopt_lname, adopt_ic, adopt_phoneNum, "
                         + "adopt_email, adopt_address, adopt_username, adopt_password) "
                         + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -111,7 +103,6 @@ public class RegisterDao {
         return success;
     }
 
-    // Alternative simplified version if you want to always set 0.0 for null income
     public boolean registerAdopterSimplified(AdopterBean adopter) {
         boolean success = false;
 

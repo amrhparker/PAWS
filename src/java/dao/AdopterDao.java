@@ -1,13 +1,11 @@
 package dao;
 
+import util.DBConnection;
+
 import java.sql.*;
-import java.util.*;
 import model.AdopterBean;
 
 public class AdopterDao {
-    private final String URL = "jdbc:derby://localhost:1527/PAWSdb";
-    private final String USER = "app";
-    private final String PASS = "app";
 
     // SQL Queries
     private static final String insertAdopterSql
@@ -38,10 +36,10 @@ public class AdopterDao {
     private static final String checkUsernameExistsSql = 
             "SELECT COUNT(*) FROM ADOPTER WHERE ADOPT_USERNAME = ?";
 
-    // Insert
+    // Create
     public boolean insertAdopter(AdopterBean adopter) {
         boolean success = false;
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(insertAdopterSql)) {
 
             ps.setString(1, adopter.getAdoptFName());
@@ -62,10 +60,10 @@ public class AdopterDao {
         return success;
     }
 
-    // Update - FIXED VERSION (using the correct signature with all fields)
+    // Update 
     public boolean updateAdopter(AdopterBean adopter) {
         boolean success = false;
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(updateAdopterSql)) {
 
             ps.setString(1, adopter.getAdoptFName());
@@ -90,7 +88,7 @@ public class AdopterDao {
     // Delete
     public boolean deleteAdopter(int adoptId) {
         boolean success = false;
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(deleteAdopterSql)) {
 
             ps.setInt(1, adoptId);
@@ -108,7 +106,7 @@ public class AdopterDao {
 
     AdopterBean adopter = null;
 
-    try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+    try (Connection con = DBConnection.getConnection();
          PreparedStatement ps = con.prepareStatement(sql)) {
 
         ps.setInt(1, adoptId);
@@ -136,7 +134,7 @@ public class AdopterDao {
     // Validate login
     public AdopterBean validateAdopter(String un, String pw) {
         AdopterBean adopter = null;
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(validateAdopterSql)) {
 
             ps.setString(1, un.trim());
@@ -161,7 +159,7 @@ public class AdopterDao {
     public boolean checkUsernameExists(String username) {
         boolean exists = false;
         
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(checkUsernameExistsSql)) {
 
             ps.setString(1, username);
@@ -198,7 +196,7 @@ public class AdopterDao {
 
     String sql = "UPDATE ADOPTER SET ADOPT_OCCUPATION=?, ADOPT_INCOME=? WHERE ADOPT_ID=?";
 
-    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+    try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setString(1, adopter.getAdoptOccupation());

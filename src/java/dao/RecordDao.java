@@ -4,22 +4,19 @@ import model.RecordBean;
 import model.ApplicationBean;
 import model.AdopterBean;
 import model.PetBean;
+import util.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecordDao {
 
-    private final String URL = "jdbc:derby://localhost:1527/PAWSdb";
-    private final String USER = "app";
-    private final String PASS = "app";
-
-    //INSERT
+    // Create
     public void insertRecord(RecordBean record) {
 
         String sql = "INSERT INTO RECORD (APP_ID, STAFF_ID, RECORD_DATE, RECORD_STATUS) VALUES (?, ?, CURRENT_DATE, ?)";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, record.getAppId());
@@ -32,13 +29,12 @@ public class RecordDao {
         }
     }
 
-    //GET ALL
     public List<RecordBean> getAllRecords() {
 
         List<RecordBean> list = new ArrayList<>();
         String sql = "SELECT * FROM RECORD ORDER BY RECORD_DATE DESC";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -57,7 +53,6 @@ public class RecordDao {
         return list;
     }
     
-    // GET RECORDS BY ADOPTER
 public List<RecordBean> getRecordsByAdopter(int adoptId) {
 
     List<RecordBean> list = new ArrayList<>();
@@ -73,7 +68,7 @@ public List<RecordBean> getRecordsByAdopter(int adoptId) {
         "WHERE ad.ADOPT_ID = ? " +
         "ORDER BY r.RECORD_DATE DESC";
 
-    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+    try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setInt(1, adoptId);
@@ -98,8 +93,6 @@ public List<RecordBean> getRecordsByAdopter(int adoptId) {
     return list;
 }
 
-
-    //GET BY ID 
     public RecordBean getRecordById(int recordId) {
 
     String sql =
@@ -115,7 +108,7 @@ public List<RecordBean> getRecordsByAdopter(int adoptId) {
 
     RecordBean record = null;
 
-    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+    try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setInt(1, recordId);
@@ -128,23 +121,19 @@ public List<RecordBean> getRecordsByAdopter(int adoptId) {
             record.setRecordDate(rs.getDate("RECORD_DATE"));
             record.setRecordStatus(rs.getString("RECORD_STATUS"));
 
-            // ===== BUILD APPLICATION =====
             ApplicationBean app = new ApplicationBean();
             app.setAppId(rs.getInt("APP_ID"));
             app.setAppDate(rs.getDate("APP_DATE"));
 
-            // ===== BUILD ADOPTER =====
             AdopterBean adopter = new AdopterBean();
             adopter.setAdoptFName(rs.getString("ADOPT_FNAME"));
             adopter.setAdoptLName(rs.getString("ADOPT_LNAME"));
             adopter.setAdoptPhoneNum(rs.getString("ADOPT_PHONENUM"));
             adopter.setAdoptAddress(rs.getString("ADOPT_ADDRESS"));
 
-            // ===== BUILD PET =====
             PetBean pet = new PetBean();
             pet.setPetName(rs.getString("PET_NAME"));
 
-            // ===== LINK OBJECTS =====
             app.setAdopter(adopter);
             app.setPet(pet);
             record.setApplication(app);
@@ -157,12 +146,12 @@ public List<RecordBean> getRecordsByAdopter(int adoptId) {
     return record;
 }
 
-    //DELETE 
+    // Delete
     public void deleteRecord(int recordId) {
 
         String sql = "DELETE FROM RECORD WHERE RECORD_ID = ?";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, recordId);
@@ -173,12 +162,12 @@ public List<RecordBean> getRecordsByAdopter(int adoptId) {
         }
     }
 
-//update record bila adoption complete
+// Update Record Status
     public void completeRecord(int recordId, int staffId) {
 
         String sql = "UPDATE RECORD SET RECORD_STATUS = 'Completed', STAFF_ID=?" + "WHERE RECORD_ID = ?";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+        try (Connection conn = DBConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, staffId);
@@ -194,7 +183,7 @@ public List<RecordBean> getRecordsByAdopter(int adoptId) {
 
     String sql = "UPDATE RECORD SET RECORD_STATUS=? WHERE RECORD_ID=?";
 
-    try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+    try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setString(1, status);

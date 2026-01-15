@@ -1,25 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dao;
 
-/**
- *
- * @author amira
- */
+import util.DBConnection;
 import java.sql.*;
 import model.StaffBean;
 
 public class StaffDao {
 
-    private final String URL = "jdbc:derby://localhost:1527/PAWSdb";
-    private final String USER = "app";
-    private final String PASS = "app";
-
     //sql queries
-    //insert
     private static final String insertStaffSql
             = "INSERT INTO Staff (staffFname, staffLname, staffEmail, staffPhoneNum, staffUsername, staffPassword) "
             + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -52,7 +40,7 @@ public class StaffDao {
         StaffBean staff = new StaffBean();
 
         try {
-            conn = DriverManager.getConnection(URL, USER, PASS);
+            conn = DBConnection.getConnection();
             st = conn.prepareStatement(authenticateStaffSQL);
             st.setString(1, un);
             st.setString(2, pw);
@@ -72,7 +60,7 @@ public class StaffDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Always close resources
+            
             try {
                 if (rs != null) {
                     rs.close();
@@ -97,7 +85,7 @@ public class StaffDao {
         StaffBean staff = new StaffBean();
 
         try {
-            conn = DriverManager.getConnection(URL, USER, PASS);
+            conn = DBConnection.getConnection();
             st = conn.prepareStatement(getStaffByIdSQL);
             st.setInt(1, staffId);
 
@@ -139,7 +127,7 @@ public class StaffDao {
         StaffBean staff = new StaffBean();
 
         try {
-            conn = DriverManager.getConnection(URL, USER, PASS);
+            conn = DBConnection.getConnection();
             st = conn.prepareStatement(getStaffByUsernameSQL);
             st.setString(1, un);
 
@@ -174,13 +162,13 @@ public class StaffDao {
         return staff;
     }
 
-    //insert staff
+    // Create
     public boolean insertStaff(StaffBean staff) {
         Connection conn = null;
         PreparedStatement st = null;
 
         try {
-            conn = DriverManager.getConnection(URL, USER, PASS);
+            conn = DBConnection.getConnection();
             st = conn.prepareStatement(insertStaffSql);
             st.setString(1, staff.getStaffFname());
             st.setString(2, staff.getStaffLname());
@@ -210,12 +198,13 @@ public class StaffDao {
         }
     }
 
+    // Update
     public boolean updateStaff(StaffBean staff) {
         Connection conn = null;
         PreparedStatement st = null;
 
         try {
-            conn = DriverManager.getConnection(URL, USER, PASS);
+            conn = DBConnection.getConnection();
             st = conn.prepareStatement(updateStaffSql);
             st.setString(1, staff.getStaffFname());
             st.setString(2, staff.getStaffLname());
@@ -251,7 +240,7 @@ public class StaffDao {
         ResultSet rs = null;
 
         try {
-            conn = DriverManager.getConnection(URL, USER, PASS);
+            conn = DBConnection.getConnection();
             st = conn.prepareStatement(verifyPasswordSQL);
             st.setString(1, username);
             st.setString(2, password);
@@ -285,12 +274,12 @@ public class StaffDao {
         ResultSet rs = null;
 
         try {
-            conn = DriverManager.getConnection(URL, USER, PASS);
+            conn = DBConnection.getConnection();
             st = conn.prepareStatement(checkUsernameExistsSQL);
             st.setString(1, username);
 
             rs = st.executeQuery();
-            return rs.next(); // Returns true if username exists
+            return rs.next(); 
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -316,12 +305,12 @@ public class StaffDao {
         ResultSet rs = null;
 
         try {
-            conn = DriverManager.getConnection(URL, USER, PASS);
+            conn = DBConnection.getConnection();
             st = conn.prepareStatement(checkEmailExistsSQL);
             st.setString(1, email);
 
             rs = st.executeQuery();
-            return rs.next(); // Returns true if email exists
+            return rs.next(); 
 
         } catch (SQLException e) {
             e.printStackTrace();

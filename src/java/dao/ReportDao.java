@@ -10,7 +10,6 @@ import java.util.List;
 
 public class ReportDao {
 
-    // ================= GET RECORDS WITH FILTER =================
     public List<RecordBean> getRecordsByFilter(
             String reportType,
             String fromDate,
@@ -23,8 +22,7 @@ public class ReportDao {
         boolean isApplicationReport = reportType.contains("Applications");
 
         if (isApplicationReport) {
-
-            // ================= APPLICATION REPORT =================
+            // Application Report
             sql.append(
                 "SELECT rec.RECORD_ID, rec.RECORD_STATUS, rec.RECORD_DATE, " +
                 "a.APP_ID, a.APP_DATE, a.APP_STATUS, " +
@@ -44,7 +42,7 @@ public class ReportDao {
                 sql.append("AND a.APP_STATUS = 'Rejected' ");
             }
 
-            // ===== DATE FILTER (APPLICATION DATE) =====
+            // Date Filter
             if (fromDate != null && !fromDate.isEmpty()) {
                 sql.append("AND a.APP_DATE >= ? ");
             }
@@ -54,7 +52,7 @@ public class ReportDao {
 
         } else {
 
-            // ================= ADOPTION REPORT =================
+            // Adoption Record Report
             sql.append(
                 "SELECT rec.RECORD_ID, rec.RECORD_STATUS, rec.RECORD_DATE, " +
                 "a.APP_ID, a.APP_DATE, ad.ADOPT_FNAME, ad.ADOPT_LNAME, " +
@@ -72,7 +70,7 @@ public class ReportDao {
                 sql.append("AND rec.RECORD_STATUS = 'Completed' ");
             }
 
-            // ===== DATE FILTER (RECORD DATE) =====
+            // Date Filter
             if (fromDate != null && !fromDate.isEmpty()) {
                 sql.append("AND rec.RECORD_DATE >= ? ");
             }
@@ -81,7 +79,7 @@ public class ReportDao {
             }
         }
 
-        // ===== PET TYPE FILTER =====
+        // Pet Species Filter
         if (!"ALL".equals(petType)) {
             sql.append("AND p.PET_SPECIES = ? ");
         }
@@ -136,7 +134,7 @@ public class ReportDao {
         return list;
     }
 
-    // ================= CREATE REPORT =================
+    // Create
     public int createReport(String reportType, List<RecordBean> records) {
 
         int reportId = 0;
@@ -199,7 +197,6 @@ public class ReportDao {
         return reportId;
     }
 
-    // ================= LIST REPORTS =================
     public List<ReportBean> getAllReports() {
 
         List<ReportBean> list = new ArrayList<>();
@@ -228,7 +225,6 @@ public class ReportDao {
         return list;
     }
 
-    // ================= VIEW REPORT DETAILS =================
     public List<RecordBean> getReportDetails(int reportId) {
 
         List<RecordBean> list = new ArrayList<>();
@@ -348,7 +344,6 @@ public class ReportDao {
         return list;
     }
 
-    // ================= GET REPORT BY ID =================
     public ReportBean getReportById(int reportId) {
 
         ReportBean report = null;
@@ -378,7 +373,7 @@ public class ReportDao {
         return report;
     }
 
-    // ================= DELETE REPORT =================
+    // Delete
     public void deleteReport(int reportId) {
 
         String deleteRR = "DELETE FROM REPORT_RECORD WHERE REPORT_ID = ?";
