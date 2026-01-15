@@ -149,7 +149,6 @@
 
 <body>
 
-<!-- ===== NAVBAR ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.jsp">
@@ -255,7 +254,6 @@
 
     <div class="divider"></div>
 
-    <!-- ===== RIGHT ===== -->
     <div class="right-section">
         <img src="rehome.png" alt="Rehome">
         <a href="Rehome.jsp">
@@ -271,23 +269,32 @@
 <!-- ===== POPUP ===== -->
 <div id="customPopup" class="popup-overlay">
     <div class="popup-box">
-        <h3 id="popupTitle">Message</h3>
+        <h3 id="popupTitle"></h3>
         <p id="popupMessage"></p>
         <button onclick="closePopup()">OK</button>
     </div>
 </div>
 
 <script>
-function showPopup(title, message) {
-    document.getElementById("popupTitle").innerText = title;
-    document.getElementById("popupMessage").innerText = message;
-    document.getElementById("customPopup").style.display = "flex";
-}
+    function showPopup(title, message) {
+        document.getElementById("popupTitle").innerText = title;
+        document.getElementById("popupMessage").innerText = message;
+        document.getElementById("customPopup").style.display = "flex";
+    }
 
-function closePopup() {
-    document.getElementById("customPopup").style.display = "none";
-}
+    function closePopup() {
+        document.getElementById("customPopup").style.display = "none";
+    }
 </script>
+
+<!-- ===== POPUP TRIGGERS ===== -->
+<c:if test="${param.msg == 'deleted'}">
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            showPopup("Success", "Application deleted successfully.");
+        });
+    </script>
+</c:if>
 
 <%
     String loginSuccess = (String) session.getAttribute("loginSuccess");

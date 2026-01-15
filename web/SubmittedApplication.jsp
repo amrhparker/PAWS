@@ -58,6 +58,15 @@
 </head>
 
 <body>
+    
+<c:if test="${param.msg == 'approved'}">
+    <script>
+        showPopup(
+            "Action Not Allowed",
+            "Application cannot be deleted as it has been approved."
+        );
+    </script>
+</c:if>
 
 <div class="navbar">
     <div class="navbar-left">
@@ -150,16 +159,24 @@
         <button class="back-btn">Back</button>
     </a>
 
-    <form action="ApplicationController" method="post"
-          onsubmit="return confirm('Are you sure you want to delete this application?');">
-
-        <input type="hidden" name="action" value="delete">
-        <input type="hidden" name="appId" value="${application.appId}">
-
-        <button type="submit" class="back-btn" style="background:#ff6b6b;">
+<c:choose>
+    <c:when test="${application.appStatus == 'Approved'}">
+        <button class="back-btn" style="background:#ccc;" disabled>
             Delete
         </button>
-    </form>
+    </c:when>
+
+    <c:otherwise>
+        <button type="button"
+                class="back-btn"
+                style="background:#ff6b6b;"
+                onclick="openDeleteConfirm(${application.appId});">
+            Delete
+        </button>
+    </c:otherwise>
+</c:choose>
+
+
 </div>
 
 </div>
@@ -168,5 +185,47 @@
     © 2025 PAWS Pet Adoption Welfare System 
 </div>
 
+<div id="customPopup" class="popup-overlay" style="display:none;">
+    <div class="popup-box">
+        <h3 id="popupTitle"></h3>
+        <p id="popupMessage"></p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+</div>
+
+<div id="deleteConfirmPopup" class="popup-overlay" style="display:none;">
+    <div class="popup-box">
+        <h3 id="popupTitle">Confirm Deletion</h3>
+        <p id="popupMessage">
+            Are you sure you want to delete this application?
+        </p>
+
+        <button onclick="confirmDelete()">Yes, Delete</button>
+        <button onclick="closeDeleteConfirm()" style="margin-left:10px;">
+            Cancel
+        </button>
+    </div>
+</div>
+
+<form id="deleteForm" action="ApplicationController" method="post" style="display:none;">
+    <input type="hidden" name="action" value="delete">
+    <input type="hidden" name="appId" id="deleteAppId">
+</form>
+
+<script>
+    function openDeleteConfirm(appId) {
+        document.getElementById("deleteAppId").value = appId;
+        document.getElementById("deleteConfirmPopup").style.display = "flex";
+    }
+
+    function closeDeleteConfirm() {
+        document.getElementById("deleteConfirmPopup").style.display = "none";
+    }
+
+    function confirmDelete() {
+        document.getElementById("deleteForm").submit();
+    }
+</script>
+        
 </body>
 </html>

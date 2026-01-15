@@ -254,6 +254,28 @@ public class ApplicationDao {
 
         return petId;
     }
+    
+    public String getApplicationStatus(int appId) {
+
+    String sql = "SELECT APP_STATUS FROM APPLICATION WHERE APP_ID = ?";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, appId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return rs.getString("APP_STATUS");
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return null;
+    }
+
 
     private ApplicationBean mapApplication(ResultSet rs) throws SQLException {
         ApplicationBean app = new ApplicationBean();

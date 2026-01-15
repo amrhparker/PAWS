@@ -249,13 +249,25 @@ public class ApplicationController extends HttpServlet {
 
     // Delete
     private void deleteApplication(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+        throws SQLException, IOException {
 
-        applicationDao.deleteApplication(
-                Integer.parseInt(request.getParameter("appId"))
+    int appId = Integer.parseInt(request.getParameter("appId"));
+
+    String status = applicationDao.getApplicationStatus(appId);
+
+    if ("Approved".equalsIgnoreCase(status)) {
+        response.sendRedirect(
+            "ApplicationController?action=viewAdopter&appId=" + appId + "&msg=approved"
         );
-        response.sendRedirect("ApplicationController?action=dashboardA");
+        return;
     }
+
+    applicationDao.deleteApplication(appId);
+
+    response.sendRedirect(
+        "ApplicationController?action=dashboardA&msg=deleted"
+    );
+}
 
     // Manage
     private void manageApplications(HttpServletRequest request, HttpServletResponse response)

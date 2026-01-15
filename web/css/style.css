@@ -521,6 +521,17 @@ body {
     cursor: pointer;
 }
 
+.popup-overlay .popup-box button {
+    margin-top: 15px;
+    padding: 6px 18px;
+    border: none;
+    border-radius: 20px;
+    background: #5ce1e6;
+    color: #644d4d;
+    cursor: pointer;
+}
+
+
 #popupTitle { color: #edb4f6; }
 
 .modal-overlay {
