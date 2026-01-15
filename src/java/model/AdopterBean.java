@@ -7,17 +7,17 @@ public class AdopterBean {
     private String adoptFName;
     private String adoptLName;
     private String adoptIC;
-    private String adoptPhoneNum;    // Changed to String
+    private String adoptPhoneNum;    
     private String adoptEmail;
     private String adoptAddress;
-    private String adoptOccupation;  // NEW
-    private double adoptIncome;  // NEW
+    private String adoptOccupation; 
+    private double adoptIncome;  
     private String adoptUsername;
     private String adoptPassword;
 
-    // ===== Constructors =====
+    
     public AdopterBean() {
-        // No-arg constructor
+        
     }
 
     public AdopterBean(int adoptId, String adoptFName, String adoptLName, String adoptIC,
@@ -37,7 +37,6 @@ public class AdopterBean {
         this.adoptPassword = adoptPassword;
     }
 
-    // ===== Getters =====
     public int getAdoptId() { return adoptId; }
     public String getAdoptFName() { return adoptFName; }
     public String getAdoptLName() { return adoptLName; }
@@ -50,7 +49,6 @@ public class AdopterBean {
     public String getAdoptUsername() { return adoptUsername; }
     public String getAdoptPassword() { return adoptPassword; }
 
-    // ===== Setters =====
     public void setAdoptId(int adoptId) { this.adoptId = adoptId; }
     public void setAdoptFName(String adoptFName) { this.adoptFName = adoptFName; }
     public void setAdoptLName(String adoptLName) { this.adoptLName = adoptLName; }

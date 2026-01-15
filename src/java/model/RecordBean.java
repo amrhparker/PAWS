@@ -9,27 +9,22 @@ public class RecordBean implements Serializable {
     private int appId;
     private int staffId;
 
-    // ===== OBJECT REFERENCES =====
     private ApplicationBean application;
     private StaffBean staff;
 
-    // ===== DATES =====
     private Date recordDate;
     private Date appDate;
 
-    // ===== STATUS =====
     private String recordStatus;
 
-    // ===== ADOPTER INFO =====
     private String adopterName;
     private String adopterPhone;
     private String adopterAddress;
 
-    // ===== PET INFO =====
     private String petName;
-    private String petSpecies;   // 🔥 ADDED
-    private String petBreed;     // 🔥 ADDED
-    private int petAge;          // 🔥 ADDED
+    private String petSpecies;   
+    private String petBreed;     
+    private int petAge;          
 
     public RecordBean() {}
 
@@ -40,12 +35,10 @@ public class RecordBean implements Serializable {
         this.recordDate = recordDate;
     }
 
-    // ===== GETTERS & SETTERS =====
 
     public int getRecordId() {
         return recordId;
     }
-
     public void setRecordId(int recordId) {
         this.recordId = recordId;
     }
@@ -53,7 +46,6 @@ public class RecordBean implements Serializable {
     public int getAppId() {
         return appId;
     }
-
     public void setAppId(int appId) {
         this.appId = appId;
     }
@@ -61,7 +53,6 @@ public class RecordBean implements Serializable {
     public ApplicationBean getApplication() {
         return application;
     }
-
     public void setApplication(ApplicationBean application) {
         this.application = application;
         if (application != null) {
@@ -72,7 +63,6 @@ public class RecordBean implements Serializable {
     public int getStaffId() {
         return staffId;
     }
-
     public void setStaffId(int staffId) {
         this.staffId = staffId;
     }
@@ -80,7 +70,6 @@ public class RecordBean implements Serializable {
     public StaffBean getStaff() {
         return staff;
     }
-
     public void setStaff(StaffBean staff) {
         this.staff = staff;
         if (staff != null) {
@@ -91,7 +80,6 @@ public class RecordBean implements Serializable {
     public Date getRecordDate() {
         return recordDate;
     }
-
     public void setRecordDate(Date recordDate) {
         this.recordDate = recordDate;
     }
@@ -99,7 +87,6 @@ public class RecordBean implements Serializable {
     public Date getAppDate() {
         return appDate;
     }
-
     public void setAppDate(Date appDate) {
         this.appDate = appDate;
     }
@@ -107,7 +94,6 @@ public class RecordBean implements Serializable {
     public String getRecordStatus() {
         return recordStatus;
     }
-
     public void setRecordStatus(String recordStatus) {
         this.recordStatus = recordStatus;
     }
@@ -115,7 +101,6 @@ public class RecordBean implements Serializable {
     public String getAdopterName() {
         return adopterName;
     }
-
     public void setAdopterName(String adopterName) {
         this.adopterName = adopterName;
     }
@@ -123,7 +108,6 @@ public class RecordBean implements Serializable {
     public String getAdopterPhone() {
         return adopterPhone;
     }
-
     public void setAdopterPhone(String adopterPhone) {
         this.adopterPhone = adopterPhone;
     }
@@ -131,7 +115,6 @@ public class RecordBean implements Serializable {
     public String getAdopterAddress() {
         return adopterAddress;
     }
-
     public void setAdopterAddress(String adopterAddress) {
         this.adopterAddress = adopterAddress;
     }
@@ -139,7 +122,6 @@ public class RecordBean implements Serializable {
     public String getPetName() {
         return petName;
     }
-
     public void setPetName(String petName) {
         this.petName = petName;
     }
@@ -147,7 +129,6 @@ public class RecordBean implements Serializable {
     public String getPetSpecies() {
         return petSpecies;
     }
-
     public void setPetSpecies(String petSpecies) {
         this.petSpecies = petSpecies;
     }
@@ -155,7 +136,6 @@ public class RecordBean implements Serializable {
     public String getPetBreed() {
         return petBreed;
     }
-
     public void setPetBreed(String petBreed) {
         this.petBreed = petBreed;
     }
@@ -163,7 +143,6 @@ public class RecordBean implements Serializable {
     public int getPetAge() {
         return petAge;
     }
-
     public void setPetAge(int petAge) {
         this.petAge = petAge;
     }

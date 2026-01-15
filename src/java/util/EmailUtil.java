@@ -12,7 +12,7 @@ public class EmailUtil {
             String petName) {
 
         final String fromEmail = "petadoptionwelfarepaws@gmail.com";
-        final String password = "xgsdomkbapewxwkm"; // Gmail App Password
+        final String password = "xgsdomkbapewxwkm"; 
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -58,7 +58,7 @@ public class EmailUtil {
 
                 "Please bring the following documents:\n"
                 + "• Your Identification Card (IC)\n"
-                + "• This approval email (printed or shown on phone)\n\n" +
+                + "• This approval email (hardcopy or softcopy)\n\n" +
 
                 "Kindly collect your pet within 7 days from the date of this email.\n"
                 + "If you are unable to attend within this period, please contact us immediately.\n\n" +
