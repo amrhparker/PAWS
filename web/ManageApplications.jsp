@@ -95,34 +95,43 @@
             gap:8px;
         }
         
-        .btnn{
-            padding: 6px 16px;
-            text-decoration: none;
-            font-size: 15px;
+        .btnn {
+            padding: 8px 17px;
+            font-size: 14px;
             color: white;
             border-radius: 20px;
-            text-decoration: none;
             font-weight: 500;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
         }
 
         .btn-view{
             background:#ff66c4;
             color:white;
         }
+        .btn-view:hover {
+            background: #3fbf82;
+            transform: translateY(-3px);
+        }        
 
         .btn-approve{
             background:#198754;
             color:white;
+        }
+        .btn-approve:hover {
+            background: #3fbf82;
+            transform: translateY(-3px);
         }
 
         .btn-reject{
             background:#dc3545;
             color:white;
         }
-
-        .btn:hover{
-            background: #4abf8a;
-            opacity:0.9;
+        .btn-reject:hover {
+            background: #3fbf82;
+            transform: translateY(-3px);
         }
 
         .empty{
@@ -172,7 +181,7 @@
             <th>Pet</th>
             <th>Date</th>
             <th>Status</th>
-            <th>Approved By</th>
+            <th>Managed By</th>
             <th>Action</th>
         </tr>
 
@@ -209,7 +218,6 @@
 
         <c:if test="${a.appStatus eq 'Pending'}">
 
-            <!-- APPROVE FORM -->
             <form action="ApplicationController" method="post" style="display:inline;">
                 <input type="hidden" name="action" value="updateStatus">
                 <input type="hidden" name="appId" value="${a.appId}">
@@ -218,7 +226,6 @@
                 <button type="submit" class="btnn btn-approve">Approve</button>
             </form>
 
-            <!-- REJECT FORM -->
             <form action="ApplicationController" method="post" style="display:inline;">
                 <input type="hidden" name="action" value="updateStatus">
                 <input type="hidden" name="appId" value="${a.appId}">
@@ -245,6 +252,8 @@
     </table>
 
 </div>
-
+<div class="footer">
+    © 2025 PAWS Pet Adoption Welfare System
+</div>
 </body>
 </html>

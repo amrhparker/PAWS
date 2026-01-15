@@ -61,10 +61,11 @@
         .record-card{
             width:100%;
             max-width:750px;
-            background:white;
+            background:#edb4f6;
             padding:35px 40px;
-            border-radius:16px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.08);
+            border-radius:20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
+            margin-bottom: 70px;
         }
 
         .record-card h3{
@@ -74,7 +75,7 @@
 
         .divider{
             height:1px;
-            background:#e0e0e0;
+            background:black;
             margin:18px 0 25px;
         }
 
@@ -85,7 +86,7 @@
         .label{
             font-size:14px;
             font-weight:500;
-            color:#666;
+            color:black;
             margin-bottom:6px;
         }
 
@@ -118,21 +119,22 @@
             gap:12px;
             flex-wrap:wrap;
         }
-
         .back-btn{
-            display:inline-block;
-            padding:12px 26px;
-            background:#333;
-            color:white;
-            border-radius:10px;
-            text-decoration:none;
-            font-size:14px;
-            font-weight:500;
-            transition:0.2s;
+            margin-top: 20px;
+            padding: 6px 16px;
+            background: #ff66c4;
+            color: white;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            display:flex;
+            justify-content: center;
         }
 
         .back-btn:hover{
-            background:#555;
+            background:#4abf8a;
+            transform: translateY(-5px);
         }
 
         .complete-btn{
@@ -155,10 +157,9 @@
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
-            <a href="ManageRecords.jsp">Records</a>
-            <a href="ManageReports.jsp">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
-        </div>
+            <a href="ManageRecords.jsp">Records</a>
+            <a href="ReportController">Reports</a>        </div>
     </div>
 
     <div class="navbar-right">
@@ -166,9 +167,8 @@
     </div>
 </div>
 
-<!-- ===== PAGE TITLE ===== -->
-<div class="page-title">
-    Adoption Record Details
+<div class="page-header">
+    <h2>Adoption Record Details</h2>
 </div>
 
 <!-- ===== RECORD DETAILS ===== -->
@@ -210,13 +210,8 @@
             </span>
         </div>
 
-        <!-- ===== ACTION BUTTONS ===== -->
+        
         <div class="actions">
-
-            <a href="RecordController?action=list" class="back-btn">
-                Back to Records
-            </a>
-
             <c:if test="${record.recordStatus == 'Pending'}">
                 <a href="RecordController?action=complete&recordId=${record.recordId}"
                    class="back-btn complete-btn"
@@ -226,9 +221,17 @@
             </c:if>
 
         </div>
+            
+        
+            <a href="RecordController?action=list" class="back-btn">
+                Back to Records
+            </a>
+        
 
     </div>
 </div>
-
+<div class="footer">
+    © 2025 PAWS Pet Adoption Welfare System
+</div>
 </body>
 </html>

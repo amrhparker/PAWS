@@ -182,12 +182,31 @@
     © 2025 PAWS Pet Adoption Welfare System
 </div>
 
-    <script>
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("logout") === "success") {
-        alert("Logout Successful");
-    }
-    </script>
+<div id="customPopup" style="display:none;" class="popup-overlay">
+    <div class="popup-box">
+        <h3 id="popupTitle">Message</h3>
+        <p id="popupMessage"></p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+</div>
+    
+<script>
+function showPopup(title, message) {
+    document.getElementById("popupTitle").innerText = title;
+    document.getElementById("popupMessage").innerText = message;
+    document.getElementById("customPopup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("customPopup").style.display = "none";
+}
+
+const params = new URLSearchParams(window.location.search);
+if (params.get("logout") === "success") {
+    showPopup("Logged Out", "Logout successful");
+}
+</script>
+
 
 </body>
 </html>

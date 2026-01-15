@@ -67,9 +67,10 @@
 
             #heading{
                 font-size:28px;        
-                margin-bottom:18px;
+                margin-bottom:20px;
                 font-weight:bold;
                 text-align:center;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
             }
 
             .form-box{
@@ -78,12 +79,13 @@
                 padding:25px 35px;      
                 border-radius:18px;
                 border:1px solid #e0e0e0;
-                box-shadow:0 2px 8px rgba(0,0,0,0.06);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
             }
 
             label{
                 display:block;
                 font-size:14px;
+                margin-top: 10px;
                 margin-bottom:4px;
                 margin-left:5%;
             }

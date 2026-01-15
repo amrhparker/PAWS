@@ -24,9 +24,9 @@
             margin: 0;
             background: #f8f8f8;
         }
-        
-        h3{
-            color:#237176;
+
+        h3 {
+            color: #237176;
             text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
         }
 
@@ -106,26 +106,50 @@
         }
 
         .status-approved { color: #37b139; font-weight: bold; }
-        .status-pending { color: #d252ff; font-weight: bold; text-shadow: 1px 1px 2px rgba(255,255,255,0.6);}
-        .status-rejected { color: red; font-weight: bold; text-shadow: 1px 1px 2px rgba(255,255,255,0.6);}
-        .status-completed { color: #5170ff; font-weight: bold; text-shadow: 1px 1px 2px rgba(255,255,255,0.6);}
+        .status-pending { color: #d252ff; font-weight: bold; }
+        .status-rejected { color: red; font-weight: bold; }
+        .status-completed { color: #5170ff; font-weight: bold; }
 
+        /* ===== POPUP ===== */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .popup-box {
+            background: #644d4d;
+            color: white;
+            padding: 22px;
+            border-radius: 16px;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+        }
+
+        .popup-box h3 {
+            margin-bottom: 10px;
+        }
+
+        .popup-box button {
+            margin-top: 15px;
+            padding: 6px 20px;
+            border: none;
+            border-radius: 20px;
+            background: #f2d4c2;
+            color: #644d4d;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
-<%
-    String loginSuccess = (String) session.getAttribute("loginSuccess");
-    if ("adopter".equals(loginSuccess)) {
-%>
-    <script>
-        alert("Adopter logged in successfully!");
-    </script>
-<%
-        session.removeAttribute("loginSuccess"); 
-    }
-%>
 
+<!-- ===== NAVBAR ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.jsp">
@@ -150,6 +174,7 @@
 
 <div class="dashboard-container">
 
+    <!-- ===== LEFT ===== -->
     <div class="left-section">
 
         <div class="section-title">Submitted Applications</div>
@@ -158,38 +183,25 @@
             <c:choose>
                 <c:when test="${not empty applications}">
                     <c:forEach var="app" items="${applications}">
-                        <a href="ApplicationController?action=viewAdopter&appId=${app.appId}"
-                           class="data-card">
+                        <a href="ApplicationController?action=viewAdopter&appId=${app.appId}" class="data-card">
 
-                         <h3>#${app.appId} ${app.pet.petName}</h3>
+                            <h3>#${app.appId} ${app.pet.petName}</h3>
 
                             <p><span class="data-label">Applicant:</span>
                                 ${app.adopter.adoptFName} ${app.adopter.adoptLName}
                             </p>
 
-                            <p>
-                            <span class="data-label">Status:</span>
-                            <c:choose>
-                                <c:when test="${app.appStatus == 'Approved'}">
-                                    <span class="status-approved">${app.appStatus}</span>
-                                </c:when>
-                                <c:when test="${app.appStatus == 'Pending'}">
-                                    <span class="status-pending">${app.appStatus}</span>
-                                </c:when>
-                                <c:when test="${app.appStatus == 'Rejected'}">
-                                    <span class="status-rejected">${app.appStatus}</span>
-                                </c:when>
-                                <c:otherwise>
-                                    <span>${app.appStatus}</span>
-                                </c:otherwise>
-                            </c:choose>
+                            <p><span class="data-label">Status:</span>
+                                <span class="status-${app.appStatus.toLowerCase()}">
+                                    ${app.appStatus}
+                                </span>
                             </p>
 
                             <p><span class="data-label">Date:</span>
                                 <fmt:formatDate value="${app.appDate}" pattern="dd MMM yyyy"/>
                             </p>
-                            
-                            <p><span class="data-label">Approved By:</span>
+
+                            <p><span class="data-label">Managed By:</span>
                                 ${app.staffName}
                             </p>
                         </a>
@@ -210,9 +222,8 @@
             <c:choose>
                 <c:when test="${not empty records}">
                     <c:forEach var="r" items="${records}">
-                        <a href="RecordController?action=viewAdopter&recordId=${r.recordId}"
-                           class="data-card">
-                            
+                        <a href="RecordController?action=viewAdopter&recordId=${r.recordId}" class="data-card">
+
                             <h3>#${r.recordId} ${r.petName}</h3>
 
                             <p><span class="data-label">Adopter:</span>
@@ -244,6 +255,7 @@
 
     <div class="divider"></div>
 
+    <!-- ===== RIGHT ===== -->
     <div class="right-section">
         <img src="rehome.png" alt="Rehome">
         <a href="Rehome.jsp">
@@ -255,6 +267,41 @@
 <div class="footer">
     © 2025 PAWS Pet Adoption Welfare System
 </div>
+
+<!-- ===== POPUP ===== -->
+<div id="customPopup" class="popup-overlay">
+    <div class="popup-box">
+        <h3 id="popupTitle">Message</h3>
+        <p id="popupMessage"></p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+</div>
+
+<script>
+function showPopup(title, message) {
+    document.getElementById("popupTitle").innerText = title;
+    document.getElementById("popupMessage").innerText = message;
+    document.getElementById("customPopup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("customPopup").style.display = "none";
+}
+</script>
+
+<%
+    String loginSuccess = (String) session.getAttribute("loginSuccess");
+    if ("adopter".equals(loginSuccess)) {
+        session.removeAttribute("loginSuccess");
+%>
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+        showPopup("Welcome", "Adopter logged in successfully!");
+    });
+</script>
+<%
+    }
+%>
 
 </body>
 </html>

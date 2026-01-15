@@ -24,8 +24,8 @@
         }
 
         .page-container{
-            width:90%;
-            margin:40px auto;
+            width:80%;
+            margin:10px auto 50px;
         }
 
         h1{
@@ -40,16 +40,16 @@
 
         .row{
             display:flex;
-            gap:25px;
-            margin-bottom:30px;
+            gap: 35px;
+            margin-bottom:35px;
         }
 
         .box{
             flex:1;
-            background:white;
+            background:#b7ebed;
             border-radius:16px;
             padding:22px;
-            box-shadow:0 6px 16px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
         }
 
         .box h3{
@@ -121,9 +121,9 @@
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
-            <a href="ManageRecords.jsp">Records</a>
-            <a href="ManageReports.jsp">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
+            <a href="ManageRecords.jsp">Records</a>
+            <a href="ReportController">Reports</a>
         </div>
     </div>
 
@@ -131,58 +131,71 @@
         <a href="LogoutServlet" class="logout">Log Out</a>
     </div>
 </div>
+    
+    <div class="page-header">
+        <h2>Application #${application.appId} Details</h2>
+    </div>
 
 <div class="page-container">
-
-    <h1>Application Details</h1>
+    
+    <div class="line2"></div>
 
     <div class="info">
-        <p><b>Application ID:</b> #${application.appId}</p>
         <p><b>Status:</b> ${application.appStatus}</p>
-        <p><b>Approved By:</b> ${application.staffName}</p>
+        <p><b>Managed By:</b> ${application.staffName}</p>
     </div>
+    
+    <div class="line2"></div>
 
     <div class="row">
 
-        <!-- ADOPTER -->
         <div class="box">
-            <h3>Adopter Information</h3>
-            <div class="line"><span class="label">Name:</span>
+            <h3>👤 Adopter Information</h3>
+            <div class="line"><span class="label">𖤓 Name:</span>
                 ${application.adopter.adoptFName} ${application.adopter.adoptLName}</div>
-            <div class="line"><span class="label">Phone:</span>
+            <div class="line"><span class="label">𖤓 Phone:</span>
                 ${application.adopter.adoptPhoneNum}</div>
-            <div class="line"><span class="label">Address:</span>
+            <div class="line"><span class="label">𖤓 Occupation:</span>
+                ${application.adopter.adoptOccupation}</div>
+            <div class="line"><span class="label">𖤓 Income:</span>
+                ${application.adopter.adoptIncome}</div>
+            <div class="line"><span class="label">𖤓 Email:</span>
+                ${application.adopter.adoptEmail}</div>
+            <div class="line"><span class="label">𖤓 Address:</span>
                 ${application.adopter.adoptAddress}</div>
         </div>
 
         <!-- PET -->
         <div class="box">
-            <h3>Pet Information</h3>
-            <div class="line"><span class="label">Pet Name:</span>
+            <h3>🐶🐱 Pet Information</h3>
+            <div class="line"><span class="label">𖤓 Pet Name:</span>
                 ${application.pet.petName}</div>
-            <div class="line"><span class="label">Species:</span>
+            <div class="line"><span class="label">𖤓 Description:</span>
+                ${application.pet.petDesc}</div>
+            <div class="line"><span class="label">𖤓 Species:</span>
                 ${application.pet.petSpecies}</div>
-            <div class="line"><span class="label">Breed:</span>
+            <div class="line"><span class="label">𖤓 Gender:</span>
+                ${application.pet.petGender}</div>
+            <div class="line"><span class="label">𖤓 Breed:</span>
                 ${application.pet.petBreed}</div>
-            <div class="line"><span class="label">Age:</span>
+            <div class="line"><span class="label">𖤓 Age:</span>
                 ${application.pet.petAge}</div>
+            <div class="line"><span class="label">𖤓 Health Status:</span>
+                ${application.pet.petHealthStatus}</div>
         </div>
     </div>
 
-    <!-- ELIGIBILITY -->
     <div class="box">
-        <h3>Eligibility Review</h3>
-        <div class="line"><span class="label">Owned pet before:</span> ${application.hasOwnedPet}</div>
-        <div class="line"><span class="label">Caretaker:</span> ${application.caretakerInfo}</div>
-        <div class="line"><span class="label">Environment:</span> ${application.petEnvironment}</div>
-        <div class="line"><span class="label">Medical Ready:</span> ${application.medicalReady}</div>
-        <div class="line"><span class="label">Reason:</span> ${application.adoptionReason}</div>
+        <h3>✅ Eligibility Review</h3>
+        <div class="line"><span class="label">𖤓 Owned a pet before:</span> ${application.hasOwnedPet}</div>
+        <div class="line"><span class="label">𖤓 Caretaker:</span> ${application.caretakerInfo}</div>
+        <div class="line"><span class="label">𖤓 Pet Environment:</span> ${application.petEnvironment}</div>
+        <div class="line"><span class="label">𖤓 Medical Expenses Ready:</span> ${application.medicalReady}</div>
+        <div class="line"><span class="label">𖤓 Adoption Reason:</span> ${application.adoptionReason}</div>
     </div>
 
-    <!-- ACTION BUTTONS -->
     <div class="actions">
 
-        <!-- ONLY SHOW IF PENDING -->
         <c:if test="${application.appStatus eq 'Pending'}">
 
             <form action="ApplicationController" method="post">
@@ -203,13 +216,15 @@
 
         </c:if>
 
-        <a href="ApplicationController?action=manage">
-            <button class="btn btn-back" type="button">Back</button>
+        <a href="ApplicationController?action=manage" class="bttn">
+            Back
         </a>
 
     </div>
 
 </div>
-
+<div class="footer">
+    © 2025 PAWS Pet Adoption Welfare System
+</div>
 </body>
 </html>

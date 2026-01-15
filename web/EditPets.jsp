@@ -26,9 +26,9 @@
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
+            <a href="ManageApplications.jsp">Applications</a>
             <a href="ManageRecords.jsp">Records</a>
             <a href="ManageReports.jsp">Reports</a>
-            <a href="ManageApplications.jsp">Applications</a>
         </div>
     </div>
 
@@ -37,7 +37,6 @@
     </div>
 </div>
 
-<!-- ================= EDIT PET FORM ================= -->
 <div class="form-wrapper">
     <div class="form-card">
         <h2>Edit Pet Details</h2>
@@ -99,6 +98,7 @@
             </div>
 
             <button type="submit" class="bttn">Update Pet</button>
+            <a href="ManagePets.jsp" class="bttn2"><strong>Back</strong></a>
         </form>
 
     </div>

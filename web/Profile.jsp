@@ -218,17 +218,36 @@
         © 2025 PAWS Pet Adoption Welfare System
     </div>
         
-    <c:if test="${not empty successMessage}">
-    <script>
-        alert("${successMessage}");
-    </script>
-    </c:if>
+<div id="customPopup" style="display:none;" class="popup-overlay">
+    <div class="popup-box">
+        <h3 id="popupTitle">Message</h3>
+        <p id="popupMessage"></p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+</div>
 
-    <c:if test="${not empty errorMessage}">
+<script>
+function showPopup(title, message) {
+    document.getElementById("popupTitle").innerText = title;
+    document.getElementById("popupMessage").innerText = message;
+    document.getElementById("customPopup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("customPopup").style.display = "none";
+}
+</script>
+<c:if test="${not empty successMessage}">
     <script>
-        alert("${errorMessage}");
+        showPopup("Success", "${successMessage}");
     </script>
-    </c:if>
+</c:if>
+
+<c:if test="${not empty errorMessage}">
+    <script>
+        showPopup("Error", "${errorMessage}");
+    </script>
+</c:if>
 
 </body>
 </html>

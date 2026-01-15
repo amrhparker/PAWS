@@ -1,10 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>View Report</title>
+    <title>Report Details</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -16,16 +17,16 @@
         }
 
         .container {
-            width: 95%;
-            margin: 30px auto;
+            width: 85%;
+            margin: 30px auto 60px;;
         }
 
         .section {
-            background: white;
+            background: #fffbd6;
             padding: 20px 25px;
             margin-bottom: 25px;
             border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
         }
 
         .section h2 {
@@ -38,7 +39,7 @@
             row-gap: 10px;
             column-gap: 60px;
             font-size: 14px;
-            text-align: left; /* 🔑 ini penting */
+            text-align: left; 
         }
 
         .info-grid span {
@@ -52,8 +53,8 @@
         }
 
         thead {
-            background: #5ecf9b;
-            color: white;
+            background: #b4c0f6;
+            color: black;
         }
 
         th, td {
@@ -63,9 +64,7 @@
             border-bottom: 1px solid #eee;
         }
 
-        tr:hover {
-            background: #f7fdfb;
-        }
+
 
         .tag {
             padding: 4px 10px;
@@ -80,9 +79,10 @@
         .back-link {
             margin-top: 20px;
             display: inline-block;
-            color: #5ecf9b;
+            color: #ff66c4;
             font-weight: 500;
             text-decoration: none;
+            margin-bottom: 30px;
         }
 
         .back-link:hover {
@@ -102,9 +102,9 @@
         <div class="navbar-links">
             <a href="StaffDashboard.jsp">Dashboard</a>
             <a href="ManagePets.jsp">Pets</a>
-            <a href="ManageRecords.jsp">Records</a>
-            <a href="ManageReports.jsp">Reports</a>
             <a href="ManageApplications.jsp">Applications</a>
+            <a href="ManageRecords.jsp">Records</a>
+            <a href="ReportController">Reports</a>
         </div>
     </div>
 
@@ -114,8 +114,12 @@
 </div>
 
 <div class="container">
-
-    <!-- REPORT SUMMARY -->
+    
+    <a class="back-link"
+       href="${pageContext.request.contextPath}/ReportController">
+        ← Back to Reports
+    </a>
+        
     <div class="section">
 
         <div class="info-grid">
@@ -126,7 +130,6 @@
         </div>
     </div>
 
-    <!-- RECORD DETAILS -->
     <div class="section">
         <h2>${report.reportType} Details</h2>
 
@@ -134,22 +137,40 @@
             <thead>
                 <tr>
                     <th>Record ID</th>
-                    <th>Record Status</th>
+                    <th>
+                        <c:choose>
+                            <c:when test="${fn:contains(report.reportType, 'Applications')}">
+                            Application Status
+                        </c:when>
+                        <c:otherwise>
+                            Record Status
+                        </c:otherwise>
+                        </c:choose>
+                    </th>
                     <th>Record Date</th>
+                    <th>Application ID</th>
                     <th>Application Date</th>
                     <th>Adopter</th>
                     <th>Phone</th>
                     <th>Pet</th>
                     <th>Species</th>
                     <th>Breed</th>
-                    <th>Age</th>
                 </tr>
             </thead>
 
             <tbody>
                 <c:forEach var="r" items="${records}">
                     <tr>
-                        <td>${r.recordId}</td>
+                        <td>
+                            <c:choose>
+                            <c:when test="${r.recordId > 0}">
+                                ${r.recordId}
+                            </c:when>
+                            <c:otherwise>
+                                -
+                            </c:otherwise>
+                            </c:choose>
+                        </td>
 
                         <td>
                             <span class="tag ${r.recordStatus == 'Pending' ? 'pending' : 'completed'}">
@@ -158,13 +179,14 @@
                         </td>
 
                         <td>${r.recordDate}</td>
+                        <td>${r.appId}</td>
                         <td>${r.appDate}</td>
                         <td>${r.adopterName}</td>
                         <td>${r.adopterPhone}</td>
                         <td>${r.petName}</td>
                         <td>${r.petSpecies}</td>
                         <td>${r.petBreed}</td>
-                        <td>${r.petAge}</td>
+                        
                     </tr>
                 </c:forEach>
 
@@ -179,12 +201,10 @@
         </table>
     </div>
 
-    <a class="back-link"
-       href="${pageContext.request.contextPath}/ReportController">
-        ← Back to Reports
-    </a>
 
 </div>
-
+<div class="footer">
+    © 2025 PAWS Pet Adoption Welfare System
+</div>
 </body>
 </html>

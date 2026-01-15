@@ -162,6 +162,8 @@
     </c:if>
 
 </div>
-
+<div class="footer">
+    © 2025 PAWS Pet Adoption Welfare System
+</div>
 </body>
 </html>

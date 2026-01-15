@@ -216,16 +216,34 @@
     © 2025 PAWS Pet Adoption Welfare System
 </div>
 
+<div id="customPopup" style="display:none;" class="popup-overlay">
+    <div class="popup-box">
+        <h3 id="popupTitle">Message</h3>
+        <p id="popupMessage"></p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+</div>
+    
 <script>
-    const params = new URLSearchParams(window.location.search);
+function showPopup(title, message) {
+    document.getElementById("popupTitle").innerText = title;
+    document.getElementById("popupMessage").innerText = message;
+    document.getElementById("customPopup").style.display = "flex";
+}
 
-    if (params.get("error") === "petAdopted") {
-        alert("Sorry, this pet has already been adopted.");
-    }
+function closePopup() {
+    document.getElementById("customPopup").style.display = "none";
+}
 
-    if (params.get("error") === "alreadyApplied") {
-        alert("You have already submitted an application for this pet.");
-    }
+const params = new URLSearchParams(window.location.search);
+
+if (params.get("error") === "petAdopted") {
+    showPopup("Oops", "Sorry, this pet has already been adopted.");
+}
+
+if (params.get("error") === "alreadyApplied") {
+    showPopup("Notice", "You have already submitted an application for this pet.");
+}
 </script>
 
 

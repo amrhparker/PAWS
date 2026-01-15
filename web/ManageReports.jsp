@@ -22,18 +22,21 @@
             background: #f7f9fb;
         }
 
-        /* PAGE TITLE */
         .page-title {
             width: 95%;
-            margin: 20px auto;
+            margin: 20px auto 5px;
             font-size: 28px;
             font-weight: 600;
         }
+        
+        .content {
+            width: 85%;
+            margin: 20px auto 40px auto;
+        }
 
-        /* FILTER BAR */
         .filter-bar {
-            width: 95%;
-            margin: 10px auto 20px auto;
+            width: 100%;
+            margin: 0 0 20px 0;
             display: flex;
             gap: 10px;
             align-items: center;
@@ -60,10 +63,9 @@
             background: #4abf8a;
         }
 
-        /* REPORT TABLE */
         .report-table {
-            width: 95%;
-            margin: 0 auto 40px auto;
+            width: 100%;
+            margin: 0;
             border-collapse: collapse;
             background: #ffffff;
             border-radius: 12px;
@@ -73,13 +75,13 @@
 
         .report-table thead {
             background: #b4c0f6;
-            color: white;
+            color: black;
         }
 
         .report-table th {
             padding: 14px 16px;
             text-align: left;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
         }
 
@@ -90,7 +92,6 @@
         }
 
 
-        /* STATUS TAG */
         .tag {
             padding: 5px 12px;
             border-radius: 20px;
@@ -104,7 +105,6 @@
         .rejected { background: #f8d7da; color: #721c24; }
         .completed { background: #d1ecf1; color: #0c5460; }
 
-        /* VIEW BUTTON */
         .view-btn {
             padding: 6px 16px;
             background: #ff66c4;
@@ -160,8 +160,7 @@
 <div class="page-header">
     <h2>Adoption Reports</h2>
 </div>
-
-<!-- FILTER -->
+<div class="content">
 <form class="filter-bar"
       action="${pageContext.request.contextPath}/ReportController"
       method="post">
@@ -190,7 +189,6 @@
     <button type="submit">Generate Report</button>
 </form>
 
-<!-- REPORT LIST -->
 <table class="report-table">
     <thead>
         <tr>
@@ -205,7 +203,7 @@
 
         <c:forEach var="r" items="${reports}">
             <tr>
-                <td><b>Report ${r.reportId}</b></td>
+                <td>Report <b>#${r.reportId}</b></td>
 
                 <td>
                     <c:choose>
@@ -253,5 +251,10 @@
     </tbody>
 </table>
 
+</div>
+      
+<div class="footer">
+    © 2025 PAWS Pet Adoption Welfare System
+</div>
 </body>
 </html>

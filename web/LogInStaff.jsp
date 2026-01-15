@@ -6,10 +6,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Log In Staff</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<title>Staff Log In </title>
 
 <style>	
     .content-wrapper{
@@ -22,9 +19,10 @@
 
     #heading{
         font-size:28px;
-        margin-bottom:18px;
+        margin-bottom:20px;
         font-weight:bold;
         text-align:center;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
     }
 
     .form-box{
@@ -33,12 +31,13 @@
         padding:25px 35px;
         border-radius:18px;
         border:1px solid #e0e0e0;
-        box-shadow:0 2px 8px rgba(0,0,0,0.06);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.12);
     }
 
     label{
         display:block;
         font-size:14px;
+        margin-top: 10px;
         margin-bottom:4px;
         margin-left:5%;
     }
@@ -85,6 +84,8 @@
         font-size:14px;
     }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -95,16 +96,13 @@
         <a href="Home.jsp">
             <img src="pawsS.png" alt="PAWS Staff">
         </a>
-
-        <div class="navbar-links">
-            <a href="Home.jsp">Home</a>
-            <a href="AboutUs.jsp">About Us</a>
-        </div>
-
-        <div class="navbar-right">
-            <a href="StaffLogin.jsp">LOG IN</a>
-        </div>
     </div>
+        <div class="navbar-right">
+                <a href="Home.jsp">Home</a>
+                <a href="AboutUs.jsp">About Us</a>    
+                <a href="StaffLogin.jsp">Log In</a>
+        </div>
+    
 </div>
 
 <!-- ================= CONTENT ================= -->
@@ -139,5 +137,8 @@
     </div>
 </div>
 
+<div class="footer">
+    © 2025 PAWS Pet Adoption Welfare System
+</div>
 </body>
 </html>
