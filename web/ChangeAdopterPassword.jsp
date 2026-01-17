@@ -39,7 +39,7 @@
                 display: flex;
                 align-items: center;
             }
-            
+
             .profile-icon {
                 height: 32px;
                 display: block;
@@ -159,28 +159,28 @@
                 text-align: center;
                 font-size: 14px;
             }
-            
+
             .error-message {
                 background-color: #ffe6e6;
                 color: #ff3333;
                 border: 1px solid #ffcccc;
             }
-            
+
             .success-message {
                 background-color: #e6ffe6;
                 color: #28a745;
                 border: 1px solid #c3e6cb;
             }
-            
+
             .btn-secondary {
                 background: #6c757d;
                 margin-top: 10px;
             }
-            
+
             .btn-secondary:hover {
                 background: #5a6268;
             }
-            
+
             .password-note {
                 width: 90%;
                 margin: 0 auto 15px;
@@ -191,70 +191,70 @@
         </style>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-   </head>
+    </head>
     <body>
         <div class="navbar">
-    <div class="navbar-left">
-        <a href="Home.jsp">
-            <img src="pawsA.png" alt="PAWS">
-        </a>
+            <div class="navbar-left">
+                <a href="Home.jsp">
+                    <img src="pawsA.png" alt="PAWS">
+                </a>
 
-        <div class="navbar-links">
-            <a href="Home.jsp">Home</a>
-            <a href="AboutUs.html">About</a>
-            <a href="ApplicationController?action=dashboardA" class="active">Dashboard</a>
-            <a href="Rehome.jsp">Rehome Pet</a>
+                <div class="navbar-links">
+                    <a href="Home.jsp">Home</a>
+                    <a href="AboutUs.html">About</a>
+                    <a href="ApplicationController?action=dashboardA" class="active">Dashboard</a>
+                    <a href="Rehome.jsp">Rehome Pet</a>
+                </div>
+            </div>
+
+            <div class="navbar-profile">
+                <a href="AdopterController?action=profile">
+                    <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
+                </a>
+                <a href="LogoutServlet" class="logout">LOG OUT</a>
+            </div>
         </div>
     </div>
 
-    <div class="navbar-profile">
-        <a href="AdopterController?action=profile">
-            <img src="ProfileIcon.png" alt="Profile" class="profile-icon">
-        </a>
-        <a href="LogoutServlet" class="logout">LOG OUT</a>
+    <div class="content-wrapper">
+        <div id="heading">Change Password</div>
+
+        <c:if test="${not empty errorMessage}">
+            <div class="message error-message">
+                ${errorMessage}
+            </div>
+        </c:if>
+
+        <c:if test="${not empty successMessage}">
+            <div class="message success-message">
+                ${successMessage}
+            </div>
+        </c:if>
+
+        <form method="post" action="AdopterController">
+            <input type="hidden" name="action" value="changePassword">
+            <div class="form-box">
+                <label>Current Password</label>
+                <input type="password" name="currentPassword" required>
+
+                <label>New Password</label>
+                <input type="password" name="newPassword" required>
+
+                <label>Confirm New Password</label>
+                <input type="password" name="confirmPassword" required>
+
+                <div class="password-note">
+                    Make sure your new password is strong and secure.
+                </div>
+
+                <input type="submit" class="btn" value="UPDATE">
+                <a href="AdopterController?action=profile" class="btn btn-secondary">CANCEL</a>
+            </div>
+        </form>
     </div>
-</div>
-        </div>
-        
-        <div class="content-wrapper">
-            <div id="heading">Change Password</div>
-            
-            <c:if test="${not empty errorMessage}">
-                <div class="message error-message">
-                    ${errorMessage}
-                </div>
-            </c:if>
-            
-            <c:if test="${not empty successMessage}">
-                <div class="message success-message">
-                    ${successMessage}
-                </div>
-            </c:if>
-            
-            <form method="post" action="AdopterController">
-                <input type="hidden" name="action" value="changePassword">
-                <div class="form-box">
-                    <label>Current Password</label>
-                    <input type="password" name="currentPassword" required>
-                    
-                    <label>New Password</label>
-                    <input type="password" name="newPassword" required>
-                    
-                    <label>Confirm New Password</label>
-                    <input type="password" name="confirmPassword" required>
-                    
-                    <div class="password-note">
-                        Make sure your new password is strong and secure.
-                    </div>
-                                       
-                    <input type="submit" class="btn" value="UPDATE">
-                    <a href="AdopterController?action=profile" class="btn btn-secondary">CANCEL</a>
-                </div>
-            </form>
-        </div>
-        
-        <div class="footer">
-            © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
-        </div>
-    </body>
+
+    <div class="footer">
+        © 2025 PAWS Pet Adoption Welfare System — All Rights Reserved
+    </div>
+</body>
 </html>
