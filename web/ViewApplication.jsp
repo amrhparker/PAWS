@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 
 <%
     if (session.getAttribute("staff") == null) {
@@ -196,7 +198,9 @@
 
     <div class="actions">
 
-        <c:if test="${application.appStatus eq 'Pending'}">
+            <c:if test="${not empty application.appStatus 
+             and fn:toLowerCase(application.appStatus) eq 'pending'}">
+
 
             <form action="ApplicationController" method="post">
                 <input type="hidden" name="action" value="updateStatus">
