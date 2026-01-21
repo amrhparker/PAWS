@@ -147,7 +147,6 @@
 </head>
 
 <body>
-<!-- ===== CUSTOM POPUP ===== -->
 <div id="confirmPopup" class="popup-overlay" style="display:none;">
     <div class="popup-box">
         <h3>Confirm Action</h3>
@@ -249,7 +248,6 @@
 <script>
 let selectedRecordId = null;
 
-/* ===== CONFIRM POPUP ===== */
 function openConfirmPopup(recordId) {
     selectedRecordId = recordId;
     document.getElementById("confirmPopup").style.display = "flex";
@@ -275,7 +273,7 @@ function closePopup() {
     document.getElementById("customPopup").style.display = "none";
 }
 
-/* ===== TRIGGER SUCCESS AFTER REDIRECT ===== */
+//TRIGGER SUCCESS AFTER REDIRECT
 const params = new URLSearchParams(window.location.search);
 if (params.get("completed") === "success") {
     showPopup(

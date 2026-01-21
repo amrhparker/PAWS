@@ -167,7 +167,6 @@
                 ${application.adopter.adoptAddress}</div>
         </div>
 
-        <!-- PET -->
         <div class="box">
             <h3>🐶🐱 Pet Information</h3>
             <div class="line"><span class="label">𖤓 Pet Name:</span>
