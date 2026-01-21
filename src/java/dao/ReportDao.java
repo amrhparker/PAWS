@@ -10,9 +10,7 @@ import java.util.List;
 
 public class ReportDao {
 
-    // =========================================================
     // FILTER RECORDS (USED WHEN GENERATE REPORT)
-    // =========================================================
     public List<RecordBean> getRecordsByFilter(
             String reportType,
             String fromDate,
@@ -135,9 +133,7 @@ public class ReportDao {
         return list;
     }
 
-    // =========================================================
     // CREATE REPORT
-    // =========================================================
     public int createReport(
             String reportType,
             String fromDate,
@@ -205,9 +201,7 @@ public class ReportDao {
         return reportId;
     }
 
-    // =========================================================
     // GET ALL REPORTS
-    // =========================================================
     public List<ReportBean> getAllReports() {
 
         List<ReportBean> list = new ArrayList<>();
@@ -236,9 +230,7 @@ public class ReportDao {
         return list;
     }
 
-    // =========================================================
     // GET REPORT BY ID
-    // =========================================================
     public ReportBean getReportById(int reportId) {
 
         ReportBean report = null;
@@ -272,9 +264,7 @@ public class ReportDao {
         return report;
     }
 
-    // =========================================================
     // GET REPORT DETAILS (USED WHEN VIEW REPORT)
-    // =========================================================
     public List<RecordBean> getReportDetails(int reportId) {
 
         List<RecordBean> list = new ArrayList<>();
@@ -306,7 +296,7 @@ public class ReportDao {
             return list;
         }
 
-        // ---------------- APPLICATION REPORT ----------------
+        //APPLICATION REPORT
         if (reportType.contains("Applications")) {
 
             StringBuilder sql = new StringBuilder(
@@ -374,7 +364,7 @@ public class ReportDao {
             return list;
         }
 
-        // ---------------- ADOPTION RECORD REPORT ----------------
+        //ADOPTION RECORD REPORT
         String sql =
             "SELECT rec.RECORD_ID, rec.RECORD_STATUS, rec.RECORD_DATE, " +
             "a.APP_ID, a.APP_DATE, ad.ADOPT_FNAME, ad.ADOPT_LNAME, ad.ADOPT_PHONENUM, " +
@@ -417,9 +407,7 @@ public class ReportDao {
         return list;
     }
 
-    // =========================================================
     // DELETE REPORT
-    // =========================================================
     public void deleteReport(int reportId) {
 
         String deleteRR = "DELETE FROM REPORT_RECORD WHERE REPORT_ID = ?";

@@ -9,7 +9,7 @@ public class ReportBean {
     private Date reportDate;
     private Date fromDate;
     private Date toDate;
-    private String petType;   // ✅ ADD THIS
+    private String petType;   
     private int totalCount;
 
     public int getReportId() {
@@ -47,7 +47,6 @@ public class ReportBean {
         this.toDate = toDate;
     }
 
-    // ✅ PET TYPE
     public String getPetType() {
         return petType;
     }
