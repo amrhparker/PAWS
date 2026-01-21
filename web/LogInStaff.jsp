@@ -90,7 +90,6 @@
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.jsp">
@@ -105,19 +104,16 @@
     
 </div>
 
-<!-- ================= CONTENT ================= -->
 <div class="content-wrapper">
 
     <div id="heading">Staff Log In</div>
 
     <div class="form-box">
 
-        <!-- Error message from servlet -->
         <c:if test="${not empty error}">
             <div class="error-msg">${error}</div>
         </c:if>
 
-        <!-- LOGIN FORM -->
         <form action="LoginServlet" method="post">
             <input type="hidden" name="action" value="login">
 

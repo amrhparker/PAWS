@@ -71,14 +71,12 @@ public class RegisterDao {
                 ps.setString(6, adopter.getAdoptAddress());
 
                 if (hasNewColumns) {
-                    // Occupation - handle null
                     if (adopter.getAdoptOccupation() != null && !adopter.getAdoptOccupation().isEmpty()) {
                         ps.setString(7, adopter.getAdoptOccupation());
                     } else {
                         ps.setNull(7, Types.VARCHAR);
                     }
 
-                    // Income - handle null for Double
                     Double income = adopter.getAdoptIncome();
                     if (income != null) {
                         ps.setDouble(8, income);
@@ -130,10 +128,8 @@ public class RegisterDao {
                 ps.setString(6, adopter.getAdoptAddress());
 
                 if (hasNewColumns) {
-                    // Set occupation or empty string
                     ps.setString(7, adopter.getAdoptOccupation() != null ? adopter.getAdoptOccupation() : "");
 
-                    // Set income with default 0.0 if null
                     Double income = adopter.getAdoptIncome();
                     ps.setDouble(8, income != null ? income : 0.0);
 

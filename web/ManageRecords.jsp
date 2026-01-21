@@ -1,6 +1,3 @@
-<%-- 
-    Document   : ManageRecords
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -13,14 +10,6 @@
 %>
 
 <%
-    /*
-     FLOW (LECTURER STYLE):
-     1. User run JSP
-     2. Kalau "records" belum ada → JSP redirect controller
-     3. Controller ambil data
-     4. Controller forward balik ke JSP
-     5. JSP display data
-    */
 
     if (request.getAttribute("records") == null) {
         response.sendRedirect("RecordController?action=list");

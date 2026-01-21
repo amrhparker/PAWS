@@ -13,7 +13,6 @@
 %>
 
 <%
-    // ===== FLOW CONTROL (LECTURER STYLE) =====
     if (request.getAttribute("record") == null) {
         String recordId = request.getParameter("recordId");
 
@@ -184,7 +183,6 @@
     <h2>Adoption Record Details</h2>
 </div>
 
-<!-- ===== RECORD DETAILS ===== -->
 <div class="record-wrapper">
     <div class="record-card">
 

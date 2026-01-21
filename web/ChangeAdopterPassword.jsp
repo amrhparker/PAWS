@@ -1,8 +1,3 @@
-<%-- 
-    Document   : ChangeAdopterPassword
-    Created on : Jan 5, 2026, 5:06:22 PM
-    Author     : amira
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -150,7 +145,6 @@
                 color: #666;
             }
 
-            /* NEW CSS - Minimal additions */
             .message {
                 width: 420px;
                 margin-bottom: 15px;

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : ActivityLog
-    Created on : Jan 10, 2026, 2:42:38 PM
-    Author     : Acer
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -60,7 +54,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.jsp">
@@ -82,14 +75,12 @@
     </div>
 </div>
 
-<!-- PAGE TITLE -->
 <table id="heading">
     <tr>
         <th style="text-align:left;">Activity Logs</th>
     </tr>
 </table>
 
-<!-- LOG TABLE -->
 <table id="logs" border="1">
     <tr>
         <th>Action</th>
@@ -98,7 +89,6 @@
         <th>Entity</th>
     </tr>
 
-    <!-- DYNAMIC LOGS -->
     <c:forEach var="log" items="${logs}">
         <tr>
             <td>${log.action}</td>

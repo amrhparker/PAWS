@@ -173,7 +173,6 @@
 
 <div class="dashboard-container">
 
-    <!-- ===== LEFT ===== -->
     <div class="left-section">
 
         <div class="section-title">Submitted Applications</div>
@@ -266,7 +265,6 @@
     © 2025 PAWS Pet Adoption Welfare System
 </div>
 
-<!-- ===== POPUP ===== -->
 <div id="customPopup" class="popup-overlay">
     <div class="popup-box">
         <h3 id="popupTitle"></h3>
@@ -287,7 +285,6 @@
     }
 </script>
 
-<!-- ===== POPUP TRIGGERS ===== -->
 <c:if test="${param.msg == 'deleted'}">
     <script>
         window.addEventListener("DOMContentLoaded", function () {
