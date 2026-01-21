@@ -46,7 +46,7 @@ public class PetController extends HttpServlet {
             break;
 
         default:
-            listPets(request, response); // adopter / public
+            listPets(request, response); 
             break;
         }
 

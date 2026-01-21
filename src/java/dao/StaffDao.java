@@ -7,7 +7,6 @@ import model.StaffBean;
 
 public class StaffDao {
 
-    //sql queries
     private static final String insertStaffSql
             = "INSERT INTO Staff (staffFname, staffLname, staffEmail, staffPhoneNum, staffUsername, staffPassword) "
             + "VALUES (?, ?, ?, ?, ?, ?)";

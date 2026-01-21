@@ -116,7 +116,6 @@
                 border:1px solid #ccc;
             }
 
-            /* GREY BUTTON */
             .btn{
                 display:block;
                 margin:40px auto 0;
@@ -185,7 +184,6 @@
             <form method="post" action="RegisterServlet">
                 <input type="hidden" name="action" value="register">
                 <div class="form-grid">
-                    <!-- Row 1 -->
                     <div class="field">
                         <label>First Name</label>
                         <input type="text" name="fname" value="<%= request.getAttribute("fname") != null ? request.getAttribute("fname") : "" %>" required>
@@ -194,8 +192,6 @@
                         <label>Last Name</label>
                         <input type="text" name="lname" value="<%= request.getAttribute("lname") != null ? request.getAttribute("lname") : "" %>" required>
                     </div>
-
-                    <!-- Row 2 -->
                     <div class="field">
                         <label>IC Number</label>
                         <input type="text" name="ic" value="<%= request.getAttribute("ic") != null ? request.getAttribute("ic") : "" %>" required>
@@ -204,8 +200,6 @@
                         <label>Phone Number</label>
                             <input type="text" name="phone" value="<%= request.getAttribute("phone") != null ? request.getAttribute("phone") : "" %>" required pattern="[0-9]{8,15}" title="Phone number must contain 8 to 15 digits" inputmode="numeric" maxlength="15" placeholder="e.g. 0123456789">
                     </div>
-
-                    <!-- Row 3 -->
                     <div class="field">
                         <label>Email</label>
                         <input type="email" name="email" value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : "" %>" required>
@@ -214,8 +208,6 @@
                         <label>Address</label>
                         <input type="text" name="address" value="<%= request.getAttribute("address") != null ? request.getAttribute("address") : "" %>" required>
                     </div>
-
-                    <!-- Row 4 -->
                     <div class="field">
                         <label>Occupation</label>
                         <input type="text" name="occupation" value="<%= request.getAttribute("occupation") != null ? request.getAttribute("occupation") : "" %>" required>
@@ -223,9 +215,7 @@
                     <div class="field">
                         <label>Income</label>
                         <input type="number" name="income" value="<%= request.getAttribute("income") != null ? request.getAttribute("income") : "" %>" required>
-                    </div>
-                    
-                    <!-- Row 5 -->
+                    </div>  
                     <div class="field">
                         <label>Username</label>
                         <input type="text" name="username" value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : "" %>" required>
