@@ -56,7 +56,6 @@
 
 <body>
 
-<!-- ===== NAVBAR ===== -->
 <div class="navbar">
     <div class="navbar-left">
         <a href="Home.jsp">
