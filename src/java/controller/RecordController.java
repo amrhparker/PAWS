@@ -117,6 +117,9 @@ public class RecordController extends HttpServlet {
         int recordId = Integer.parseInt(request.getParameter("recordId"));
         dao.updateRecordStatus(recordId, "Completed");
 
-        response.sendRedirect("RecordController?action=view&recordId=" + recordId);
+        response.sendRedirect(
+    "RecordController?action=view&recordId=" + recordId + "&completed=success"
+);
+
     }
 }

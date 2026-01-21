@@ -69,7 +69,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         List<RecordBean> records =
                 dao.getRecordsByFilter(reportType, fromDate, toDate, petType);
 
-        dao.createReport(reportType, records);
+        dao.createReport(reportType, fromDate, toDate, petType, records);
 
         response.sendRedirect("ReportController");
     }
