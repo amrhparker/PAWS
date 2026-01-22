@@ -29,7 +29,7 @@
 
 <c:if test="${param.msg == 'archived'}">
     <script>
-        alert('Pet has existing applications and was archived.');
+        alert('Pet is archived.');
     </script>
 </c:if>
 

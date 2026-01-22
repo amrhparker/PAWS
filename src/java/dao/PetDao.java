@@ -141,8 +141,6 @@ public class PetDao {
     // Delete
     public String deletePet(int petId) {
 
-    if (hasApplication(petId)) {
-
         String archiveSql =
             "UPDATE APP.PET SET PET_ADOPTIONSTATUS = 'Archived' WHERE PET_ID = ?";
 
@@ -156,22 +154,6 @@ public class PetDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-    } else {
-
-        String deleteSql = "DELETE FROM APP.PET WHERE PET_ID = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(deleteSql)) {
-
-            ps.setInt(1, petId);
-            ps.executeUpdate();
-            return "deleted";
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     return "error";
 }
