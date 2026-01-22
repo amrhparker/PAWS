@@ -152,9 +152,6 @@
                     <label>Password</label>
                     <input type="password" name="password" required>
 
-                    <div class="right-link">
-                        <a href="#">Forgot Password?</a>
-                    </div>
                     <input type="hidden" name="page" value="adopter">
                     <input type="submit" class="btn" value="LOG IN">
                 </div>
