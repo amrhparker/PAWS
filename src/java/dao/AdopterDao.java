@@ -24,7 +24,7 @@ public class AdopterDao {
     private static final String selectAdopterAllSql
             = "SELECT * FROM ADOPTER";
 
-    private static final String selectAdopterByIdSql
+    private static final String getAdopterByIdSql
             = "SELECT * FROM ADOPTER WHERE ADOPT_ID=?";
 
     private static final String selectAdopterByUnSql
@@ -35,8 +35,11 @@ public class AdopterDao {
     
     private static final String checkUsernameExistsSql = 
             "SELECT COUNT(*) FROM ADOPTER WHERE ADOPT_USERNAME = ?";
-
-    // Create
+    
+    private static final String updateAdopterApplicationInfoSql = 
+            "UPDATE ADOPTER SET ADOPT_OCCUPATION=?, ADOPT_INCOME=? WHERE ADOPT_ID=?";
+    
+    //create adopter and insert details
     public boolean insertAdopter(AdopterBean adopter) {
         boolean success = false;
         try (Connection conn = DBConnection.getConnection();
@@ -60,7 +63,7 @@ public class AdopterDao {
         return success;
     }
 
-    // Update 
+    //update adopter's details
     public boolean updateAdopter(AdopterBean adopter) {
         boolean success = false;
         try (Connection conn = DBConnection.getConnection();
@@ -85,7 +88,7 @@ public class AdopterDao {
         return success;
     }
 
-    // Delete
+    //delete adopter account
     public boolean deleteAdopter(int adoptId) {
         boolean success = false;
         try (Connection conn = DBConnection.getConnection();
@@ -99,15 +102,11 @@ public class AdopterDao {
         return success;
     }
 
-    // Get by ID
+    //get adopter by adopterID
     public AdopterBean getAdopterById(int adoptId) throws SQLException {
-
-    String sql = "SELECT * FROM ADOPTER WHERE ADOPT_ID=?";
-
     AdopterBean adopter = null;
-
     try (Connection con = DBConnection.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql)) {
+         PreparedStatement ps = con.prepareStatement(getAdopterByIdSql)) {
 
         ps.setInt(1, adoptId);
         ResultSet rs = ps.executeQuery();
@@ -130,23 +129,18 @@ public class AdopterDao {
     return adopter;
 }
 
-
-    // Validate login
+    //validate adopter login
     public AdopterBean validateAdopter(String un, String pw) {
         AdopterBean adopter = null;
         try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(validateAdopterSql)) {
-
-            ps.setString(1, un.trim());
+            
+            ps.setString(1, un.trim()); 
             ps.setString(2, pw.trim());
             
-            System.out.println("DEBUG - SQL query: " + validateAdopterSql);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
+            try (ResultSet rs = ps.executeQuery()) { 
+                if (rs.next()) { //if adopter exists, retrieve adopter's details
                     adopter = mapResultSetToAdopter(rs);
-                }else{
-                    System.out.println("DEBUG - No matching adopter found");
                 }
             }
         } catch (SQLException e) {
@@ -155,10 +149,9 @@ public class AdopterDao {
         return adopter;
     }
     
-    // Check if username exists
+    //check if username exists during registration
     public boolean checkUsernameExists(String username) {
         boolean exists = false;
-        
         try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(checkUsernameExistsSql)) {
 
@@ -174,7 +167,7 @@ public class AdopterDao {
         return exists;
     }
 
-    // Map ResultSet to AdopterBean
+    //map ResultSet to AdopterBean after validation
     private AdopterBean mapResultSetToAdopter(ResultSet rs) throws SQLException {
         AdopterBean adopter = new AdopterBean();
         adopter.setAdoptId(rs.getInt("ADOPT_ID"));
@@ -191,25 +184,22 @@ public class AdopterDao {
         return adopter;
     }
     
+    //update application info of an adopter
     public boolean updateAdopterApplicationInfo(AdopterBean adopter) {
-    boolean success = false;
+        boolean success = false;
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(updateAdopterApplicationInfoSql)) {
 
-    String sql = "UPDATE ADOPTER SET ADOPT_OCCUPATION=?, ADOPT_INCOME=? WHERE ADOPT_ID=?";
+            ps.setString(1, adopter.getAdoptOccupation());
+            ps.setDouble(2, adopter.getAdoptIncome());
+            ps.setInt(3, adopter.getAdoptId());
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
+            success = ps.executeUpdate() > 0;
 
-        ps.setString(1, adopter.getAdoptOccupation());
-        ps.setDouble(2, adopter.getAdoptIncome());
-        ps.setInt(3, adopter.getAdoptId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        success = ps.executeUpdate() > 0;
-
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return success;
     }
-
-    return success;
-}
-
 }

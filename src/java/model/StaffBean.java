@@ -2,6 +2,7 @@
 package model;
 
 public class StaffBean {
+    //attributes
     private int staffId;
     private String staffFname;
     private String staffLname;
@@ -10,28 +11,9 @@ public class StaffBean {
     private String staffUsername;
     private String staffPassword;
     
-    public int getStaffId(){
-        return staffId;
-    }
-    public String getStaffFname(){
-        return staffFname;
-    }
-    public String getStaffLname(){
-        return staffLname;
-    }
-    public String getStaffEmail(){
-        return staffEmail;
-    }
-    public int getStaffPhoneNum(){
-        return staffPhoneNum;
-    }
-    public String getStaffUsername(){
-        return staffUsername;
-    }
-    public String getStaffPassword(){
-        return staffPassword;
-    }
+    //no constructor; the staff is inserted through the database.
     
+    //setter
     public void setStaffId(int id){
         this.staffId = id;
     }   
@@ -52,5 +34,28 @@ public class StaffBean {
     }
     public void setStaffPassword(String password){
         this.staffPassword  = password;
+    }
+    
+    //getter
+    public int getStaffId(){
+        return staffId;
+    }
+    public String getStaffFname(){
+        return staffFname;
+    }
+    public String getStaffLname(){
+        return staffLname;
+    }
+    public String getStaffEmail(){
+        return staffEmail;
+    }
+    public int getStaffPhoneNum(){
+        return staffPhoneNum;
+    }
+    public String getStaffUsername(){
+        return staffUsername;
+    }
+    public String getStaffPassword(){
+        return staffPassword;
     }
 }
