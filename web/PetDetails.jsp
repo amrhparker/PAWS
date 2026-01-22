@@ -253,6 +253,7 @@
         <div class="pet-details-box">
             <p><strong>𖤓 Age:</strong> ${pet.petAge} years old</p>
             <p><strong>𖤓 Breed:</strong> ${pet.petBreed}</p>
+            <p><strong>𖤓 Description:</strong> ${pet.petDesc}</p>
             <p><strong>𖤓 Gender:</strong> ${pet.petGender}</p>
             <p><strong>𖤓 Species:</strong> ${pet.petSpecies}</p>
             <p><strong>𖤓 Health Status:</strong> ${pet.petHealthStatus}</p>

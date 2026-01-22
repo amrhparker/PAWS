@@ -147,6 +147,18 @@
 </head>
 
 <body>
+<div id="confirmPopup" class="popup-overlay" style="display:none;">
+    <div class="popup-box">
+        <h3>Confirm Action</h3>
+        <p>Mark this adoption as completed?</p>
+        <div style="margin-top:15px; display:flex; gap:12px; justify-content:center;">
+            <button onclick="confirmComplete()">Yes</button>
+            <button onclick="closeConfirmPopup()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
 
 <div class="navbar">
     <div class="navbar-left">
@@ -211,11 +223,12 @@
         
         <div class="actions">
             <c:if test="${record.recordStatus == 'Pending'}">
-                <a href="RecordController?action=complete&recordId=${record.recordId}"
-                   class="back-btn complete-btn"
-                   onclick="return confirm('Mark this adoption as completed?');">
-                    Mark as Completed
-                </a>
+                    <a href="#"
+                       class="back-btn complete-btn"
+                       onclick="openConfirmPopup(${record.recordId}); return false;">
+    Mark as Completed
+</a>
+
             </c:if>
 
         </div>
@@ -231,5 +244,45 @@
 <div class="footer">
     © 2025 PAWS Pet Adoption Welfare System
 </div>
+
+<script>
+let selectedRecordId = null;
+
+function openConfirmPopup(recordId) {
+    selectedRecordId = recordId;
+    document.getElementById("confirmPopup").style.display = "flex";
+}
+
+function closeConfirmPopup() {
+    document.getElementById("confirmPopup").style.display = "none";
+}
+
+function confirmComplete() {
+    window.location.href =
+        "RecordController?action=complete&recordId=" + selectedRecordId;
+}
+
+/* ===== SUCCESS POPUP ===== */
+function showPopup(title, message) {
+    document.getElementById("popupTitle").innerText = title;
+    document.getElementById("popupMessage").innerText = message;
+    document.getElementById("customPopup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("customPopup").style.display = "none";
+}
+
+//TRIGGER SUCCESS AFTER REDIRECT
+const params = new URLSearchParams(window.location.search);
+if (params.get("completed") === "success") {
+    showPopup(
+        "Completed",
+        "Adoption record has been marked as completed successfully."
+    );
+}
+</script>
+
+
 </body>
 </html>

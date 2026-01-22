@@ -110,7 +110,6 @@
         .status-rejected { color: red; font-weight: bold; }
         .status-completed { color: #5170ff; font-weight: bold; }
 
-        /* ===== POPUP ===== */
         .popup-overlay {
             position: fixed;
             inset: 0;
