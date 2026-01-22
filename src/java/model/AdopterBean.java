@@ -15,9 +15,9 @@ public class AdopterBean {
     private String adoptUsername;
     private String adoptPassword;
 
-    
+    //constructor
     public AdopterBean(){
-        this.adoptId = 0; //auto-generated
+        this.adoptId = 0; 
         this.adoptFName = "";
         this.adoptLName = "";
         this.adoptIC = "";
